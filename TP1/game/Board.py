@@ -168,7 +168,7 @@ class Board():
                 if(self.player[0] == j and self.player[1] == i):
                     toPrint = toPrint + 'P'
 
-                elif (j == self.objectives[0][0] and i == self.objectives[0][1]) or (j == self.objectives[1][0] and i == self.objectives[1][1]):
+                elif (self.board[j,i] != Constants.BOXES_LOC and ((j == self.objectives[0][0] and i == self.objectives[0][1]) or (j == self.objectives[1][0] and i == self.objectives[1][1]))):
                     toPrint = toPrint + 'O'
                 if j == self.dimentions[1] - 1:
                     toPrint = toPrint + '\n'
