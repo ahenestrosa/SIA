@@ -26,3 +26,9 @@ hs_err_pid*
 # MAC TRASH
 .DS_Store
 TP1/game/__pycache__/
+
+.idea
+.vscode
+
+
+__pycache__/*

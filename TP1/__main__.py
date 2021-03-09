@@ -1,6 +1,6 @@
-from TP1.game.Sokoban import Sokoban
-from TP1.game import Constants
-from TP1.BFS.Bfs import Bfs
+from game.Sokoban import Sokoban
+from game import Constants
+from BFS.Bfs import Bfs
 from collections import deque
 
 
