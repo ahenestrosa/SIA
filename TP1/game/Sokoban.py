@@ -1,7 +1,7 @@
 from game import Constants
 
 
-class Board():
+class Sokoban():
     dimentions = ()
     board = {}
     player = ()
@@ -186,3 +186,9 @@ class Board():
                 if j == self.dimentions[1] - 1:
                     toPrint = toPrint + '\n'
         print(toPrint)
+
+    def __eq__(self, other):
+        return self.dimentions == other.dimensions and self.board == other.board and self.player == other.player and self.objectives == other.objectives
+
+    def redundant_equal(self, other):
+        return self.board == other.board and self.player == other.player
