@@ -1,5 +1,5 @@
-from TP1.game.Board import Board
-from TP1.game import Constants
+from game.Board import Board
+from game import Constants
 
 objective = [(0,0), (2,2)]
 dimensions = (5,5)
