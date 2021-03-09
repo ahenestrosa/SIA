@@ -7,10 +7,18 @@ boxes = [(0,1), (1, 2)]
 walls = [(3,3), (4,4)]
 player = (0, 2)
 board = Board(walls, objective, dimensions, player, boxes)
+# board.printBoard()
+# board.move(Constants.UP)
+# board.printBoard()
+# board.move(Constants.DOWN)
+# board.move(Constants.RIGHT)
+# board.printBoard()
+# print(board.isGameFinished())
+
+
+
+newBoard = Board.from_game(board)
+newBoard.move(Constants.RIGHT)
+newBoard.printBoard()
+
 board.printBoard()
-board.move(Constants.UP)
-board.printBoard()
-board.move(Constants.DOWN)
-board.move(Constants.RIGHT)
-board.printBoard()
-print(board.isGameFinished())

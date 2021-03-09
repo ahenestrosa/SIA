@@ -24,6 +24,19 @@ class Board():
         for box in boxes: #box location
             self.board[box[0], box[1]] = Constants.BOXES_LOC;
 
+    @classmethod
+    def from_game(cls, board):
+        obj = cls.__new__(cls);
+        auxBoard = board.board.copy()
+        boxes = board.boxes.copy()
+        objectives = board.objectives.copy()
+        obj.dimentions = board.dimentions;
+        obj.board = auxBoard
+        obj.player = board.player
+        obj.boxes = boxes
+        obj.objectives = objectives
+        return obj
+
     def move(self, movement):
         newPlayerPosition = ()
         if(movement == Constants.UP):
