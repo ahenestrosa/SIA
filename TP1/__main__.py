@@ -23,6 +23,7 @@ sokoban = Sokoban(walls, objective, dimensions, player, boxes)
 #
 # board.printBoard()
 # print(newBoard.redundant_equal(board))
+# print(sokoban.move(Constants.UP))
 algorithm = Bfs(sokoban)
 algorithm.start()
 
