@@ -10,39 +10,42 @@ class Dfs:
 
     def __init__(self, rootBoard):
         self.explored = set()
-        self.root = Node(rootBoard, self.depth)
+        node = Node(rootBoard, self.depth)
+        self.root = node
         self.stack = []
-        self.stack.append(rootBoard)
+        self.stack.append(node)
 
     def start(self):
-        while len(self.stack) > 0:
+        node = {}
+        while len(self.stack) > 0 and (node == {} or not node.sokoban.isGameFinished()):
             node = self.stack.pop()
             self.explored.add(node) #already explored
-
 
             goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
             goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
             goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
             goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
 
-            #si el juego no termino me fijo cuales son los movimientos validos y los agrego al arbol
-            if node.sokoban.isGameFinished() == False:
-                if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode) == True):
+            if not node.sokoban.isDeadEnd():
+                if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode)):
                     node.appendChild(goingUpNode)
                     self.stack.append(goingUpNode)
-                if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode) == True):
+                if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode)):
                     node.appendChild(goingDownNode)
                     self.stack.append(goingDownNode)
-                if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and self._not_explored_board(goingLeftNode) == True):
+                if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and self._not_explored_board(goingLeftNode)):
                     node.appendChild(goingLeftNode)
                     self.stack.append(goingLeftNode)
-                if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode) == True):
+                if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode)):
                     node.appendChild(goingRightNode)
                     self.stack.append(goingRightNode)
+            
+                node.sokoban.printBoard()
 
-            else:
-                #game finishes
-                print('game finished')
+        # node.sokoban.printBoard()
+        self.root.sokoban.printBoard()
+        print(node.sokoban.isGameFinished())
+
 
     def _not_explored_board(self, node):
         for exp in self.explored:
