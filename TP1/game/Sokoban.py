@@ -100,7 +100,7 @@ class Sokoban():
         self.player = newPosition
 
     def _moveBox(self, movement, position):
-        index = 0;
+        index = 0
         if self.boxes[0][0] == position[0] and self.boxes[0][1] == position[1]: #to know which box we have to move
             index = 0
         else:
@@ -171,10 +171,13 @@ class Sokoban():
 
 
     def printBoard(self, mode= 'debug'):
+        dimX = self.dimentions[0]
+        dimY = self.dimentions[1]
 
         if mode == 'debug':
             toPrint = ''
             for i in range(self.dimentions[0]):
+                i=dimX-i-1
                 for j in range(self.dimentions[1]):
                     if self.board[j, i] == Constants.EMPTY_LOC and ((j, i) != self.player and (j, i) not in self.objectives):
                         toPrint = toPrint + '%'
@@ -187,7 +190,7 @@ class Sokoban():
 
                     elif (self.board[j,i] != Constants.BOXES_LOC and ((j == self.objectives[0][0] and i == self.objectives[0][1]) or (j == self.objectives[1][0] and i == self.objectives[1][1]))):
                         toPrint = toPrint + 'O'
-                    if j == self.dimentions[1] - 1:
+                    if j == dimY-1:
                         toPrint = toPrint + '\n'
             print(toPrint)
             
@@ -196,15 +199,15 @@ class Sokoban():
             for i in range(self.dimentions[0]):
                 for j in range(self.dimentions[1]):
                     if self.board[j, i] == Constants.EMPTY_LOC and ((j, i) != self.player and (j, i) not in self.objectives):
-                        toPrint[i][j] = 0
+                        toPrint[dimY-i-1][j] = 0
                     elif self.board[j, i] == Constants.WALLS_LOC:
-                        toPrint[i][j] = 1
+                        toPrint[dimY-i-1][j] = 1
                     elif self.board[j, i] == Constants.BOXES_LOC:
-                        toPrint[i][j] = 2
+                        toPrint[dimY-i-1][j] = 2
                     if(self.player[0] == j and self.player[1] == i):
-                        toPrint[i][j] = 3
+                        toPrint[dimY-i-1][j] = 3
                     elif (self.board[j,i] != Constants.BOXES_LOC and ((j == self.objectives[0][0] and i == self.objectives[0][1]) or (j == self.objectives[1][0] and i == self.objectives[1][1]))):
-                        toPrint[i][j] = 4
+                        toPrint[dimY-i-1][j] = 4
 
             cmap = colors.ListedColormap(['white','black', 'red', 'blue', 'green'])
             plt.figure(figsize=(self.dimentions[0], self.dimentions[1]))
