@@ -25,10 +25,10 @@ hs_err_pid*
 
 # MAC TRASH
 .DS_Store
-TP1/game/__pycache__/
 
+#IDE 
 .idea
 .vscode
 
-
-__pycache__/*
+#python
+**/__pycache__
