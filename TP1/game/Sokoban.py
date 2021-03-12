@@ -1,4 +1,4 @@
-from TP1.game import Constants
+from game import Constants
 
 
 class Sokoban():
