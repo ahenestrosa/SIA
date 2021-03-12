@@ -2,6 +2,7 @@ from game.Sokoban import Sokoban
 from game import Constants
 from BFS.Bfs import Bfs
 from DFS.Dfs import Dfs
+from IDDFS.Iddfs import Iddfs
 from collections import deque
 import time
 import json
@@ -26,7 +27,7 @@ def main():
     player = (0, 2)
     sokoban = Sokoban(walls, objective, dimensions, player, boxes)
 
-    with open('TP1/config.json') as config:
+    with open('config.json') as config:
         data = json.load(config)
 
     algorithm = data['algorithm']
@@ -49,9 +50,11 @@ def main():
         sol = aux.start()
         print(time.time() - start)
 
-    # elif algorithm == "iddfs":
-    #     sol = iddfs(game, initial_node, iddfs_depth_limit)
-    
+    elif algorithm == "iddfs":
+        start = time.time()
+        aux = Iddfs(sokoban, iddfs_max_depth)
+        sol = aux.start()
+        print(time.time() - start)
     else:
         print("Invalid algorithm.")
         exit()

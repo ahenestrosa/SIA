@@ -1,6 +1,6 @@
 {
-    "algorithm": "dfs",
+    "algorithm": "iddfs",
     "heuristics": "",
     "level_map": "",
-    "iddfs_max_depth": 10
+    "iddfs_max_depth": 1000
 }
