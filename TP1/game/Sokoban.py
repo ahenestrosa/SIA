@@ -1,4 +1,4 @@
-from game import Constants
+from TP1.game import Constants
 
 
 class Sokoban():
@@ -45,6 +45,7 @@ class Sokoban():
                 if(self.board[newPlayerPosition] == Constants.BOXES_LOC):
                     self._locatePlayer(newPlayerPosition)
                     self._moveBox(movement, newPlayerPosition)
+                    return Constants.VALID_MOVE;
                 else:
                     self._locatePlayer(newPlayerPosition)
                     return Constants.VALID_MOVE;
@@ -187,8 +188,59 @@ class Sokoban():
                     toPrint = toPrint + '\n'
         print(toPrint)
 
+    def isDeadEnd(self):
+        if(self._leftUp()):
+            return True;
+        if(self._rightUp()):
+            return True;
+        if(self._leftDown()):
+            return True;
+        if(self._leftUp()):
+            return True;
+        return False;
+
+    def _leftUp(self):
+        left1 = (self.boxes[0][0] - 1, self.boxes[0][1])
+        up1 = (self.boxes[0][0], self.boxes[0][1] - 1)
+        left2 = (self.boxes[1][0] - 1, self.boxes[1][1])
+        up2 = (self.boxes[1][0],self.boxes[1][1] - 1)
+        if(((left1[0] < 0 or left1[0] >= self.dimentions[0] or self.board[left1] == Constants.WALLS_LOC) and (up1[1] < 0  or up1[1] >= self.dimentions[1] or  self.board[up1] == Constants.WALLS_LOC))
+            or ((left2[0] < 0 or left2[0] >= self.dimentions[0] or self.board[left2] == Constants.WALLS_LOC) and (up2[1] < 0  or up2[1] >= self.dimentions[1] or  self.board[up2] == Constants.WALLS_LOC))):
+            return True;
+        return False;
+
+    def _leftDown(self):
+        left1 = (self.boxes[0][0] - 1, self.boxes[0][1])
+        down1 = (self.boxes[0][0], self.boxes[0][1] + 1)
+        left2 = (self.boxes[1][0] - 1, self.boxes[1][1])
+        down2 = (self.boxes[1][0],self.boxes[1][1] + 1)
+        if(((left1[0] < 0 or left1[0] >= self.dimentions[0] or self.board[left1] == Constants.WALLS_LOC) and (down1[1] < 0  or down1[1] >= self.dimentions[1] or self.board[down1] == Constants.WALLS_LOC))
+            or ((left2[0] < 0 or left2[0] >= self.dimentions[0] or self.board[left2] == Constants.WALLS_LOC) and (down2[1] < 0  or down2[1] >= self.dimentions[1] or self.board[down2] == Constants.WALLS_LOC))):
+            return True;
+        return False;
+
+    def _rightUp(self):
+        right1 = (self.boxes[0][0] + 1, self.boxes[0][1])
+        up1 = (self.boxes[0][0], self.boxes[0][1] - 1)
+        right2 = (self.boxes[1][0] + 1, self.boxes[1][1])
+        up2 = (self.boxes[1][0],self.boxes[1][1] - 1)
+        if(((right1[0] < 0 or right1[0] >= self.dimentions[0] or self.board[right1] == Constants.WALLS_LOC) and (up1[1] < 0  or up1[1] >= self.dimentions[1] or self.board[up1] == Constants.WALLS_LOC))
+            or ((right2[0] < 0 or right2[0] >= self.dimentions[0] or self.board[right2] == Constants.WALLS_LOC) and (up2[1] < 0  or up2[1] >= self.dimentions[1] or self.board[up2] == Constants.WALLS_LOC))):
+            return True;
+        return False;
+
+    def _rightDown(self):
+        right1 = (self.boxes[0][0] + 1, self.boxes[0][1])
+        down1 = (self.boxes[0][0], self.boxes[0][1] + 1)
+        right2 = (self.boxes[1][0] + 1, self.boxes[1][1])
+        down2 = (self.boxes[1][0],self.boxes[1][1] + 1)
+        if(((right1[0] < 0 or right1[0] >= self.dimentions[0] or self.board[right1] == Constants.WALLS_LOC) and (down1[1] < 0  or down1[1] >= self.dimentions[1] or self.board[down1] == Constants.WALLS_LOC))
+            or ((right2[0] < 0 or right2[0] >= self.dimentions[0] or self.board[right2] == Constants.WALLS_LOC) and (down2[1] < 0  or down2[1] >= self.dimentions[1] or self.board[down2] == Constants.WALLS_LOC))):
+            return True;
+        return False;
+
     def __eq__(self, other):
         return self.dimentions == other.dimensions and self.board == other.board and self.player == other.player and self.objectives == other.objectives
 
     def redundant_equal(self, other):
-        return self.board == other.board and self.player == other.player
+        return self.board == other.board and self.player == other.player and self.boxes == other.boxes
