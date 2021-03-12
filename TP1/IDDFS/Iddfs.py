@@ -15,12 +15,17 @@ class Iddfs:
     def start(self):
         maxDepth = 0
         result = False
+        #TODO: Use bisection search.
         for maxDepth in range(0, self.iddfsMaxDepth):
             result = self.startDls(maxDepth)
-            if result == True:
+            if result[0] == True:
                 break
         print(maxDepth)
-        print(result)
+        # Creando el caminito de la solucion a partir del arbol
+        if result[0] == True:
+            currNode = result[1]
+            currNode.printPathToNode()
+                
 
     def startDls(self, maxDepth):
         stack = []
@@ -42,20 +47,24 @@ class Iddfs:
                     if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode, explored)):
                         node.appendChild(goingUpNode)
                         stack.append(goingUpNode)
+                        goingUpNode.appendParent(node)
                     if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode, explored)):
                         node.appendChild(goingDownNode)
                         stack.append(goingDownNode)
+                        goingDownNode.appendParent(node)
                     if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and self._not_explored_board(goingLeftNode, explored)):
                         node.appendChild(goingLeftNode)
                         stack.append(goingLeftNode)
+                        goingLeftNode.appendParent(node)
                     if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode, explored)):
                         node.appendChild(goingRightNode)
                         stack.append(goingRightNode)
+                        goingRightNode.appendParent(node)
                 
                 
-            node.sokoban.printBoard()
+            node.sokoban.printBoard(mode='debug')
 
-        return node.sokoban.isGameFinished()
+        return (node.sokoban.isGameFinished(), node)
 
 
     def _not_explored_board(self, node, explored):

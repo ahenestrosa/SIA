@@ -1,4 +1,6 @@
 from game import Constants
+from matplotlib import pyplot as plt
+from matplotlib import colors
 
 
 class Sokoban():
@@ -167,26 +169,48 @@ class Sokoban():
         return False
 
 
-    def printBoard(self):
-        j = 0
-        i = 0
-        toPrint = ''
-        for i in range(self.dimentions[0]):
-            for j in range(self.dimentions[1]):
-                if self.board[j, i] == Constants.EMPTY_LOC and ((j, i) != self.player and (j, i) not in self.objectives):
-                    toPrint = toPrint + '%'
-                elif self.board[j, i] == Constants.WALLS_LOC:
-                    toPrint = toPrint + '#'
-                elif self.board[j, i] == Constants.BOXES_LOC:
-                    toPrint = toPrint + '□'
-                if(self.player[0] == j and self.player[1] == i):
-                    toPrint = toPrint + 'P'
 
-                elif (self.board[j,i] != Constants.BOXES_LOC and ((j == self.objectives[0][0] and i == self.objectives[0][1]) or (j == self.objectives[1][0] and i == self.objectives[1][1]))):
-                    toPrint = toPrint + 'O'
-                if j == self.dimentions[1] - 1:
-                    toPrint = toPrint + '\n'
-        print(toPrint)
+    def printBoard(self, mode= 'debug'):
+
+        if mode == 'debug':
+            toPrint = ''
+            for i in range(self.dimentions[0]):
+                for j in range(self.dimentions[1]):
+                    if self.board[j, i] == Constants.EMPTY_LOC and ((j, i) != self.player and (j, i) not in self.objectives):
+                        toPrint = toPrint + '%'
+                    elif self.board[j, i] == Constants.WALLS_LOC:
+                        toPrint = toPrint + '#'
+                    elif self.board[j, i] == Constants.BOXES_LOC:
+                        toPrint = toPrint + '□'
+                    if(self.player[0] == j and self.player[1] == i):
+                        toPrint = toPrint + 'P'
+
+                    elif (self.board[j,i] != Constants.BOXES_LOC and ((j == self.objectives[0][0] and i == self.objectives[0][1]) or (j == self.objectives[1][0] and i == self.objectives[1][1]))):
+                        toPrint = toPrint + 'O'
+                    if j == self.dimentions[1] - 1:
+                        toPrint = toPrint + '\n'
+            print(toPrint)
+            
+        elif mode == 'vis':
+            toPrint = [[0 for x in range(self.dimentions[0])] for y in range(self.dimentions[1])] 
+            for i in range(self.dimentions[0]):
+                for j in range(self.dimentions[1]):
+                    if self.board[j, i] == Constants.EMPTY_LOC and ((j, i) != self.player and (j, i) not in self.objectives):
+                        toPrint[i][j] = 0
+                    elif self.board[j, i] == Constants.WALLS_LOC:
+                        toPrint[i][j] = 1
+                    elif self.board[j, i] == Constants.BOXES_LOC:
+                        toPrint[i][j] = 2
+                    if(self.player[0] == j and self.player[1] == i):
+                        toPrint[i][j] = 3
+                    elif (self.board[j,i] != Constants.BOXES_LOC and ((j == self.objectives[0][0] and i == self.objectives[0][1]) or (j == self.objectives[1][0] and i == self.objectives[1][1]))):
+                        toPrint[i][j] = 4
+
+            cmap = colors.ListedColormap(['white','black', 'red', 'blue', 'green'])
+            plt.figure(figsize=(self.dimentions[0], self.dimentions[1]))
+            plt.pcolor(toPrint[::-1],cmap=cmap,edgecolors='k', linewidths=3)
+            plt.show()
+
 
     def isDeadEnd(self):
         if(self._leftUp()):
