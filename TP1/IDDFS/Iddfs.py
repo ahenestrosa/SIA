@@ -18,6 +18,7 @@ class Iddfs:
         #TODO: Use bisection search.
         for maxDepth in range(0, self.iddfsMaxDepth):
             result = self.startDls(maxDepth)
+            print(maxDepth)
             if result[0] == True:
                 break
         print(maxDepth)
@@ -69,7 +70,9 @@ class Iddfs:
 
     def _not_explored_board(self, node, explored):
         for exp in explored:
-            if exp.redundant_equal(node):
+            # Nodo != Estado
+            # Solo va a ser igual si el tablero es igual y el depth es mayor o igual al otro nodo
+            if exp.redundant_equal(node) and node.depth >= exp.depth:
                 return False
         return True
 

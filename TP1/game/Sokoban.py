@@ -192,7 +192,11 @@ class Sokoban():
                         toPrint = toPrint + 'O'
                     if j == dimY-1:
                         toPrint = toPrint + '\n'
-            print(toPrint)
+                        
+            toPrint = toPrint + '\n'
+            f = open("demofile2.txt", "a")
+            f.write(toPrint)
+            f.close()
             
         elif mode == 'vis':
             toPrint = [[0 for x in range(self.dimentions[0])] for y in range(self.dimentions[1])] 

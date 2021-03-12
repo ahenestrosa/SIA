@@ -30,26 +30,32 @@ class Dfs:
                 if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode)):
                     node.appendChild(goingUpNode)
                     self.stack.append(goingUpNode)
+                    goingUpNode.appendParent(node)
                 if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode)):
                     node.appendChild(goingDownNode)
                     self.stack.append(goingDownNode)
+                    goingDownNode.appendParent(node)
                 if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and self._not_explored_board(goingLeftNode)):
                     node.appendChild(goingLeftNode)
                     self.stack.append(goingLeftNode)
+                    goingLeftNode.appendParent(node)
                 if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode)):
                     node.appendChild(goingRightNode)
                     self.stack.append(goingRightNode)
+                    goingRightNode.appendParent(node)
             
                 node.sokoban.printBoard()
 
-        # node.sokoban.printBoard()
-        self.root.sokoban.printBoard()
-        print(node.sokoban.isGameFinished())
+        
+        if node.sokoban.isGameFinished():
+            node.printPathToNode()
 
 
     def _not_explored_board(self, node):
         for exp in self.explored:
-            if exp.redundant_equal(node):
+            # Nodo != Estado
+            # Solo va a ser igual si el tablero es igual y el depth es mayor o igual al otro nodo
+            if exp.redundant_equal(node) and node.depth >= exp.depth:
                 return False
         return True
 

@@ -23,8 +23,8 @@ def main():
     objective = [(0,0), (2,2)]
     dimensions = (5,5)
     boxes = [(0,1), (1, 2)]
-    walls = [(3,3), (4,4)]
-    player = (0, 2)
+    walls = [(3,3), (4,4),(3,2), (3,1)]
+    player = (4, 3)
     sokoban = Sokoban(walls, objective, dimensions, player, boxes)
 
     with open('config.json') as config:
@@ -41,7 +41,7 @@ def main():
     if algorithm == "bfs":
         start = time.time()
         aux = Bfs(sokoban)
-        sol = aux.start
+        sol = aux.start()
         print(time.time() - start)
 
     elif algorithm == "dfs":
