@@ -3,6 +3,7 @@ from game import Constants
 from NotInformed.Bfs import Bfs
 from NotInformed.Dfs import Dfs
 from NotInformed.Iddfs import Iddfs
+from Informed.Greedy import Greedy
 from collections import deque
 import time
 import json
@@ -32,9 +33,9 @@ def main():
 
     algorithm = data['algorithm']
     level_map = data['level_map']
+    heuristic = data['heuristic']
     iddfs_max_depth = data["iddfs_max_depth"]
     print("Algorithm is:", algorithm)
-    print("Max depth for IDDFS is:", iddfs_max_depth)
     print()
 
 
@@ -51,10 +52,16 @@ def main():
         print(time.time() - start)
 
     elif algorithm == "iddfs":
+        print("Max depth for IDDFS is:", iddfs_max_depth)
         start = time.time()
         aux = Iddfs(sokoban, iddfs_max_depth)
         sol = aux.start()
         print(time.time() - start)
+    elif algorithm == "greedy":
+        start = time.time()
+        aux = Greedy(sokoban, heuristic)
+        sol = aux.start()
+        print("Max depth for IDDFS is:", iddfs_max_depth)
     else:
         print("Invalid algorithm.")
         exit()

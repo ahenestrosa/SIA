@@ -8,6 +8,11 @@ class Node:
         self.sokoban = sokoban
         self.depth = depth
         self.parent = parent
+
+    # Definir la precendencia
+    def __lt__(self, other):
+        return self.depth < other.depth
+
     def appendChildren(self, children):
         for child in children:
             self.children.append(child)
@@ -20,6 +25,10 @@ class Node:
 
     def redundant_equal(self, other):
         return self.sokoban.redundant_equal(other.sokoban)
+
+    def getHeuristic(self, heuristic):
+        #TODO: Agregar heuristica
+        return 1
     
     #TODO: Despues moverlo a un lugar mas apropiado
     def printPathToNode(self):
