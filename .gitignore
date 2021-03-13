@@ -32,3 +32,6 @@ hs_err_pid*
 
 #python
 **/__pycache__
+venv/
+
+TP1/demofile2.txt
