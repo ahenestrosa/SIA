@@ -30,12 +30,13 @@ class Node:
         #TODO: Agregar heuristica
         return 1
     
+    
+
     #TODO: Despues moverlo a un lugar mas apropiado
-    def printPathToNode(self):
+    def buildPathToRoot(self):
         nodeList = deque()
         currNode = self
         while currNode != None:
             nodeList.appendleft(currNode)
             currNode = currNode.parent
-        for n in nodeList:
-            n.sokoban.printBoard(mode='vis') 
+        return nodeList

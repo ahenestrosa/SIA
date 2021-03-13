@@ -2,10 +2,13 @@ from Node import Node
 from game import Constants
 from game.Sokoban import Sokoban
 from collections import deque
+from Results import Results
 
 
 class Iddfs:
     movements = [Constants.UP, Constants.DOWN,Constants.LEFT, Constants.RIGHT]
+    lastFrontier = []
+    lastExplored = []
 
     def __init__(self, rootBoard, iddfsMaxDepth):
         self.depth = 0
@@ -18,14 +21,15 @@ class Iddfs:
         #TODO: Use bisection search.
         for maxDepth in range(0, self.iddfsMaxDepth):
             result = self.startDls(maxDepth)
-            print(maxDepth)
             if result[0] == True:
                 break
-        print(maxDepth)
-        # Creando el caminito de la solucion a partir del arbol
-        if result[0] == True:
-            currNode = result[1]
-            currNode.printPathToNode()
+
+        success = result[0]
+        solution = []
+        if success:
+            solution = result[1].buildPathToRoot()
+        return Results(success, len(solution), len(solution), len(self.lastExplored), len(self.lastFrontier), solution)
+
                 
 
     def startDls(self, maxDepth):
@@ -64,6 +68,9 @@ class Iddfs:
                 
                 
             node.sokoban.printBoard(mode='debug')
+
+        self.lastFrontier = stack
+        self.lastExplored = explored
 
         return (node.sokoban.isGameFinished(), node)
 

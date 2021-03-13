@@ -42,29 +42,35 @@ def main():
     if algorithm == "bfs":
         start = time.time()
         aux = Bfs(sokoban)
-        sol = aux.start()
+        res = aux.start()
         print(time.time() - start)
 
     elif algorithm == "dfs":
         start = time.time()
         aux = Dfs(sokoban)
-        sol = aux.start()
+        res = aux.start()
         print(time.time() - start)
 
     elif algorithm == "iddfs":
         print("Max depth for IDDFS is:", iddfs_max_depth)
         start = time.time()
         aux = Iddfs(sokoban, iddfs_max_depth)
-        sol = aux.start()
+        res = aux.start()
         print(time.time() - start)
     elif algorithm == "greedy":
         start = time.time()
         aux = Greedy(sokoban, heuristic)
-        sol = aux.start()
-        print("Max depth for IDDFS is:", iddfs_max_depth)
+        res = aux.start()
+        print(time.time() - start)
     else:
         print("Invalid algorithm.")
         exit()
+
+    if res.result:
+        for n in res.solutionNodePath:
+            n.sokoban.printBoard(mode='vis')
+
+
 
 
 if __name__ == "__main__":

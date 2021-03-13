@@ -2,6 +2,7 @@ from Node import Node
 from game import Constants
 from game.Sokoban import Sokoban
 from collections import deque
+from Results import Results
 
 class Bfs:
     depth = 0
@@ -43,8 +44,12 @@ class Bfs:
                 self.explored.append(node) #already explored
             node.sokoban.printBoard(mode='debug')
 
-        if node.sokoban.isGameFinished():
-            node.printPathToNode()
+        success = node.sokoban.isGameFinished()
+        solution = []
+        if success:
+            solution = node.buildPathToRoot()
+        return Results(success, len(solution), len(solution), len(self.explored), len(self.queue), solution)
+
 
     def _not_explored_board(self, node):
         for exp in self.explored:

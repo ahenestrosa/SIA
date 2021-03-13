@@ -1,5 +1,5 @@
 {
-    "algorithm": "greedy",
+    "algorithm": "bfs",
     "heuristic": "",
     "level_map": "",
     "iddfs_max_depth": 1000
