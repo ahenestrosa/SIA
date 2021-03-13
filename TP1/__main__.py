@@ -1,8 +1,8 @@
 from game.Sokoban import Sokoban
 from game import Constants
-from BFS.Bfs import Bfs
-from DFS.Dfs import Dfs
-from IDDFS.Iddfs import Iddfs
+from NotInformed.Bfs import Bfs
+from NotInformed.Dfs import Dfs
+from NotInformed.Iddfs import Iddfs
 from collections import deque
 import time
 import json
