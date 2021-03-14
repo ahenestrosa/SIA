@@ -45,7 +45,7 @@ class Dfs:
                     self.stack.append(goingRightNode)
                     goingRightNode.appendParent(node)
             
-                node.sokoban.printBoard()
+            #node.sokoban.printBoard(mode='debug')
 
         
         success = node.sokoban.isGameFinished()

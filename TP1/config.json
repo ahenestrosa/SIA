@@ -1,6 +1,6 @@
 {
-    "algorithm": "greedy",
+    "algorithm": "a*",
     "heuristic": "boxObjDistance",
-    "level_map": "",
+    "level_map": "3",
     "iddfs_max_depth": 1000
 }

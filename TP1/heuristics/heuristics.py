@@ -16,8 +16,9 @@ class Heuristics:
         return min(dist1, dist2)
 
 
+
     @classmethod
-    def playerObjDist(cls, node): #shortest way between player and objectives
+    def playerObjDistance(cls, node): #shortest way between player and objectives
         playerPosition = node.sokoban.player
         dimentions = node.sokoban.dimentions
         objectives = node.sokoban.objectives
@@ -43,7 +44,6 @@ class Heuristics:
             way = way + abs(objectives[0][0] - objectives[1][0]) + abs(objectives[0][1] - objectives[1][1]) - 2
 
         return way
-
 
 
     @classmethod

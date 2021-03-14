@@ -42,7 +42,7 @@ class Bfs:
                     goingRightNode.appendParent(node)
 
                 self.explored.append(node) #already explored
-            node.sokoban.printBoard(mode='debug')
+            #node.sokoban.printBoard(mode='debug')
 
         success = node.sokoban.isGameFinished()
         solution = []
@@ -55,7 +55,7 @@ class Bfs:
         for exp in self.explored:
             # Nodo != Estado
             # Solo va a ser igual si el tablero es igual y el depth es mayor o igual al otro nodo
-            if exp.redundant_equal(node) and node.depth >= exp.depth:
+            if exp.redundant_equal(node):
                 return False
         return True
 

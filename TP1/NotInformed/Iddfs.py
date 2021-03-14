@@ -67,7 +67,8 @@ class Iddfs:
                         goingRightNode.appendParent(node)
                 
                 
-            node.sokoban.printBoard(mode='debug')
+            #node.sokoban.printBoard(mode='debug')
+
 
         self.lastFrontier = stack
         self.lastExplored = explored
