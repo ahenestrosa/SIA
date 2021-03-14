@@ -4,6 +4,7 @@ from NotInformed.Bfs import Bfs
 from NotInformed.Dfs import Dfs
 from NotInformed.Iddfs import Iddfs
 from Informed.Greedy import Greedy
+from heuristics.heuristics import Heuristics
 from collections import deque
 import time
 import json
@@ -39,18 +40,24 @@ def main():
     print()
 
 
+    heuristic_function = None
+    if heuristic == "boxObjDistance":
+        heuristic_function = Heuristics.boxObjDistance
+    elif heuristic == "playerObjDist":
+        heuristic_function = Heuristics.playerObjDist
+    elif heuristic == "playerBoxObjDistance":
+        heuristic_function = Heuristics.playerBoxObjDistance
+
     if algorithm == "bfs":
         start = time.time()
         aux = Bfs(sokoban)
         res = aux.start()
         print(time.time() - start)
-
     elif algorithm == "dfs":
         start = time.time()
         aux = Dfs(sokoban)
         res = aux.start()
         print(time.time() - start)
-
     elif algorithm == "iddfs":
         print("Max depth for IDDFS is:", iddfs_max_depth)
         start = time.time()
@@ -58,8 +65,11 @@ def main():
         res = aux.start()
         print(time.time() - start)
     elif algorithm == "greedy":
+        if heuristic_function == None:
+            print("Missing heuristic")
+            exit(1)
         start = time.time()
-        aux = Greedy(sokoban, heuristic)
+        aux = Greedy(sokoban, heuristic_function)
         res = aux.start()
         print(time.time() - start)
     else:

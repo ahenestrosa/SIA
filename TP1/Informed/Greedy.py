@@ -32,19 +32,19 @@ class Greedy:
                     node.appendChild(goingUpNode)
                     goingUpNode.appendParent(node)
                     # Inserting the node in the priority queue based on the heuristic(indicates priority)
-                    heapq.heappush(self.frontier, (goingUpNode.getHeuristic(self.heuristic), goingUpNode))
+                    heapq.heappush(self.frontier, (self.heuristic(goingUpNode), goingUpNode))
                 if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode)):
                     node.appendChild(goingDownNode)
                     goingDownNode.appendParent(node)
-                    heapq.heappush(self.frontier, (goingDownNode.getHeuristic(self.heuristic), goingDownNode))
+                    heapq.heappush(self.frontier, (self.heuristic(goingDownNode), goingDownNode))
                 if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and  self._not_explored_board(goingLeftNode)):
                     node.appendChild(goingLeftNode)
                     goingLeftNode.appendParent(node)
-                    heapq.heappush(self.frontier, (goingLeftNode.getHeuristic(self.heuristic), goingLeftNode))
+                    heapq.heappush(self.frontier, (self.heuristic(goingLeftNode), goingLeftNode))
                 if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode)):
                     node.appendChild(goingRightNode)
                     goingRightNode.appendParent(node)
-                    heapq.heappush(self.frontier, (goingRightNode.getHeuristic(self.heuristic), goingRightNode))
+                    heapq.heappush(self.frontier, (self.heuristic(goingRightNode), goingRightNode))
 
                 self.explored.append(node) #already explored
             #node.sokoban.printBoard(mode='debug')

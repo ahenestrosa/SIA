@@ -1,6 +1,6 @@
 {
-    "algorithm": "bfs",
-    "heuristic": "",
+    "algorithm": "greedy",
+    "heuristic": "boxObjDistance",
     "level_map": "",
     "iddfs_max_depth": 1000
 }

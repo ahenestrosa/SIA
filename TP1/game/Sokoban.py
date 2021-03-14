@@ -192,7 +192,6 @@ class Sokoban():
                         toPrint = toPrint + 'O'
                     if j == dimY-1:
                         toPrint = toPrint + '\n'
-                        
             toPrint = toPrint + '\n'
             f = open("demofile2.txt", "a")
             f.write(toPrint)
