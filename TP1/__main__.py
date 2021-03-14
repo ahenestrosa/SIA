@@ -4,6 +4,7 @@ from NotInformed.Bfs import Bfs
 from NotInformed.Dfs import Dfs
 from NotInformed.Iddfs import Iddfs
 from Informed.Greedy import Greedy
+from Informed.AStar import AStar
 from heuristics.heuristics import Heuristics
 from collections import deque
 import time
@@ -29,7 +30,7 @@ def main():
     player = (4, 3)
     sokoban = Sokoban(walls, objective, dimensions, player, boxes)
 
-    with open('config.json') as config:
+    with open('TP1/config.json') as config:
         data = json.load(config)
 
     algorithm = data['algorithm']
@@ -70,6 +71,14 @@ def main():
             exit(1)
         start = time.time()
         aux = Greedy(sokoban, heuristic_function)
+        res = aux.start()
+        print(time.time() - start)
+    elif algorithm == "a*":
+        if heuristic_function == None:
+            print("Missing heuristic")
+            exit(1)
+        start = time.time()
+        aux = AStar(sokoban, heuristic_function)
         res = aux.start()
         print(time.time() - start)
     else:
