@@ -6,7 +6,6 @@ from NotInformed.Iddfs import Iddfs
 from Informed.Greedy import Greedy
 from Informed.AStar import AStar
 from heuristics.heuristics import Heuristics
-from game.Maps import Maps
 from collections import deque
 import time
 import json
@@ -15,7 +14,7 @@ import json
 def main():
     
 
-    with open('TP1/config.json') as config:
+    with open('config.json') as config:
         data = json.load(config)
 
     algorithm = data['algorithm']
@@ -24,7 +23,7 @@ def main():
     iddfs_max_depth = data["iddfs_max_depth"]
     print("Algorithm is:", algorithm)
 
-    with open('TP1/maps/map3.txt') as map_file:
+    with open('maps/map1.txt') as map_file:
         lines = map_file.readlines()
 
     height = len(lines)
@@ -34,31 +33,22 @@ def main():
     objectives = []
     player = ()
     boxes = []
-    dimensions = (height,width)
+    dimensions = (height, width)
 
     for i,line in enumerate(lines):
         for j, symbol in enumerate(line[:-1]): 
             if symbol == '#':
-                walls.append((i,j))
+                walls.append((j,height - i - 1))
             elif symbol == 'O':
-                objectives.append((i,j))
+                objectives.append((j, height - i - 1))
             elif symbol == 'P':
-                player = (i,j)
+                player = (j,height - i - 1)
             elif symbol == 'B':
-                boxes.append((i,j))
+                boxes.append((j,height - i - 1))
 
     sokoban = Sokoban(walls, objectives, dimensions, player, boxes)
-    # sokoban.printBoard(mode="vis")
+    sokoban.printBoard(mode="vis")
 
-    # map_levels = [Maps.map1, Maps.map2, Maps.map3]
-    # sokoban = None
-    # if level_map in ["1", "2", "3"]:
-    #     sokoban = map_levels[int(level_map)-1]()
-    # else:
-    #     print("Invalid Map")
-    #     exit(1)
-        
-#    sokoban.printBoard(mode="vis")
 
     heuristic_function = None
     if heuristic == "boxObjDistance":
@@ -106,9 +96,9 @@ def main():
     print("Frontier Nodes: ", res.frontierNodes)
     print("Time employed: ",  round(end_time - start_time, 4) )
 
-    if res.result:
-        for n in res.solutionNodePath:
-            n.sokoban.printBoard(mode='vis')
+    # if res.result:
+    #     for n in res.solutionNodePath:
+    #         n.sokoban.printBoard(mode='vis')
 
 
 
