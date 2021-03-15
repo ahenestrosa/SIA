@@ -27,7 +27,7 @@ class AStar:
             goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
             goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
 
-            if not node.sokoban.isDeadEnd():
+            if not node.sokoban.gameIsDeadEnd:
                 if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode)):
                     node.appendChild(goingUpNode)
                     goingUpNode.appendParent(node)

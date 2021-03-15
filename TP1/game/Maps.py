@@ -30,3 +30,14 @@ class Maps:
         walls = [(2,2),(2,3)]
         player = (3, 4)
         return Sokoban(walls, objective, dimensions, player, boxes)
+    
+    @classmethod
+    def map4(cls):
+        objective = [(1,0), (3,6), (6,6)]
+        dimensions = (7,7)
+        boxes = [(2,0),(3,1), (5,6)]
+        walls = []
+        player = (4, 0)
+        return Sokoban(walls, objective, dimensions, player, boxes)
+
+    
