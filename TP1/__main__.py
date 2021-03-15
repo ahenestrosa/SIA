@@ -24,21 +24,21 @@ def main():
     iddfs_max_depth = data["iddfs_max_depth"]
     print("Algorithm is:", algorithm)
 
-    map_levels = [Maps.map1, Maps.map2, Maps.map3]
+    map_levels = [Maps.map1, Maps.map2, Maps.map3, Maps.map4]
     sokoban = None
-    if level_map in ["1", "2", "3"]:
+    if level_map in ["1", "2", "3","4"]:
         sokoban = map_levels[int(level_map)-1]()
     else:
         print("Invalid Map")
         exit(1)
         
-   # sokoban.printBoard(mode="vis")
+    # sokoban.printBoard(mode="vis")
 
     heuristic_function = None
     if heuristic == "boxObjDistance":
         heuristic_function = Heuristics.boxObjDistance
-    elif heuristic == "playerObjDistane":
-        heuristic_function = Heuristics.playerObjDistance
+    elif heuristic == "playerBoxDistance":
+        heuristic_function = Heuristics.playerBoxDistance
     elif heuristic == "playerBoxObjDistance":
         heuristic_function = Heuristics.playerBoxObjDistance
 
@@ -80,9 +80,9 @@ def main():
     print("Frontier Nodes: ", res.frontierNodes)
     print("Time employed: ",  round(end_time - start_time, 4) )
 
-    # if res.result:
-    #     for n in res.solutionNodePath:
-    #         n.sokoban.printBoard(mode='vis')
+    if res.result:
+        for n in res.solutionNodePath:
+            n.sokoban.printBoard(mode='vis')
 
 
 
