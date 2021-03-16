@@ -14,8 +14,9 @@ class AStar:
         self.root = node
         # Frontier its a priority queue based on the f(n) = h(n) + g(n). Or h(n) when f(n) = f(n) 
         self.frontier = []
-        heapq.heappush(self.frontier, (0,0, self.root))
+        heapq.heappush(self.frontier, (self.heuristic(self.root),self.heuristic(self.root), self.root))
         self.heuristic = heuristic
+        self.limit = self.heuristic(self.root)
 
 
     def start(self):

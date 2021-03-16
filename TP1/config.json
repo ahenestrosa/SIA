@@ -1,6 +1,6 @@
 {
-    "algorithm": "a*",
+    "algorithm": "ida",
     "heuristic": "boxObjDistance",
-    "level_map": "4",
+    "level_map": "3",
     "iddfs_max_depth": 1000
 }
