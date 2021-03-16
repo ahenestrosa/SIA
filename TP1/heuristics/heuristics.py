@@ -27,18 +27,23 @@ class Heuristics:
 
 
 
+    # shortest way between player and any box thats not in a objetive
     @classmethod
-    def playerBoxDistance(cls, node): #shortest way between player and any box
+    def playerBoxDistance(cls, node): 
         sokoban = node.sokoban
         player = sokoban.player
+        objectives = sokoban.objectives
         min_distance = None
 
-
         for box in sokoban.boxes:
-            dist = abs(box[0] - player[0]) + abs(box[1] - player[1])
-            if min_distance == None or dist < min_distance:
-                min_distance = dist
+            if box not in objectives:
+                dist = abs(box[0] - player[0]) + abs(box[1] - player[1])
+                if min_distance == None or dist < min_distance:
+                    min_distance = dist
 
+
+        if min_distance == None:
+            min_distance = 0
         return min_distance        
 
 
@@ -46,8 +51,19 @@ class Heuristics:
     def playerBoxObjDistance(cls, node):
         sokoban = node.sokoban
         player = sokoban.player
+        not_used_boxes = []
+        not_used_objetives = sokoban.objectives.copy()
+
+        for box in sokoban.boxes:
+            if box in not_used_objetives:
+                #box is same as objetive
+                not_used_objetives.remove(box)
+            else:
+                not_used_boxes.append(box)
+
+
         
-        combined_list = [[player], sokoban.boxes, sokoban.objectives]
+        combined_list = [[player], not_used_boxes, not_used_objetives]
         min_distance = None
         for triple in itertools.product(*combined_list):
             player = triple[0]
@@ -59,7 +75,8 @@ class Heuristics:
             if min_distance == None or dist < min_distance:
                 min_distance = dist
 
-        return min_distance
+
+        return min_distance if min_distance != None else 0
 
 
 

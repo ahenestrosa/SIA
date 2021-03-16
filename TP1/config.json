@@ -1,7 +1,7 @@
 {
     "algorithm": "greedy",
-    "heuristic": "boxObjDistance",
+    "heuristic": "playerBoxObjDistance",
     "level_map": "maps/map1.txt",
-    "iddfs_max_depth": 1,
+    "iddfs_max_depth": 1000,
     "visual": false
 }
