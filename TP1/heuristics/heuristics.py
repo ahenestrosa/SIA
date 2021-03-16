@@ -42,38 +42,24 @@ class Heuristics:
         return min_distance        
 
 
-    #TODO: Addapt to multple boxes!!!
     @classmethod
     def playerBoxObjDistance(cls, node):
-        playerPosition = node.sokoban.player
-        box0 = node.sokoban.boxes[0]
-        box1 = node.sokoban.boxes[1]
+        sokoban = node.sokoban
+        player = sokoban.player
+        
+        combined_list = [[player], sokoban.boxes, sokoban.objectives]
+        min_distance = None
+        for triple in itertools.product(*combined_list):
+            player = triple[0]
+            box = triple[1]
+            obj = triple[2]
 
-        way = 0
+            dist = abs(player[0]-box[0]) + abs(player[1] - box[1])\
+                 + abs(box[0]-obj[0]) + abs(box[1]-obj[1])
+            if min_distance == None or dist < min_distance:
+                min_distance = dist
 
-        firstBox = 0
-        dist0 = abs(playerPosition[0] - box0[0]) + abs(playerPosition[1] - box0[1])
-        dist1 = abs(playerPosition[0] - box1[0]) + abs(playerPosition[1] - box1[1])
-
-        if(dist1 > dist0):
-            playerPosition = box0
-            way = way + dist0 - 1
-            firstBox = 0
-        else:
-            firstBox = 1
-            playerPosition = box1
-            way = way + dist1 - 1
-
-        if firstBox == 1:
-            dist0 = abs(playerPosition[0] - box0[0]) + abs(playerPosition[1] - box0[1])
-            way = way + dist0 - 1
-        else:
-            dist1 = abs(playerPosition[0] - box1[0]) + abs(playerPosition[1] - box1[1])
-            way = way + dist1 - 1
-
-        way = way + Heuristics.boxObjDistance(node)
-
-        return way
+        return min_distance
 
 
 
