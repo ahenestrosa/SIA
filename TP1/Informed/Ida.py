@@ -21,13 +21,13 @@ class Ida:
         self.limit = self.heuristic(self.root)
         
     def start(self):
-        node = {}
+        node = None
         solved = False
         while self.limit < 15000 and not solved:
             self.frontier = []
             self.candidates = []
             heapq.heappush(self.frontier, self.root)
-            while len(self.frontier) > 0 and (node == {} or not node.sokoban.isGameFinished()):
+            while len(self.frontier) > 0 and (node == None or not node.sokoban.isGameFinished()):
                 node = heapq.heappop(self.frontier)
                 if node.heuristic + node.depth > self.limit:
                     self.candidates.append(node.heuristic + node.depth)
