@@ -7,8 +7,8 @@ from Results import Results
 
 class Iddfs:
     movements = [Constants.UP, Constants.DOWN,Constants.LEFT, Constants.RIGHT]
-    lastFrontier = []
-    lastExplored = []
+    lastFrontier = 0
+    lastExplored = 0
 
     def __init__(self, rootBoard, iddfsMaxDepth):
         self.depth = 0
@@ -16,19 +16,26 @@ class Iddfs:
         self.iddfsMaxDepth = iddfsMaxDepth
 
     def start(self):
-        maxDepth = 0
         result = False
-        #TODO: Use bisection search.
-        for maxDepth in range(0, self.iddfsMaxDepth):
+        # Usamos bisection search
+        maxDepthFloor = 0
+        maxDepthTop = self.iddfsMaxDepth
+        while maxDepthFloor < maxDepthTop:
+            maxDepth = int((maxDepthTop - maxDepthFloor)/2 + maxDepthFloor)
+            print(maxDepth)
             result = self.startDls(maxDepth)
+            # Si encontramos la solucion, puede haber una mas optima, me quedo con menos profundidad
             if result[0] == True:
-                break
+                maxDepthTop = maxDepth
+            # Si no encontramos la solucion, necesito mas profundidad
+            else:
+                maxDepthFloor = maxDepth
 
         success = result[0]
         solution = []
         if success:
             solution = result[1].buildPathToRoot()
-        return Results(success, len(solution), len(solution), len(self.lastExplored), len(self.lastFrontier), solution)
+        return Results(success, len(solution), len(solution), self.lastExplored, self.lastFrontier, solution)
 
                 
 
@@ -69,8 +76,8 @@ class Iddfs:
             #node.sokoban.printBoard(mode='debug')
 
 
-        self.lastFrontier = stack
-        self.lastExplored = explored
+        self.lastFrontier = len(stack)
+        self.lastExplored = len(explored)
 
         return (node.sokoban.isGameFinished(), node)
 
