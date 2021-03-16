@@ -14,8 +14,8 @@ class Greedy:
         self.root = node
         # Frontier its a priority queue based on the heuristic
         self.frontier = []
-        heapq.heappush(self.frontier, (0, self.root))
         self.heuristic = heuristic
+        heapq.heappush(self.frontier, (0, self.root))
 
 
     def start(self):

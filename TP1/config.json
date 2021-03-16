@@ -1,5 +1,5 @@
 {
-    "algorithm": "ida",
+    "algorithm": "greedy",
     "heuristic": "boxObjDistance",
     "level_map": "3",
     "iddfs_max_depth": 1000

@@ -25,7 +25,7 @@ def main():
     iddfs_max_depth = data["iddfs_max_depth"]
     print("Algorithm is:", algorithm)
 
-    with open('maps/map3.txt') as map_file:
+    with open('maps/map1.txt') as map_file:
         lines = map_file.readlines()
 
     height = len(lines)
