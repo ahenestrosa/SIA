@@ -9,7 +9,7 @@ class AStar:
     depth = 0
     movements = [Constants.UP, Constants.DOWN,Constants.LEFT, Constants.RIGHT]
     def __init__(self, rootBoard, heuristic):
-        self.explored = []
+        self.explored = {}
         node = Node(rootBoard, self.depth)
         self.root = node
         # Frontier its a priority queue based on the f(n) = h(n) + g(n). Or h(n) when f(n) = f(n) 
@@ -19,8 +19,8 @@ class AStar:
 
 
     def start(self):
-        node = {}
-        while len(self.frontier) > 0 and (node == {} or not node.sokoban.isGameFinished()):
+        node = None
+        while len(self.frontier) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = heapq.heappop(self.frontier)[2]
             goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
             goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
@@ -49,7 +49,6 @@ class AStar:
                     h = self.heuristic(goingRightNode)
                     heapq.heappush(self.frontier, (h+ node.depth, h , goingRightNode))
 
-                self.explored.append(node) #already explored
             # node.sokoban.printBoard(mode='debug')
 
         
@@ -60,12 +59,9 @@ class AStar:
         return Results(success, len(solution), len(solution), len(self.explored), len(self.frontier), solution)
 
     def _not_explored_board(self, node):
-        for exp in self.explored:
-            # Nodo != Estado
-            # Solo va a ser igual si el tablero es igual y el depth es mayor o igual al otro nodo
-            if exp.redundant_equal(node) and node.depth >= exp.depth:
-                return False
-        return True
-
+        if node not in self.explored:
+            self.explored[node] = 1
+            return True
+        return False
 
 

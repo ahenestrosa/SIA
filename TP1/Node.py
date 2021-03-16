@@ -9,6 +9,14 @@ class Node:
         self.depth = depth
         self.parent = parent
 
+    def __eq__(self, other):
+        if other == None:
+            return False
+        return self.sokoban == other.sokoban
+    
+    def __hash__(self):
+        return hash(self.sokoban)
+    
     # Definir la precendencia
     def __lt__(self, other):
         return self.depth < other.depth

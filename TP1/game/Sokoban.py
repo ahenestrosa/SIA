@@ -188,7 +188,7 @@ class Sokoban():
                 i=dimX-i-1
                 for j in range(self.dimentions[1]):
                     if self.board[j, i] == Constants.EMPTY_LOC and ((j, i) != self.player and (j, i) not in self.objectives):
-                        toPrint = toPrint + '%'
+                        toPrint = toPrint + ' '
                     elif self.board[j, i] == Constants.WALLS_LOC:
                         toPrint = toPrint + '#'
                     elif self.board[j, i] == Constants.BOXES_LOC:
@@ -263,7 +263,10 @@ class Sokoban():
         return False
 
     def __eq__(self, other):
-        return self.dimentions == other.dimensions and self.board == other.board and self.player == other.player and self.objectives == other.objectives
+        return self.player == other.player and self.boxes == other.boxes
+
+    def __hash__(self):
+        return hash((self.player, tuple(self.boxes)))
 
     def redundant_equal(self, other):
-        return self.board == other.board and self.player == other.player and self.boxes == other.boxes
+        return self.player == other.player and self.boxes == other.boxes

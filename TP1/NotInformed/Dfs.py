@@ -10,17 +10,16 @@ class Dfs:
     movements = [Constants.UP, Constants.DOWN,Constants.LEFT, Constants.RIGHT]
 
     def __init__(self, rootBoard):
-        self.explored = set()
+        self.explored = {}
         node = Node(rootBoard, self.depth)
         self.root = node
         self.stack = []
         self.stack.append(node)
 
     def start(self):
-        node = {}
-        while len(self.stack) > 0 and (node == {} or not node.sokoban.isGameFinished()):
+        node = None
+        while len(self.stack) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = self.stack.pop()
-            self.explored.add(node) #already explored
 
             goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
             goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
@@ -55,14 +54,11 @@ class Dfs:
         return Results(success, len(solution), len(solution), len(self.explored), len(self.stack), solution)
 
 
-
     def _not_explored_board(self, node):
-        for exp in self.explored:
-            # Nodo != Estado
-            # Solo va a ser igual si el tablero es igual y el depth es mayor o igual al otro nodo
-            if exp.redundant_equal(node) and node.depth >= exp.depth:
-                return False
-        return True
+        if node not in self.explored:
+            self.explored[node] = 1
+            return True
+        return False
 
 
 

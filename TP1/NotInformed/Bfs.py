@@ -3,46 +3,48 @@ from game import Constants
 from game.Sokoban import Sokoban
 from collections import deque
 from Results import Results
+import time
 
 class Bfs:
     depth = 0
     movements = [Constants.UP, Constants.DOWN,Constants.LEFT, Constants.RIGHT]
     def __init__(self, rootBoard):
-        self.explored = []
+        self.explored = {}
         node = Node(rootBoard, self.depth)
         self.root = node
         self.queue = deque()
         self.queue.append(node)
 
     def start(self):
-        node = {}
-        while len(self.queue) > 0 and (node == {} or not node.sokoban.isGameFinished()):
+        node = None
+        
+        while len(self.queue) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = self.queue.popleft()
-            goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-            goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-            goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-            goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+            sokoban = node.sokoban
+            goingUpNode = Node(Sokoban.from_game(sokoban), node.depth + 1, node)
+            goingDownNode = Node(Sokoban.from_game(sokoban), node.depth + 1, node)
+            goingLeftNode = Node(Sokoban.from_game(sokoban), node.depth + 1, node)
+            goingRightNode = Node(Sokoban.from_game(sokoban), node.depth + 1, node)
 
-            if not node.sokoban.gameIsDeadEnd:
+            if not sokoban.gameIsDeadEnd:
                 if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode)):
                     node.appendChild(goingUpNode)
-                    self.queue.append(goingUpNode)
                     goingUpNode.appendParent(node)
+                    self.queue.append(goingUpNode)
                 if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode)):
                     node.appendChild(goingDownNode)
-                    self.queue.append(goingDownNode)
                     goingDownNode.appendParent(node)
+                    self.queue.append(goingDownNode)
                 if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and  self._not_explored_board(goingLeftNode)):
                     node.appendChild(goingLeftNode)
-                    self.queue.append(goingLeftNode)
                     goingLeftNode.appendParent(node)
+                    self.queue.append(goingLeftNode)
                 if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode)):
                     node.appendChild(goingRightNode)
-                    self.queue.append(goingRightNode)
                     goingRightNode.appendParent(node)
-
-                self.explored.append(node) #already explored
-            #node.sokoban.printBoard(mode='debug')
+                    self.queue.append(goingRightNode)
+            
+            # node.sokoban.printBoard(mode='debug')
 
         success = node.sokoban.isGameFinished()
         solution = []
@@ -52,12 +54,10 @@ class Bfs:
 
 
     def _not_explored_board(self, node):
-        for exp in self.explored:
-            # Nodo != Estado
-            # Solo va a ser igual si el tablero es igual y el depth es mayor o igual al otro nodo
-            if exp.redundant_equal(node):
-                return False
-        return True
+        if node not in self.explored:
+            self.explored[node] = 1
+            return True
+        return False
 
 
 
