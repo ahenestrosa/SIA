@@ -23,6 +23,12 @@ def main():
     level_map = data['level_map']
     heuristic = data['heuristic']
     iddfs_max_depth = data["iddfs_max_depth"]
+    visual = data["visual"]
+
+    if iddfs_max_depth <= 0:
+            print("iddfs_max_depth must be positive")
+            exit(1)
+
     print("Algorithm is:", algorithm)
 
     with open('maps/map1.txt') as map_file:
@@ -49,7 +55,7 @@ def main():
                 boxes.append((j,height - i - 1))
 
     sokoban = Sokoban(walls, objectives, dimensions, player, boxes)
-    sokoban.printBoard(mode="vis")
+    # sokoban.printBoard(mode="vis")
 
 
     heuristic_function = None
@@ -103,11 +109,12 @@ def main():
     print("Cost of solution: ", res.costSolution)
     print("Expanded Nodes: ", res.expandedNodes)
     print("Frontier Nodes: ", res.frontierNodes)
-    print("Time employed: ",  round(end_time - start_time, 4) )
+    print("Time employed [s]: ",  round(end_time - start_time, 4) )
 
-    # if res.result:
-    #     for n in res.solutionNodePath:
-    #         n.sokoban.printBoard(mode='vis')
+    if visual :
+        if res.result:
+            for n in res.solutionNodePath:
+                n.sokoban.printBoard(mode='vis')
 
 
 
