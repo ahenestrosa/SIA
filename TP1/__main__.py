@@ -16,7 +16,7 @@ import json
 def main():
     
 
-    with open('config.json') as config:
+    with open('TP1/config.json') as config:
         data = json.load(config)
 
     algorithm = data['algorithm']
@@ -25,7 +25,7 @@ def main():
     iddfs_max_depth = data["iddfs_max_depth"]
     print("Algorithm is:", algorithm)
 
-    with open('maps/map1.txt') as map_file:
+    with open(level_map) as map_file:
         lines = map_file.readlines()
 
     height = len(lines)
@@ -49,7 +49,7 @@ def main():
                 boxes.append((j,height - i - 1))
 
     sokoban = Sokoban(walls, objectives, dimensions, player, boxes)
-    sokoban.printBoard(mode="vis")
+    # sokoban.printBoard(mode="vis")
 
 
     heuristic_function = None
