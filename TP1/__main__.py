@@ -1,8 +1,10 @@
 from game.Sokoban import Sokoban
 from game import Constants
-from BFS.Bfs import Bfs
-from DFS.Dfs import Dfs
-from IDDFS.Iddfs import Iddfs
+from NotInformed.Bfs import Bfs
+from NotInformed.Dfs import Dfs
+from NotInformed.Iddfs import Iddfs
+from Informed.Greedy import Greedy
+from Informed.AStar import AStar
 from heuristics.heuristics import Heuristics
 from collections import deque
 from Node import Node
@@ -12,58 +14,94 @@ import json
 
 def main():
     
-    # objective = [(2,5),(6,5)]
-    # dimensions = (9,9)
-    # boxes = [(5,5), (3,5)]
-    # walls = [(0,0),(0,1),(0,2),(0,3),(0,4),(0,5),(0,6),(0,7),(0,8),
-    #         (1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),
-    #         (8,1),(8,2),(8,3),(8,4),(8,5),(8,6),(8,7),(8,8),
-    #         (1,8),(2,8),(3,8), (4,8),(5,8),(6,8),(7,8)]
-    # player = (4, 5)
-    # sokoban = Sokoban(walls, objective, dimensions, player, boxes)
 
-    objective = [(0,0), (2,2)]
-    dimensions = (5,5)
-    boxes = [(0,1), (1, 2)]
-    walls = [(3,3), (4,4),(3,2), (3,1)]
-    player = (4, 3)
-    sokoban = Sokoban(walls, objective, dimensions, player, boxes)
+    with open('config.json') as config:
+        data = json.load(config)
 
-    node = Node(sokoban,0)
+    algorithm = data['algorithm']
+    level_map = data['level_map']
+    heuristic = data['heuristic']
+    iddfs_max_depth = data["iddfs_max_depth"]
+    print("Algorithm is:", algorithm)
 
-    print(Heuristics.playerObjDist(node))
+    with open('maps/map1.txt') as map_file:
+        lines = map_file.readlines()
 
-    # with open('config.json') as config:
-    #     data = json.load(config)
-    #
-    # algorithm = data['algorithm']
-    # level_map = data['level_map']
-    # iddfs_max_depth = data["iddfs_max_depth"]
-    # print("Algorithm is:", algorithm)
-    # print("Max depth for IDDFS is:", iddfs_max_depth)
-    # print()
-    #
-    #
-    # if algorithm == "bfs":
-    #     start = time.time()
-    #     aux = Bfs(sokoban)
-    #     sol = aux.start()
-    #     print(time.time() - start)
-    #
-    # elif algorithm == "dfs":
-    #     start = time.time()
-    #     aux = Dfs(sokoban)
-    #     sol = aux.start()
-    #     print(time.time() - start)
-    #
-    # elif algorithm == "iddfs":
-    #     start = time.time()
-    #     aux = Iddfs(sokoban, iddfs_max_depth)
-    #     sol = aux.start()
-    #     print(time.time() - start)
-    # else:
-    #     print("Invalid algorithm.")
-    #     exit()
+    height = len(lines)
+    width = len(lines[0]) - 1
+
+    walls = []
+    objectives = []
+    player = ()
+    boxes = []
+    dimensions = (height, width)
+
+    for i,line in enumerate(lines):
+        for j, symbol in enumerate(line[:-1]): 
+            if symbol == '#':
+                walls.append((j,height - i - 1))
+            elif symbol == 'O':
+                objectives.append((j, height - i - 1))
+            elif symbol == 'P':
+                player = (j,height - i - 1)
+            elif symbol == 'B':
+                boxes.append((j,height - i - 1))
+
+    sokoban = Sokoban(walls, objectives, dimensions, player, boxes)
+    sokoban.printBoard(mode="vis")
+
+
+    heuristic_function = None
+    if heuristic == "boxObjDistance":
+        heuristic_function = Heuristics.boxObjDistance
+    elif heuristic == "playerBoxDistance":
+        heuristic_function = Heuristics.playerBoxDistance
+    elif heuristic == "playerBoxObjDistance":
+        heuristic_function = Heuristics.playerBoxObjDistance
+
+    start_time = time.time()
+    if algorithm == "bfs":
+        aux = Bfs(sokoban)
+        res = aux.start()
+    elif algorithm == "dfs":
+        aux = Dfs(sokoban)
+        res = aux.start()
+    elif algorithm == "iddfs":
+        print("Max depth for IDDFS is:", iddfs_max_depth)
+        aux = Iddfs(sokoban, iddfs_max_depth)
+        res = aux.start()
+    elif algorithm == "greedy":
+        if heuristic_function == None:
+            print("Missing heuristic")
+            exit(1)
+        print("Heuristic is: ", heuristic)
+        aux = Greedy(sokoban, heuristic_function)
+        res = aux.start()
+    elif algorithm == "a*":
+        if heuristic_function == None:
+            print("Missing heuristic")
+            exit(1)
+        print("Heuristic is: ", heuristic)
+        aux = AStar(sokoban, heuristic_function)
+        res = aux.start()
+    else:
+        print("Invalid algorithm.")
+        exit()
+
+    end_time = time.time()
+
+    print("Result: ", res.result)
+    print("Depth of solution: ", res.depthSolution)
+    print("Cost of solution: ", res.costSolution)
+    print("Expanded Nodes: ", res.expandedNodes)
+    print("Frontier Nodes: ", res.frontierNodes)
+    print("Time employed: ",  round(end_time - start_time, 4) )
+
+    # if res.result:
+    #     for n in res.solutionNodePath:
+    #         n.sokoban.printBoard(mode='vis')
+
+
 
 
 if __name__ == "__main__":

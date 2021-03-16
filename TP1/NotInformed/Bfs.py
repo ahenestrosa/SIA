@@ -23,7 +23,7 @@ class Bfs:
             goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
             goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
 
-            if not node.sokoban.isDeadEnd():
+            if not node.sokoban.gameIsDeadEnd:
                 if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode)):
                     node.appendChild(goingUpNode)
                     self.queue.append(goingUpNode)
@@ -42,7 +42,7 @@ class Bfs:
                     goingRightNode.appendParent(node)
 
                 self.explored.append(node) #already explored
-            node.sokoban.printBoard(mode='debug')
+            #node.sokoban.printBoard(mode='debug')
 
         success = node.sokoban.isGameFinished()
         solution = []
@@ -55,7 +55,7 @@ class Bfs:
         for exp in self.explored:
             # Nodo != Estado
             # Solo va a ser igual si el tablero es igual y el depth es mayor o igual al otro nodo
-            if exp.redundant_equal(node) and node.depth >= exp.depth:
+            if exp.redundant_equal(node):
                 return False
         return True
 
