@@ -5,6 +5,7 @@ from NotInformed.Dfs import Dfs
 from NotInformed.Iddfs import Iddfs
 from Informed.Greedy import Greedy
 from Informed.AStar import AStar
+from Informed.Ida import Ida
 from heuristics.heuristics import Heuristics
 from collections import deque
 from Node import Node
@@ -24,7 +25,7 @@ def main():
     iddfs_max_depth = data["iddfs_max_depth"]
     print("Algorithm is:", algorithm)
 
-    with open('maps/map1.txt') as map_file:
+    with open('maps/map3.txt') as map_file:
         lines = map_file.readlines()
 
     height = len(lines)
@@ -83,6 +84,13 @@ def main():
             exit(1)
         print("Heuristic is: ", heuristic)
         aux = AStar(sokoban, heuristic_function)
+        res = aux.start()
+    elif algorithm == "ida":
+        if heuristic_function == None:
+            print("Missing heuristic")
+            exit(1)
+        print("Heuristic is: ", heuristic)
+        aux = Ida(sokoban, heuristic_function)
         res = aux.start()
     else:
         print("Invalid algorithm.")

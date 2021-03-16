@@ -30,6 +30,9 @@ class Node:
         #TODO: Agregar heuristica
         return 1
     
+    def setHeuristic(self, heuristic):
+        self.heuristic = heuristic
+    
     
 
     #TODO: Despues moverlo a un lugar mas apropiado
