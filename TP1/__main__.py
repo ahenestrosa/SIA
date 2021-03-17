@@ -6,6 +6,7 @@ from NotInformed.Iddfs import Iddfs
 from Informed.Greedy import Greedy
 from Informed.AStar import AStar
 from Informed.IdaIt import Ida
+from Informed.IdaRec import IdaRec
 from heuristics.heuristics import Heuristics
 from collections import deque
 from Node import Node
@@ -97,6 +98,13 @@ def main():
             exit(1)
         print("Heuristic is: ", heuristic)
         aux = Ida(sokoban, heuristic_function)
+        res = aux.start()
+    elif algorithm == "idaRec":
+        if heuristic_function == None:
+            print("Missing heuristic")
+            exit(1)
+        print("Heuristic is: ", heuristic)
+        aux = IdaRec(sokoban, heuristic_function)
         res = aux.start()
     else:
         print("Invalid algorithm.")
