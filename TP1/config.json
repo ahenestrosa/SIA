@@ -1,6 +1,6 @@
 {
     "algorithm": "ida",
-    "heuristic": "playerBoxObjDistance",
+    "heuristic": "boxObjDistance",
     "level_map": "maps/map1.txt",
     "iddfs_max_depth": 1000,
     "visual": false

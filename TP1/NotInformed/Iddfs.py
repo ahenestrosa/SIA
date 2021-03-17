@@ -53,7 +53,6 @@ class Iddfs:
         stack.append(self.root)
         explored = {}
         node = None
-        e=0
         while len(stack) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = stack.pop()
 
