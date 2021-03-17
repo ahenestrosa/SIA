@@ -28,7 +28,10 @@ class Ida:
             self.candidates = []
             heapq.heappush(self.frontier, self.root)
             while len(self.frontier) > 0 and (node == None or not node.sokoban.isGameFinished()):
+                # print(self.limit)
+                # print('length ' + str(len(self.frontier)))
                 node = heapq.heappop(self.frontier)
+                node.sokoban.printBoard(mode='vis')
                 if node.heuristic + node.depth > self.limit:
                     self.candidates.append(node.heuristic + node.depth)
                 elif node.sokoban.isGameFinished():
@@ -40,7 +43,9 @@ class Ida:
                     else:
                         self._appendNewMovements(node)
                         # heapq.heappush(self.frontier, (n.heuristic + n.depth, n.heuristic, n))
-                    self.frontier.extend(node.children)
+                    for n in node.children:
+                        if n not in self.frontier:
+                            heapq.heappush(self.frontier, n)
             self.limit = min(self.candidates)
 
                 
@@ -60,6 +65,7 @@ class Ida:
     
     
     def _appendNewMovements(self, node):
+        print(node.depth + 1)
         goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
         goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
         goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
@@ -68,19 +74,19 @@ class Ida:
         
         if not node.sokoban.gameIsDeadEnd and len(node.children) == 0:
             if (goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE):
-                node.appendChild(goingUpNode)
                 goingUpNode.appendParent(node)
                 goingUpNode.setHeuristic(self.heuristic(goingUpNode))
+                node.appendChild(goingUpNode)
             if (goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE):
-                node.appendChild(goingDownNode)
                 goingDownNode.appendParent(node)
                 goingDownNode.setHeuristic(self.heuristic(goingDownNode))
+                node.appendChild(goingDownNode)
 
             if (goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE):
-                node.appendChild(goingLeftNode)
                 goingLeftNode.appendParent(node)
                 goingLeftNode.setHeuristic(self.heuristic(goingLeftNode))
+                node.appendChild(goingLeftNode)
             if (goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE):
-                node.appendChild(goingRightNode)
                 goingRightNode.appendParent(node)
                 goingRightNode.setHeuristic(self.heuristic(goingRightNode))
+                node.appendChild(goingRightNode)
