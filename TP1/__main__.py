@@ -58,14 +58,23 @@ def main():
     sokoban = Sokoban(walls, objectives, dimensions, player, boxes)
     # sokoban.printBoard(mode="vis")
 
-
+    heuristic_name = ""
     heuristic_function = None
-    if heuristic == "boxObjDistance":
+    if heuristic == 1:
+        heuristic_name = "boxObjDistance"
         heuristic_function = Heuristics.boxObjDistance
-    elif heuristic == "playerBoxDistance":
+    elif heuristic == 2:
+        heuristic_name = "playerBoxDistance"
         heuristic_function = Heuristics.playerBoxDistance
-    elif heuristic == "playerBoxObjDistance":
+    elif heuristic == 3:
+        heuristic_name = "playerBoxObjDistance"
         heuristic_function = Heuristics.playerBoxObjDistance
+    elif heuristic == 4:
+        heuristic_name = "boxObjEucDistance"
+        heuristic_function = Heuristics.boxObjEucDistance
+    elif heuristic == 5:
+        heuristic_name = "minObjDistance"
+        heuristic_function = Heuristics.minObjDistance
 
     start_time = time.time()
     if algorithm == "bfs":
@@ -82,7 +91,7 @@ def main():
         if heuristic_function == None:
             print("Missing heuristic")
             exit(1)
-        print("Heuristic is: ", heuristic)
+        print("Heuristic is: ", heuristic_name)
         aux = Greedy(sokoban, heuristic_function)
         res = aux.start()
     elif algorithm == "a*":
