@@ -1,82 +1,82 @@
-
+import itertools
 
 class Heuristics:
     @classmethod
     def boxObjDistance(cls, node): #shoprtest distance between boxes and objectives
-        dist1 = abs(node.sokoban.boxes[0][0] - node.sokoban.objectives[0][0]) \
-                + abs(node.sokoban.boxes[0][1] - node.sokoban.objectives[0][1]) \
-                + abs(node.sokoban.boxes[1][0] - node.sokoban.objectives[1][0]) \
-                + abs(node.sokoban.boxes[1][1] - node.sokoban.objectives[1][1])
+        min_distance = None
+        sokoban = node.sokoban
 
-        dist2 = abs(node.sokoban.boxes[0][0] - node.sokoban.objectives[1][0]) \
-                + abs(node.sokoban.boxes[0][1] - node.sokoban.objectives[1][1]) \
-                + abs(node.sokoban.boxes[1][0] - node.sokoban.objectives[0][0]) \
-                + abs(node.sokoban.boxes[1][1] - node.sokoban.objectives[0][1])
+        all_combinations = []
+        list1_permutations = itertools.permutations(sokoban.boxes, len(sokoban.objectives))
+        for each_permutation in list1_permutations:
+            zipped = zip(each_permutation, sokoban.objectives)
+            all_combinations.append(list(zipped))
+    
+        for combination in all_combinations:
+            dist1 = 0
+            for pair in combination:
+                box = pair[0]
+                obj = pair[1]
+                dist1 += abs(box[0] - obj[0]) + abs(box[1] - obj[1])
 
-        return min(dist1, dist2)
+            if min_distance == None or dist1 < min_distance:
+                min_distance = dist1
 
 
+        return min_distance
+
+
+
+    # shortest way between player and any box thats not in a objetive
     @classmethod
-    def playerObjDist(cls, node): #shortest way between player and objectives
-        playerPosition = node.sokoban.player
-        dimentions = node.sokoban.dimentions
-        objectives = node.sokoban.objectives
+    def playerBoxDistance(cls, node): 
+        sokoban = node.sokoban
+        player = sokoban.player
+        objectives = sokoban.objectives
+        min_distance = None
 
-        way = 0
+        for box in sokoban.boxes:
+            if box not in objectives:
+                dist = abs(box[0] - player[0]) + abs(box[1] - player[1])
+                if min_distance == None or dist < min_distance:
+                    min_distance = dist
 
-        dir00 = objectives[0][0] - playerPosition[0]
-        dir01 = objectives[0][1] - playerPosition[1]
 
-        dir10 = objectives[1][0] - playerPosition[0]
-        dir11 = objectives[1][1] - playerPosition[1]
-
-        firstObj = 0
-
-        if abs(dir00) + abs(dir01) > abs(dir10) + abs(dir11):
-            firstObj = 1 #it means the second objective is nearer than the first obj
-
-        if firstObj == 0:
-            way = way + abs(dir00) + abs(dir01) - 1 #distance player and first objective
-            way = way + abs(objectives[0][0] - objectives[1][0]) + abs(objectives[0][1] - objectives[1][1]) - 2 #best case
-        else:
-            way = way + abs(dir10) + abs(dir11) - 1
-            way = way + abs(objectives[0][0] - objectives[1][0]) + abs(objectives[0][1] - objectives[1][1]) - 2
-
-        return way
-
+        if min_distance == None:
+            min_distance = 0
+        return min_distance        
 
 
     @classmethod
     def playerBoxObjDistance(cls, node):
-        playerPosition = node.sokoban.player
-        box0 = node.sokoban.boxes[0]
-        box1 = node.sokoban.boxes[1]
+        sokoban = node.sokoban
+        player = sokoban.player
+        not_used_boxes = []
+        not_used_objetives = sokoban.objectives.copy()
 
-        way = 0
+        for box in sokoban.boxes:
+            if box in not_used_objetives:
+                #box is same as objetive
+                not_used_objetives.remove(box)
+            else:
+                not_used_boxes.append(box)
 
-        firstBox = 0
-        dist0 = abs(playerPosition[0] - box0[0]) + abs(playerPosition[1] - box0[1])
-        dist1 = abs(playerPosition[0] - box1[0]) + abs(playerPosition[1] - box1[1])
 
-        if(dist1 > dist0):
-            playerPosition = box0
-            way = way + dist0 - 1
-            firstBox = 0
-        else:
-            firstBox = 1
-            playerPosition = box1
-            way = way + dist1 - 1
+        
+        combined_list = [[player], not_used_boxes, not_used_objetives]
+        min_distance = None
+        for triple in itertools.product(*combined_list):
+            player = triple[0]
+            box = triple[1]
+            obj = triple[2]
 
-        if firstBox == 1:
-            dist0 = abs(playerPosition[0] - box0[0]) + abs(playerPosition[1] - box0[1])
-            way = way + dist0 - 1
-        else:
-            dist1 = abs(playerPosition[0] - box1[0]) + abs(playerPosition[1] - box1[1])
-            way = way + dist1 - 1
+            dist = abs(player[0]-box[0]) + abs(player[1] - box[1])\
+                 + abs(box[0]-obj[0]) + abs(box[1]-obj[1])
+            if min_distance == None or dist < min_distance:
+                min_distance = dist
 
-        way = way + Heuristics.boxObjDistance(node)
 
-        return way
+        return min_distance if min_distance != None else 0
 
 
 

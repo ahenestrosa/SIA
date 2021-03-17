@@ -5,23 +5,24 @@ from collections import deque
 from Results import Results
 import heapq 
 
-class Greedy:
+class AStar:
     depth = 0
     movements = [Constants.UP, Constants.DOWN,Constants.LEFT, Constants.RIGHT]
     def __init__(self, rootBoard, heuristic):
         self.explored = {}
         node = Node(rootBoard, self.depth)
         self.root = node
-        # Frontier its a priority queue based on the heuristic
+        # Frontier its a priority queue based on the f(n) = h(n) + g(n). Or h(n) when f(n) = f(n) 
         self.frontier = []
         self.heuristic = heuristic
-        heapq.heappush(self.frontier, (0, self.root))
+        heapq.heappush(self.frontier, (self.heuristic(self.root),self.heuristic(self.root), self.root))
+        self.limit = self.heuristic(self.root)
 
 
     def start(self):
         node = None
         while len(self.frontier) > 0 and (node == None or not node.sokoban.isGameFinished()):
-            node = heapq.heappop(self.frontier)[1]
+            node = heapq.heappop(self.frontier)[2]
             goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
             goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
             goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
@@ -31,21 +32,25 @@ class Greedy:
                 if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode)):
                     node.appendChild(goingUpNode)
                     goingUpNode.appendParent(node)
-                    # Inserting the node in the priority queue based on the heuristic(indicates priority)
-                    heapq.heappush(self.frontier, (self.heuristic(goingUpNode), goingUpNode))
+                    h = self.heuristic(goingUpNode)
+                    heapq.heappush(self.frontier, (h+ node.depth, h , goingUpNode))
                 if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode)):
                     node.appendChild(goingDownNode)
                     goingDownNode.appendParent(node)
-                    heapq.heappush(self.frontier, (self.heuristic(goingDownNode), goingDownNode))
+                    h = self.heuristic(goingDownNode)                   
+                    heapq.heappush(self.frontier, (h+ node.depth, h , goingDownNode))
                 if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and  self._not_explored_board(goingLeftNode)):
                     node.appendChild(goingLeftNode)
                     goingLeftNode.appendParent(node)
-                    heapq.heappush(self.frontier, (self.heuristic(goingLeftNode), goingLeftNode))
+                    h = self.heuristic(goingLeftNode)
+                    heapq.heappush(self.frontier, (h+ node.depth, h , goingLeftNode))
                 if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode)):
                     node.appendChild(goingRightNode)
                     goingRightNode.appendParent(node)
-                    heapq.heappush(self.frontier, (self.heuristic(goingRightNode), goingRightNode))
-            #node.sokoban.printBoard(mode='debug')
+                    h = self.heuristic(goingRightNode)
+                    heapq.heappush(self.frontier, (h+ node.depth, h , goingRightNode))
+
+            # node.sokoban.printBoard(mode='debug')
 
         
         success = node.sokoban.isGameFinished()
@@ -59,6 +64,5 @@ class Greedy:
             self.explored[node] = 1
             return True
         return False
-
 
 

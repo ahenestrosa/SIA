@@ -10,24 +10,23 @@ class Dfs:
     movements = [Constants.UP, Constants.DOWN,Constants.LEFT, Constants.RIGHT]
 
     def __init__(self, rootBoard):
-        self.explored = set()
+        self.explored = {}
         node = Node(rootBoard, self.depth)
         self.root = node
         self.stack = []
         self.stack.append(node)
 
     def start(self):
-        node = {}
-        while len(self.stack) > 0 and (node == {} or not node.sokoban.isGameFinished()):
+        node = None
+        while len(self.stack) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = self.stack.pop()
-            self.explored.add(node) #already explored
 
             goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
             goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
             goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
             goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
 
-            if not node.sokoban.isDeadEnd():
+            if not node.sokoban.gameIsDeadEnd:
                 if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode)):
                     node.appendChild(goingUpNode)
                     self.stack.append(goingUpNode)
@@ -45,7 +44,7 @@ class Dfs:
                     self.stack.append(goingRightNode)
                     goingRightNode.appendParent(node)
             
-                node.sokoban.printBoard()
+            #node.sokoban.printBoard(mode='debug')
 
         
         success = node.sokoban.isGameFinished()
@@ -55,14 +54,11 @@ class Dfs:
         return Results(success, len(solution), len(solution), len(self.explored), len(self.stack), solution)
 
 
-
     def _not_explored_board(self, node):
-        for exp in self.explored:
-            # Nodo != Estado
-            # Solo va a ser igual si el tablero es igual y el depth es mayor o igual al otro nodo
-            if exp.redundant_equal(node) and node.depth >= exp.depth:
-                return False
-        return True
+        if node not in self.explored:
+            self.explored[node] = 1
+            return True
+        return False
 
 
 
