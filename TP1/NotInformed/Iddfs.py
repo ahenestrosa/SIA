@@ -26,6 +26,7 @@ class Iddfs:
         successResult = None
         while maxDepthFloor <= maxDepthTop:
             maxDepth = (maxDepthTop + maxDepthFloor)//2
+            print(maxDepth)
             result = self.startDls(maxDepth)
             # Si encontramos la solucion, puede haber una mas optima, me quedo con menos profundidad
             if result[0] == True:
@@ -81,21 +82,21 @@ class Iddfs:
         return (node.sokoban.isGameFinished(), node)
 
     
-    def _not_explored_board(self, node, explored):
-        if node not in explored:
-            explored[node] = 1
-            return True
-        return False
-
-
     # def _not_explored_board(self, node, explored):
-    #     # Nodo != Estado
-    #     # Solo va a ser igual si el tablero es igual y el depth es menor o igual al otro nodo
-    #     # El diccionario usa un hash basado en la posicion del jugador y de las cajas
-    #     if node in explored:
-    #         depth_of_explored_node = explored[node]
-    #         if node.depth >= depth_of_explored_node:
-    #             return False
-    #     explored[node] = node.depth
-    #     return True
+    #     if node not in explored:
+    #         explored[node] = 1
+    #         return True
+    #     return False
+
+
+    def _not_explored_board(self, node, explored):
+        # Nodo != Estado
+        # Solo va a ser igual si el tablero es igual y el depth es menor o igual al otro nodo
+        # El diccionario usa un hash basado en la posicion del jugador y de las cajas
+        if node in explored:
+            depth_of_explored_node = explored[node]
+            if node.depth >= depth_of_explored_node:
+                return False
+        explored[node] = node.depth
+        return True
 

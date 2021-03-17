@@ -1,5 +1,5 @@
 {
-    "algorithm": "ida",
+    "algorithm": "iddfs",
     "heuristic": "boxObjDistance",
     "level_map": "maps/map1.txt",
     "iddfs_max_depth": 1000,
