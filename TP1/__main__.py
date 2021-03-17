@@ -147,7 +147,8 @@ def main():
             toPrint += n.sokoban.printBoard(mode='debug')
             
 
-    f = open("./results/" + level_map + "-" + algorithm + ".txt", "a")
+
+    f = open("./results/" + level_map + "-" + algorithm + "-" +heuristic_name+ ".txt", "a")
     f.truncate(0)
     f.write(toPrint)
     f.close()

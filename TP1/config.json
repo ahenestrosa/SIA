@@ -1,5 +1,5 @@
 {
-    "algorithm": "a*",
+    "algorithm": "dfs",
     "heuristic": 1,
     "level_map": "map7",
     "iddfs_max_depth": 1000,
