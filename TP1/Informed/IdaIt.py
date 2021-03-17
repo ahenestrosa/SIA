@@ -15,13 +15,15 @@ class Ida:
         self.heuristic = heuristic
         self.limit = self.heuristic(self.root)
         self.solutionNode = None
+        self.expandedNodes = 0
+        self.frontierNodes = 0
 
 
     def start(self):
         limit = self.heuristic(self.root) + self.root.depth
         result = False
         while limit < 10000:
-            #print(limit)
+            print(limit)
             limit = self.startDls(limit)
             if self.solutionNode != None:
                 result = True
@@ -32,7 +34,7 @@ class Ida:
         solution = []
         if result:
             solution = self.solutionNode.buildPathToRoot()
-        return Results(result, len(solution), len(solution), 0, 0, solution)
+        return Results(result, len(solution), len(solution), self.expandedNodes, self.frontierNodes, solution)
 
     def startDls(self, limit):
         node = None
@@ -41,11 +43,13 @@ class Ida:
         explored = {}
         minFValue = float("inf")
         while len(stack) > 0:
+            self.expandedNodes += 1
             node = stack.pop()
             fValue = self.heuristic(node) + node.depth
 
             if node.sokoban.isGameFinished():
                 self.solutionNode = node
+                self.frontierNodes = len(stack)
                 return fValue
 
             if node.sokoban.gameIsDeadEnd:
@@ -73,15 +77,20 @@ class Ida:
 
             # node.sokoban.printBoard(mode='debug')
         
+        self.frontierNodes = len(stack)
         return minFValue
-
-        
+    
 
 
     def _not_explored_board(self, node, explored):
-        if node not in explored:
-            explored[node] = 1
-            return True
-        return False
+        # Nodo != Estado
+        # Solo va a ser igual si el tablero es igual y el depth es menor o igual al otro nodo
+        # El diccionario usa un hash basado en la posicion del jugador y de las cajas
+        if node in explored:
+            depth_of_explored_node = explored[node]
+            if node.depth >= depth_of_explored_node:
+                return False
+        explored[node] = node.depth
+        return True
 
 

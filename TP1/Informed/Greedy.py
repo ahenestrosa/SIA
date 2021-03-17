@@ -16,12 +16,14 @@ class Greedy:
         self.frontier = []
         self.heuristic = heuristic
         heapq.heappush(self.frontier, (0, self.root))
+        self.expandedNodes = 0
 
 
     def start(self):
         node = None
         while len(self.frontier) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = heapq.heappop(self.frontier)[1]
+            self.expandedNodes += 1
 
             if not node.sokoban.gameIsDeadEnd:
                 goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
@@ -44,7 +46,7 @@ class Greedy:
         solution = []
         if success:
             solution = node.buildPathToRoot()
-        return Results(success, len(solution), len(solution), len(self.explored), len(self.frontier), solution)
+        return Results(success, len(solution), len(solution), self.expandedNodes, len(self.frontier), solution)
 
     def _not_explored_board(self, node):
         if node not in self.explored:

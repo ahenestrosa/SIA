@@ -60,8 +60,6 @@ class Heuristics:
                 not_used_objetives.remove(box)
             else:
                 not_used_boxes.append(box)
-
-
         
         combined_list = [[player], not_used_boxes, not_used_objetives]
         min_distance = None
@@ -74,6 +72,10 @@ class Heuristics:
                  + abs(box[0]-obj[0]) + abs(box[1]-obj[1])
             if min_distance == None or dist < min_distance:
                 min_distance = dist
+
+        # Para hacerlo admisible
+        if min_distance != None:
+            min_distance -= 2
 
 
         return min_distance if min_distance != None else 0

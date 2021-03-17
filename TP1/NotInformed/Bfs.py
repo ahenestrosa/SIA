@@ -14,6 +14,7 @@ class Bfs:
         self.root = node
         self.queue = deque()
         self.queue.append(node)
+        self.expandedNodes = 0
 
     def start(self):
         node = None
@@ -21,6 +22,7 @@ class Bfs:
         while len(self.queue) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = self.queue.popleft()
             sokoban = node.sokoban
+            self.expandedNodes += 1
 
             if not sokoban.gameIsDeadEnd:
                 goingUpNode = Node(Sokoban.from_game(sokoban), node.depth + 1, node)
@@ -42,7 +44,7 @@ class Bfs:
         solution = []
         if success:
             solution = node.buildPathToRoot()
-        return Results(success, len(solution), len(solution), len(self.explored), len(self.queue), solution)
+        return Results(success, len(solution), len(solution), self.expandedNodes, len(self.queue), solution)
 
 
     def _not_explored_board(self, node):

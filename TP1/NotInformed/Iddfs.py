@@ -8,13 +8,14 @@ import gc
 
 class Iddfs:
     movements = [Constants.UP, Constants.DOWN,Constants.LEFT, Constants.RIGHT]
-    lastFrontier = 0
-    lastExplored = 0
 
     def __init__(self, rootBoard, iddfsMaxDepth):
         self.depth = 0
         self.root = Node(rootBoard, self.depth)
         self.iddfsMaxDepth = iddfsMaxDepth
+        self.expandedNodes = 0
+        self.lastFrontier = 0
+
 
     def start(self):
         result = False
@@ -45,7 +46,7 @@ class Iddfs:
             solution = successResult.buildPathToRoot()
             success = True
 
-        return Results(success, len(solution), len(solution), successExplored, successFrontier, solution)
+        return Results(success, len(solution), len(solution), self.expandedNodes, successFrontier, solution)
 
                 
 
@@ -56,6 +57,7 @@ class Iddfs:
         node = None
         while len(stack) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = stack.pop()
+            self.expandedNodes += 1
 
             # Only go deeper if we haven't gone past max depth
             if node.depth < maxDepth:

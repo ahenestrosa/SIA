@@ -15,11 +15,14 @@ class Dfs:
         self.root = node
         self.stack = []
         self.stack.append(node)
+        self.expandedNodes = 0
+
 
     def start(self):
         node = None
         while len(self.stack) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = self.stack.pop()
+            self.expandedNodes += 1
 
             if not node.sokoban.gameIsDeadEnd:
                 goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
@@ -42,7 +45,7 @@ class Dfs:
         solution = []
         if success:
             solution = node.buildPathToRoot()
-        return Results(success, len(solution), len(solution), len(self.explored), len(self.stack), solution)
+        return Results(success, len(solution), len(solution), self.expandedNodes, len(self.stack), solution)
 
 
     def _not_explored_board(self, node):
