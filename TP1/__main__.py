@@ -30,9 +30,8 @@ def main():
             print("iddfs_max_depth must be positive")
             exit(1)
 
-    print("Algorithm is:", algorithm)
 
-    with open(level_map) as map_file:
+    with open("maps/" + level_map +".txt") as map_file:
         lines = map_file.readlines()
 
     height = len(lines)
@@ -76,6 +75,16 @@ def main():
         heuristic_name = "minObjDistance"
         heuristic_function = Heuristics.minObjDistance
 
+    
+    toPrint = "//////////////////// SOKOBAN SUMMARY /////////////////////////////////"
+    toPrint += "\n\n"
+    toPrint += "MAP:             " + level_map + "\n" 
+    toPrint += "Algorithm is:    " + algorithm + "\n"
+    if heuristic_name != "":
+        toPrint += "Heuristic is:    " + heuristic_name + "\n"
+    toPrint += "Max Iddfs depth: " +  str(iddfs_max_depth)+ "\n\n"
+
+
     start_time = time.time()
     if algorithm == "bfs":
         aux = Bfs(sokoban)
@@ -84,56 +93,64 @@ def main():
         aux = Dfs(sokoban)
         res = aux.start()
     elif algorithm == "iddfs":
-        print("Max depth for IDDFS is:", iddfs_max_depth)
         aux = Iddfs(sokoban, iddfs_max_depth)
         res = aux.start()
     elif algorithm == "greedy":
         if heuristic_function == None:
             print("Missing heuristic")
             exit(1)
-        print("Heuristic is: ", heuristic_name)
         aux = Greedy(sokoban, heuristic_function)
         res = aux.start()
     elif algorithm == "a*":
         if heuristic_function == None:
             print("Missing heuristic")
             exit(1)
-        print("Heuristic is: ", heuristic)
         aux = AStar(sokoban, heuristic_function)
         res = aux.start()
     elif algorithm == "ida":
         if heuristic_function == None:
             print("Missing heuristic")
             exit(1)
-        print("Heuristic is: ", heuristic)
         aux = Ida(sokoban, heuristic_function)
         res = aux.start()
     elif algorithm == "idaRec":
         if heuristic_function == None:
             print("Missing heuristic")
             exit(1)
-        print("Heuristic is: ", heuristic)
         aux = IdaRec(sokoban, heuristic_function)
         res = aux.start()
     else:
         print("Invalid algorithm.")
         exit()
-
     end_time = time.time()
 
-    print("Result: ", res.result)
-    print("Depth of solution: ", res.depthSolution)
-    print("Cost of solution: ", res.costSolution)
-    print("Expanded Nodes: ", res.expandedNodes)
-    print("Frontier Nodes: ", res.frontierNodes)
-    print("Time employed [s]: ",  round(end_time - start_time, 4) )
 
-    # print(res)
-    # if visual :
-    #     if res.result:
-    #         for n in res.solutionNodePath:
-    #             n.sokoban.printBoard(mode='vis')
+    # Printing results
+    if res.result == True:
+        message = "SUCCESS"
+    else:
+        message = "FAILURE"
 
+    toPrint += "---------------------------- Results ------------------------------\n"
+    toPrint += "Result:            " + message +"\n"
+    toPrint += "Depth of solution: " + str(res.depthSolution) +"\n"
+    toPrint += "Cost of solution:  " +  str(res.costSolution) +"\n"
+    toPrint += "Expanded Nodes:    " + str(res.expandedNodes) +"\n"
+    toPrint += "Frontier Nodes:    " + str(res.frontierNodes) +"\n"
+    toPrint += "Time employed [s]: " + str(round(end_time - start_time, 4)) +"\n"
+
+    print(toPrint)
+
+    if res.result:
+        toPrint += "\n\n------------------------------ Solution ---------------------------"
+        for n in res.solutionNodePath:
+            toPrint += n.sokoban.printBoard(mode='debug')
+            
+
+    f = open("./results/" + level_map + "-" + algorithm + ".txt", "a")
+    f.truncate(0)
+    f.write(toPrint)
+    f.close()
 
 
 

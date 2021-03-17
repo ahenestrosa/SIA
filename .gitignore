@@ -35,3 +35,5 @@ hs_err_pid*
 venv/
 
 TP1/demofile2.txt
+
+TP1/results/

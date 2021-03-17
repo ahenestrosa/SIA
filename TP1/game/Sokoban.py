@@ -191,19 +191,17 @@ class Sokoban():
                         toPrint = toPrint + ' '
                     elif self.board[j, i] == Constants.WALLS_LOC:
                         toPrint = toPrint + '#'
-                    elif self.board[j, i] == Constants.BOXES_LOC:
-                        toPrint = toPrint + '□'
                     elif(self.player[0] == j and self.player[1] == i):
                         toPrint = toPrint + 'P'
+                    elif self.board[j, i] == Constants.BOXES_LOC:
+                        toPrint = toPrint + '□'
                     elif (j, i) in self.objectives:
                         toPrint = toPrint + 'O'
                         
                     if j == dimY-1:
                         toPrint = toPrint + '\n'
             toPrint = toPrint + '\n'
-            f = open("demofile2.txt", "a")
-            f.write(toPrint)
-            f.close()
+            return toPrint
             
         elif mode == 'vis':
             toPrint = [[0 for x in range(self.dimentions[0])] for y in range(self.dimentions[1])] 
