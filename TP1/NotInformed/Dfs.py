@@ -15,34 +15,28 @@ class Dfs:
         self.root = node
         self.stack = []
         self.stack.append(node)
+        self.expandedNodes = 0
+
 
     def start(self):
         node = None
         while len(self.stack) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = self.stack.pop()
-
-            goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-            goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-            goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-            goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+            self.expandedNodes += 1
 
             if not node.sokoban.gameIsDeadEnd:
+                goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
                 if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode)):
-                    node.appendChild(goingUpNode)
                     self.stack.append(goingUpNode)
-                    goingUpNode.appendParent(node)
                 if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode)):
-                    node.appendChild(goingDownNode)
                     self.stack.append(goingDownNode)
-                    goingDownNode.appendParent(node)
                 if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and self._not_explored_board(goingLeftNode)):
-                    node.appendChild(goingLeftNode)
                     self.stack.append(goingLeftNode)
-                    goingLeftNode.appendParent(node)
                 if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode)):
-                    node.appendChild(goingRightNode)
                     self.stack.append(goingRightNode)
-                    goingRightNode.appendParent(node)
             
             #node.sokoban.printBoard(mode='debug')
 
@@ -51,7 +45,7 @@ class Dfs:
         solution = []
         if success:
             solution = node.buildPathToRoot()
-        return Results(success, len(solution), len(solution), len(self.explored), len(self.stack), solution)
+        return Results(success, len(solution), len(solution), self.expandedNodes, len(self.stack), solution)
 
 
     def _not_explored_board(self, node):

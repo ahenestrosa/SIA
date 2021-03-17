@@ -8,13 +8,14 @@ import gc
 
 class Iddfs:
     movements = [Constants.UP, Constants.DOWN,Constants.LEFT, Constants.RIGHT]
-    lastFrontier = 0
-    lastExplored = 0
 
     def __init__(self, rootBoard, iddfsMaxDepth):
         self.depth = 0
         self.root = Node(rootBoard, self.depth)
         self.iddfsMaxDepth = iddfsMaxDepth
+        self.expandedNodes = 0
+        self.lastFrontier = 0
+
 
     def start(self):
         result = False
@@ -26,6 +27,7 @@ class Iddfs:
         successResult = None
         while maxDepthFloor <= maxDepthTop:
             maxDepth = (maxDepthTop + maxDepthFloor)//2
+            print(maxDepth)
             result = self.startDls(maxDepth)
             # Si encontramos la solucion, puede haber una mas optima, me quedo con menos profundidad
             if result[0] == True:
@@ -44,7 +46,7 @@ class Iddfs:
             solution = successResult.buildPathToRoot()
             success = True
 
-        return Results(success, len(solution), len(solution), successExplored, successFrontier, solution)
+        return Results(success, len(solution), len(solution), self.expandedNodes, successFrontier, solution)
 
                 
 
@@ -53,33 +55,24 @@ class Iddfs:
         stack.append(self.root)
         explored = {}
         node = None
-        e=0
         while len(stack) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = stack.pop()
+            self.expandedNodes += 1
 
             # Only go deeper if we haven't gone past max depth
             if node.depth < maxDepth:
-                goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-                goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-                goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-                goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-
                 if not node.sokoban.gameIsDeadEnd:
+                    goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                    goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                    goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                    goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
                     if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode, explored)):
-                        node.appendChild(goingUpNode)
-                        goingUpNode.appendParent(node)
                         stack.append(goingUpNode)
                     if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode, explored)):
-                        node.appendChild(goingDownNode)
-                        goingDownNode.appendParent(node)
                         stack.append(goingDownNode)
                     if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and self._not_explored_board(goingLeftNode, explored)):
-                        node.appendChild(goingLeftNode)
-                        goingLeftNode.appendParent(node)
                         stack.append(goingLeftNode)
                     if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode, explored)):
-                        node.appendChild(goingRightNode)
-                        goingRightNode.appendParent(node)
                         stack.append(goingRightNode)
                 
             #node.sokoban.printBoard(mode='debug')
@@ -91,21 +84,21 @@ class Iddfs:
         return (node.sokoban.isGameFinished(), node)
 
     
-    def _not_explored_board(self, node, explored):
-        if node not in explored:
-            explored[node] = 1
-            return True
-        return False
-
-
     # def _not_explored_board(self, node, explored):
-    #     # Nodo != Estado
-    #     # Solo va a ser igual si el tablero es igual y el depth es menor o igual al otro nodo
-    #     # El diccionario usa un hash basado en la posicion del jugador y de las cajas
-    #     if node in explored:
-    #         depth_of_explored_node = explored[node]
-    #         if node.depth >= depth_of_explored_node:
-    #             return False
-    #     explored[node] = node.depth
-    #     return True
+    #     if node not in explored:
+    #         explored[node] = 1
+    #         return True
+    #     return False
+
+
+    def _not_explored_board(self, node, explored):
+        # Nodo != Estado
+        # Solo va a ser igual si el tablero es igual y el depth es menor o igual al otro nodo
+        # El diccionario usa un hash basado en la posicion del jugador y de las cajas
+        if node in explored:
+            depth_of_explored_node = explored[node]
+            if node.depth >= depth_of_explored_node:
+                return False
+        explored[node] = node.depth
+        return True
 

@@ -5,8 +5,7 @@ from NotInformed.Dfs import Dfs
 from NotInformed.Iddfs import Iddfs
 from Informed.Greedy import Greedy
 from Informed.AStar import AStar
-from Informed.Ida import Ida
-from Informed.IdaRec import IdaRec
+from Informed.IdaIt import Ida
 from heuristics.heuristics import Heuristics
 from collections import deque
 from Node import Node
@@ -32,7 +31,7 @@ def main():
 
     print("Algorithm is:", algorithm)
 
-    with open('maps/map1.txt') as map_file:
+    with open(level_map) as map_file:
         lines = map_file.readlines()
 
     height = len(lines)
@@ -97,7 +96,7 @@ def main():
             print("Missing heuristic")
             exit(1)
         print("Heuristic is: ", heuristic)
-        aux = IdaRec(sokoban, heuristic_function)
+        aux = Ida(sokoban, heuristic_function)
         res = aux.start()
     else:
         print("Invalid algorithm.")
@@ -112,11 +111,11 @@ def main():
     print("Frontier Nodes: ", res.frontierNodes)
     print("Time employed [s]: ",  round(end_time - start_time, 4) )
 
-    print(res)
-    if visual :
-        if res.result:
-            for n in res.solutionNodePath:
-                n.sokoban.printBoard(mode='vis')
+    # print(res)
+    # if visual :
+    #     if res.result:
+    #         for n in res.solutionNodePath:
+    #             n.sokoban.printBoard(mode='vis')
 
 
 

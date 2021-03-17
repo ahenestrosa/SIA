@@ -17,36 +17,31 @@ class AStar:
         self.heuristic = heuristic
         heapq.heappush(self.frontier, (self.heuristic(self.root),self.heuristic(self.root), self.root))
         self.limit = self.heuristic(self.root)
+        self.expandedNodes = 0
 
 
     def start(self):
         node = None
         while len(self.frontier) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = heapq.heappop(self.frontier)[2]
-            goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-            goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-            goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-            goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+            self.expandedNodes += 1
 
             if not node.sokoban.gameIsDeadEnd:
+                goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+
                 if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode)):
-                    node.appendChild(goingUpNode)
-                    goingUpNode.appendParent(node)
                     h = self.heuristic(goingUpNode)
                     heapq.heappush(self.frontier, (h+ node.depth, h , goingUpNode))
                 if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode)):
-                    node.appendChild(goingDownNode)
-                    goingDownNode.appendParent(node)
                     h = self.heuristic(goingDownNode)                   
                     heapq.heappush(self.frontier, (h+ node.depth, h , goingDownNode))
                 if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and  self._not_explored_board(goingLeftNode)):
-                    node.appendChild(goingLeftNode)
-                    goingLeftNode.appendParent(node)
                     h = self.heuristic(goingLeftNode)
                     heapq.heappush(self.frontier, (h+ node.depth, h , goingLeftNode))
                 if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode)):
-                    node.appendChild(goingRightNode)
-                    goingRightNode.appendParent(node)
                     h = self.heuristic(goingRightNode)
                     heapq.heappush(self.frontier, (h+ node.depth, h , goingRightNode))
 
@@ -57,7 +52,7 @@ class AStar:
         solution = []
         if success:
             solution = node.buildPathToRoot()
-        return Results(success, len(solution), len(solution), len(self.explored), len(self.frontier), solution)
+        return Results(success, len(solution), len(solution), self.expandedNodes, len(self.frontier), solution)
 
     def _not_explored_board(self, node):
         if node not in self.explored:
