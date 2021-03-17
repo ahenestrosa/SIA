@@ -6,16 +6,17 @@ from NotInformed.Iddfs import Iddfs
 from Informed.Greedy import Greedy
 from Informed.AStar import AStar
 from Informed.Ida import Ida
+from Informed.IdaRec import IdaRec
 from heuristics.heuristics import Heuristics
 from collections import deque
 from Node import Node
+import sys
 import time
 import json
 
 
 def main():
-    
-
+    sys.setrecursionlimit(15000)
     with open('config.json') as config:
         data = json.load(config)
 
@@ -96,7 +97,7 @@ def main():
             print("Missing heuristic")
             exit(1)
         print("Heuristic is: ", heuristic)
-        aux = Ida(sokoban, heuristic_function)
+        aux = IdaRec(sokoban, heuristic_function)
         res = aux.start()
     else:
         print("Invalid algorithm.")
@@ -111,6 +112,7 @@ def main():
     print("Frontier Nodes: ", res.frontierNodes)
     print("Time employed [s]: ",  round(end_time - start_time, 4) )
 
+    print(res)
     if visual :
         if res.result:
             for n in res.solutionNodePath:
