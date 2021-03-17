@@ -5,8 +5,7 @@ from NotInformed.Dfs import Dfs
 from NotInformed.Iddfs import Iddfs
 from Informed.Greedy import Greedy
 from Informed.AStar import AStar
-from Informed.Ida import Ida
-from Informed.IdaRec import IdaRec
+from Informed.Idaugusto import Ida
 from heuristics.heuristics import Heuristics
 from collections import deque
 from Node import Node
