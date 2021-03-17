@@ -13,6 +13,7 @@ from Node import Node
 import sys
 import time
 import json
+import os
 
 
 def main():
@@ -147,6 +148,8 @@ def main():
             toPrint += n.sokoban.printBoard(mode='debug')
             
 
+    if not os.path.exists('results'):
+        os.makedirs('results')
 
     f = open("./results/" + level_map + "-" + algorithm + "-" +heuristic_name+ ".txt", "a")
     f.truncate(0)
