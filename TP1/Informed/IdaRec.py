@@ -62,21 +62,21 @@ class IdaRec:
             if (goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE):
                 goingUpNode.appendParent(node)
                 goingUpNode.setHeuristic(self.heuristic(goingUpNode))
-                movements.append(goingUpNode)
+                self.movements.append(goingUpNode)
             if (goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE):
                 goingDownNode.appendParent(node)
                 goingDownNode.setHeuristic(self.heuristic(goingDownNode))
-                movements.append(goingDownNode)
+                self.movements.append(goingDownNode)
             if (goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE):
                 goingLeftNode.appendParent(node)
                 goingLeftNode.setHeuristic(self.heuristic(goingLeftNode))
-                movements.append(goingLeftNode)
+                self.movements.append(goingLeftNode)
             if (goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE):
                 goingRightNode.appendParent(node)
                 goingRightNode.setHeuristic(self.heuristic(goingRightNode))
-                movements.append(goingRightNode)
+                self.movements.append(goingRightNode)
 
-        for n in movements:
+        for n in self.movements:
             if n.sokoban not in path:
                 path.add(n.sokoban)
                 distance= self.search_rec(n, threshhold, g, path)
