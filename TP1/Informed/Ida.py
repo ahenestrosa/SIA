@@ -41,7 +41,7 @@ class Ida:
                         self._appendNewMovements(node)
                         # heapq.heappush(self.frontier, (n.heuristic + n.depth, n.heuristic, n))
                     self.frontier.extend(node.children)
-        self.limit = min(self.candidates)
+            self.limit = min(self.candidates)
 
                 
                 
@@ -84,5 +84,3 @@ class Ida:
                 node.appendChild(goingRightNode)
                 goingRightNode.appendParent(node)
                 goingRightNode.setHeuristic(self.heuristic(goingRightNode))
-
-        self.frontier.extend(node.children)

@@ -4,6 +4,7 @@ class Node:
     sokoban = {}
     depth = 0
     children = []
+    heuristic = 0
     def __init__(self, sokoban,depth, parent = None):
         self.sokoban = sokoban
         self.depth = depth
@@ -19,7 +20,10 @@ class Node:
     
     # Definir la precendencia
     def __lt__(self, other):
-        return self.depth < other.depth
+        if not other.depth + other.heuristic == self.depth + self.heuristic:
+            return self.depth + self.heuristic < other.depth + self.heuristic
+        else:
+            return self.heuristic < other.heuristic
 
     def appendChildren(self, children):
         for child in children:
