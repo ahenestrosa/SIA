@@ -11,6 +11,7 @@ class IdaRec:
     counter = 0
     movements = [Constants.UP, Constants.DOWN,Constants.LEFT, Constants.RIGHT]
     solution = {}
+    movements = []
     def __init__(self, rootBoard, heuristic):
         node = Node(rootBoard, self.depth)
         self.root = node
@@ -26,12 +27,12 @@ class IdaRec:
         threshold = self.root.heuristic
 
         while 1:
-            path = set([self.root])
+            path = set([self.root.sokoban])
             distance = self.search_rec(self.root,threshold, 0, path)
             if distance == True:
-                return Results(True, len(self.solution), len(self.solution), self.counter, 100, self.solution)
+                return Results(True, len(self.solution), len(self.solution), self.counter, len(self.movements), self.solution)
             elif distance == float("inf"):
-                return Results(False, 0, 0, self.counter,100, [])
+                return Results(False, 0, 0, self.counter,len(self.movements), [])
             else:
                 threshold = distance
 
@@ -49,6 +50,8 @@ class IdaRec:
 
         minimum = float("inf")
 
+        self.movements = []
+
         # if len(node.children) == 0:
         goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
         goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
@@ -59,23 +62,23 @@ class IdaRec:
             if (goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE):
                 goingUpNode.appendParent(node)
                 goingUpNode.setHeuristic(self.heuristic(goingUpNode))
-                node.appendChild(goingUpNode)
+                movements.append(goingUpNode)
             if (goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE):
                 goingDownNode.appendParent(node)
                 goingDownNode.setHeuristic(self.heuristic(goingDownNode))
-                node.appendChild(goingDownNode)
-
+                movements.append(goingDownNode)
             if (goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE):
                 goingLeftNode.appendParent(node)
                 goingLeftNode.setHeuristic(self.heuristic(goingLeftNode))
-                node.appendChild(goingLeftNode)
+                movements.append(goingLeftNode)
             if (goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE):
                 goingRightNode.appendParent(node)
                 goingRightNode.setHeuristic(self.heuristic(goingRightNode))
-                node.appendChild(goingRightNode)
-        for n in node.children:
-            if n not in path:
-                path.add(n)
+                movements.append(goingRightNode)
+
+        for n in movements:
+            if n.sokoban not in path:
+                path.add(n.sokoban)
                 distance= self.search_rec(n, threshhold, g, path)
                 if distance == True:
                     return True
