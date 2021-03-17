@@ -58,27 +58,18 @@ class Iddfs:
 
             # Only go deeper if we haven't gone past max depth
             if node.depth < maxDepth:
-                goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-                goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-                goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-                goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-
                 if not node.sokoban.gameIsDeadEnd:
+                    goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                    goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                    goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                    goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
                     if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode, explored)):
-                        node.appendChild(goingUpNode)
-                        goingUpNode.appendParent(node)
                         stack.append(goingUpNode)
                     if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode, explored)):
-                        node.appendChild(goingDownNode)
-                        goingDownNode.appendParent(node)
                         stack.append(goingDownNode)
                     if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and self._not_explored_board(goingLeftNode, explored)):
-                        node.appendChild(goingLeftNode)
-                        goingLeftNode.appendParent(node)
                         stack.append(goingLeftNode)
                     if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode, explored)):
-                        node.appendChild(goingRightNode)
-                        goingRightNode.appendParent(node)
                         stack.append(goingRightNode)
                 
             #node.sokoban.printBoard(mode='debug')

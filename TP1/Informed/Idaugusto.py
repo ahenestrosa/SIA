@@ -21,7 +21,7 @@ class Ida:
         limit = self.heuristic(self.root) + self.root.depth
         result = False
         while limit < 10000:
-            print(limit)
+            #print(limit)
             limit = self.startDls(limit)
             if self.solutionNode != None:
                 result = True
@@ -63,20 +63,12 @@ class Ida:
 
 
             if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode, explored)):
-                node.appendChild(goingUpNode)
-                goingDownNode.appendParent(node)
                 stack.append(goingUpNode)
             if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode, explored)):
-                node.appendChild(goingDownNode)
-                goingDownNode.appendParent(node)   
                 stack.append(goingDownNode)               
             if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and  self._not_explored_board(goingLeftNode, explored)):
-                node.appendChild(goingLeftNode)
-                goingLeftNode.appendParent(node)
                 stack.append(goingLeftNode)
             if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode, explored)):
-                node.appendChild(goingRightNode)
-                goingRightNode.appendParent(node)
                 stack.append(goingRightNode)
 
             # node.sokoban.printBoard(mode='debug')

@@ -22,28 +22,20 @@ class Greedy:
         node = None
         while len(self.frontier) > 0 and (node == None or not node.sokoban.isGameFinished()):
             node = heapq.heappop(self.frontier)[1]
-            goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-            goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-            goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
-            goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
 
             if not node.sokoban.gameIsDeadEnd:
+                goingUpNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                goingDownNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                goingLeftNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
+                goingRightNode = Node(Sokoban.from_game(node.sokoban), node.depth + 1, node)
                 if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode)):
-                    node.appendChild(goingUpNode)
-                    goingUpNode.appendParent(node)
                     # Inserting the node in the priority queue based on the heuristic(indicates priority)
                     heapq.heappush(self.frontier, (self.heuristic(goingUpNode), goingUpNode))
                 if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode)):
-                    node.appendChild(goingDownNode)
-                    goingDownNode.appendParent(node)
                     heapq.heappush(self.frontier, (self.heuristic(goingDownNode), goingDownNode))
                 if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and  self._not_explored_board(goingLeftNode)):
-                    node.appendChild(goingLeftNode)
-                    goingLeftNode.appendParent(node)
                     heapq.heappush(self.frontier, (self.heuristic(goingLeftNode), goingLeftNode))
                 if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode)):
-                    node.appendChild(goingRightNode)
-                    goingRightNode.appendParent(node)
                     heapq.heappush(self.frontier, (self.heuristic(goingRightNode), goingRightNode))
             #node.sokoban.printBoard(mode='debug')
 

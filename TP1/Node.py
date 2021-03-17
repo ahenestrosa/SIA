@@ -3,7 +3,6 @@ from collections import deque
 class Node:
     sokoban = {}
     depth = 0
-    children = []
     heuristic = 0
     def __init__(self, sokoban,depth, parent = None):
         self.sokoban = sokoban
@@ -25,13 +24,6 @@ class Node:
         else:
             return self.heuristic < other.heuristic
 
-    def appendChildren(self, children):
-        for child in children:
-            self.children.append(child)
-
-    def appendChild(self, child):
-        self.children.append(child)
-
     def appendParent(self, parent):
         self.parent = parent
 
@@ -45,9 +37,6 @@ class Node:
     def setHeuristic(self, heuristic):
         self.heuristic = heuristic
     
-    
-
-    #TODO: Despues moverlo a un lugar mas apropiado
     def buildPathToRoot(self):
         nodeList = deque()
         currNode = self
