@@ -1,7 +1,7 @@
 {
-    "algorithm": "dfs",
+    "algorithm": "bfs",
     "heuristic": 1,
-    "level_map": "map7",
+    "level_map": "map2",
     "iddfs_max_depth": 1000,
     "visual": true
 }

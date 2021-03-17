@@ -143,7 +143,7 @@ def main():
     print(toPrint)
 
     if res.result:
-        toPrint += "\n\n------------------------------ Solution ---------------------------"
+        toPrint += "\n\n------------------------------ Solution ---------------------------\n"
         for n in res.solutionNodePath:
             toPrint += n.sokoban.printBoard(mode='debug')
             
@@ -155,6 +155,11 @@ def main():
     f.truncate(0)
     f.write(toPrint)
     f.close()
+
+    if visual:    
+        if res.result:
+            for n in res.solutionNodePath:
+                n.sokoban.printBoard(mode='vis')
 
 
 

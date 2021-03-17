@@ -4,13 +4,13 @@
 
 El sistema se podra configurar mediante el archivo `config.json`, el mismo cuenta con los campos necesarios para ejecutar cualquiera de los algoritmos implementados. Se deben completar todos los campos aunque los valores no sean utilizados por el algoritmo elegido. 
 
-Un ejemplo de configuración para utilizar el algoritmo `greedy` con la heurística `boxObjDistance` y el mapa `map1.txt` con la visualización desactivada:
+Un ejemplo de configuración para utilizar el algoritmo `greedy` con la heurística `1` => boxObjDistance y el mapa `map1` con la visualización desactivada:
 
 ```
 {
     "algorithm": "greedy",
-    "heuristic": "boxObjDistance",
-    "level_map": "maps/map1.txt",
+    "heuristic": 1,
+    "level_map": "map1",
     "iddfs_max_depth": 1,
     "visual" : false
 }
@@ -24,12 +24,9 @@ Los valores validos para `algorithm` son:
 - a*
 - ida
 
-Los valores para `heuristic` son:
-- boxObjDistance
-- playerBoxDistance
-- playerBoxObjDistance
+Los valores para `heuristic` son enteros positivos del 1 al 5.
 
-Mientras que para `level_map` puede tomar el valor del path de cualquiera de los archivos que se encuentren en la carpeta ubicada en `TP1/maps`. El campo `iddfs_max_depth` debe tener como valor un número entero positivo. Y `visual` puede ser `true` o `false`.
+Mientras que para `level_map` puede tomar el valor cualquier nombre de los archivos `.txt` que se encuentren en la carpeta ubicada en `TP1/maps` (Si desea crear nuevos mapas, estos deben ser cuadrados de NxN). El campo `iddfs_max_depth` debe tener como valor un número entero positivo. Y `visual` puede ser `true` o `false`.
 
 
 ## Instrucciones para la Ejecución
@@ -54,11 +51,15 @@ Situados en la carpeta `TP1` del proyecto, se puede ejecutar el sistema mediante
 python3 __main__.py
 ```
 
-Por `stdout` se visualizara el nombre del algoritmo, la heuristica (si se eligio un algoritmo informado) y la máxima profundidad (solo para el algoritmo IDDFS).
-También se podrá ver si el mapa fue resuelto o no, el costo, la cantidad de nodos expandidos, la cantidad de nodos frontera y el tiempo de la solución.
+Por `stdout` se visualizara el nombre del mapa, el nombre del algoritmo, la heuristica y la máxima profundidad de nodos de iddfs.
+También se podrá ver si el mapa fue resuelto o no, la profundidad, el costo, la cantidad de nodos expandidos, la cantidad de nodos frontera y el tiempo de la solución.
 
+### Resultados
 
-***COMPLETAR DICIENDO COMO VA A SER LA VISUALIZACION***
+Luego de ejecutar el sistema, se generara un archivo `.txt` en la carpeta `results` con el formato [MAP]-[ALGORITHM]-[HEURISTIC].txt donde se podrá ver, ademas de lo mostrado por `stdout`, el camino realizado hasta llegar al objetivo.
+
+Si la configuración del sistema tenia la visual activa, ademas de generar el archivo con estadisticas y resultados, se mostrara en pantalla, graficado cada paso del jugador hasta llegar al objetivo.
+
 
 ## Integrantes
 - Augusto Henestrosa
