@@ -76,7 +76,7 @@ class IdaRec:
                 goingRightNode.setHeuristic(self.heuristic(goingRightNode))
                 self.movements.append(goingRightNode)
 
-        for n in movements:
+        for n in self.movements:
             if n.sokoban not in path:
                 path.add(n.sokoban)
                 distance= self.search_rec(n, threshhold, g, path)
