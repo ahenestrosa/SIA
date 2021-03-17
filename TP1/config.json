@@ -1,5 +1,5 @@
 {
-    "algorithm": "dfs",
+    "algorithm": "iddfs",
     "heuristic": "playerBoxObjDistance",
     "level_map": "maps/map1.txt",
     "iddfs_max_depth": 1000,
