@@ -193,11 +193,11 @@ class Sokoban():
                         toPrint = toPrint + '#'
                     elif self.board[j, i] == Constants.BOXES_LOC:
                         toPrint = toPrint + '□'
-                    if(self.player[0] == j and self.player[1] == i):
+                    elif(self.player[0] == j and self.player[1] == i):
                         toPrint = toPrint + 'P'
-
                     elif (j, i) in self.objectives:
                         toPrint = toPrint + 'O'
+                        
                     if j == dimY-1:
                         toPrint = toPrint + '\n'
             toPrint = toPrint + '\n'
