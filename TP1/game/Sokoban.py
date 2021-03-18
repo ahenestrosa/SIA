@@ -218,7 +218,7 @@ class Sokoban():
                     elif (j, i) in self.objectives:
                         toPrint[dimY-i-1][j] = 4
 
-            cmap = colors.ListedColormap(['white','black', 'yellow' , 'red', 'blue', 'green'])
+            cmap = colors.ListedColormap(['white','black', 'red', 'blue', 'green'])
             plt.figure(figsize=(self.dimentions[0], self.dimentions[1]))
             plt.pcolor(toPrint[::-1],cmap=cmap,edgecolors='k', linewidths=3)
             plt.show()
