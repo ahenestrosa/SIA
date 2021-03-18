@@ -11,7 +11,7 @@ Un ejemplo de configuración para utilizar el algoritmo `greedy` con la heuríst
     "algorithm": "greedy",
     "heuristic": 1,
     "level_map": "map1",
-    "iddfs_max_depth": 1,
+    "iddfs_max_depth": 1000,
     "visual" : false
 }
 ```

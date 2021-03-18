@@ -3,7 +3,8 @@ import math
 
 class Heuristics:
     @classmethod
-    def boxObjDistance(cls, node): #shoprtest distance between boxes and objectives
+    #shoprtest cumulative distance between all boxes and objectives in permutations
+    def boxObjDistance(cls, node): 
         min_distance = None
         sokoban = node.sokoban
 
@@ -30,7 +31,8 @@ class Heuristics:
 
 
     @classmethod
-    def boxObjEucDistance(cls,node):
+    #shortest cumulative distance between all boxes and objectives in permutations using euclidean formula
+    def boxObjEucDistance(cls,node): # shortes
         min_distance = None
         sokoban = node.sokoban
         all_combinations = []
@@ -52,6 +54,7 @@ class Heuristics:
         return min_distance
 
     @classmethod
+    #shoprtest cumulative distance between all boxes and its closes objetive
     def minObjDistance(cls, node):
         sokoban = node.sokoban
         dist = 0
@@ -87,6 +90,7 @@ class Heuristics:
 
 
     @classmethod
+    # shortest way between player and any box + that box to other aobjetive
     def playerBoxObjDistance(cls, node):
         sokoban = node.sokoban
         player = sokoban.player
