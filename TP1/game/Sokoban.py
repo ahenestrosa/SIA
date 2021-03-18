@@ -201,7 +201,7 @@ class Sokoban():
                     if j == dimY-1:
                         toPrint = toPrint + '\n'
             toPrint = toPrint + '\n'
-            return toPrint
+            return toPrint 
             
         elif mode == 'vis':
             toPrint = [[0 for x in range(self.dimentions[0])] for y in range(self.dimentions[1])] 
@@ -211,14 +211,14 @@ class Sokoban():
                         toPrint[dimY-i-1][j] = 0
                     elif self.board[j, i] == Constants.WALLS_LOC:
                         toPrint[dimY-i-1][j] = 1
+                    elif(self.player[0] == j and self.player[1] == i):
+                        toPrint[dimY-i-1][j] = 3
                     elif self.board[j, i] == Constants.BOXES_LOC:
                         toPrint[dimY-i-1][j] = 2
-                    if(self.player[0] == j and self.player[1] == i):
-                        toPrint[dimY-i-1][j] = 3
                     elif (j, i) in self.objectives:
                         toPrint[dimY-i-1][j] = 4
 
-            cmap = colors.ListedColormap(['white','black', 'red', 'blue', 'green'])
+            cmap = colors.ListedColormap(['white','black', 'yellow' , 'red', 'blue', 'green'])
             plt.figure(figsize=(self.dimentions[0], self.dimentions[1]))
             plt.pcolor(toPrint[::-1],cmap=cmap,edgecolors='k', linewidths=3)
             plt.show()
