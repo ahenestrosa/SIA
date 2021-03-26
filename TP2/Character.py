@@ -19,19 +19,7 @@ class Character:
 
     def _calculate_item_stats(self):
         for item in self.items:
-            found_item = {}
-            id = item['id']
-            if item['type'] == Constants.GUANTE:
-                found_item = Utilities.findItem(Constants.GUANTES_PATH, id)
-            elif item['type'] == Constants.CASCO:
-                found_item = Utilities.findItem(Constants.CASCOS_PATH, id)
-            elif item['type'] == Constants.ARMA:
-                found_item = Utilities.findItem(Constants.ARMAS_PATH, id)
-            elif item['type'] == Constants.PECHERA:
-                found_item = Utilities.findItem(Constants.PECHERAS_PATH, id)
-            elif item['type'] == Constants.BOTA:
-                found_item = Utilities.findItem(Constants.BOTAS_PATH, id)
-            self._sum_item_stats(found_item)
+            self._sum_item_stats(item)
 
 
     def _sum_item_stats(self, f_item):
@@ -81,9 +69,3 @@ class Character:
             return 0.3 * self.attack + 0.8 * self.defense
         elif (self.pj_clas == Constants.INFILTRADO):
             return 0.8 * self.attack + 0.3 * self.defense
-
-items = [{'type' : Constants.GUANTE, 'id' : 5}, {'type' : Constants.CASCO, 'id' : 5},{'type' : Constants.ARMA, 'id' : 5},{'type' : Constants.PECHERA, 'id' : 5}, {'type' : Constants.BOTA, 'id' : 5}]
-char = Character(Constants.GUERRERO, 1.6, items)
-char.calculate_stats()
-
-print(char.performance())

@@ -16,6 +16,7 @@ def itemParse(filePath):
                 newItem[Constants.PERICIA] = float(split[3])
                 newItem[Constants.RESISTENCIA] = float(split[4])
                 newItem[Constants.VIDA] = float(split[5])
+                newItem[Constants.ID] = int(split[0])
                 items[split[0]] = newItem
             else:
                 lineNum += 1
