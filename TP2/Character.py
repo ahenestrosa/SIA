@@ -72,10 +72,18 @@ class Character:
         self._calculate_expertise()
         self._calculate_at_def()
 
+    def performance(self):
+        if(self.pj_clas == Constants.GUERRERO):
+            return 0.6 * self.attack + 0.6 * self.defense
+        elif(self.pj_clas == Constants.ARQUERO):
+            return 0.9 * self.attack + 0.1 * self.defense
+        elif (self.pj_clas == Constants.DEFENSOR):
+            return 0.3 * self.attack + 0.8 * self.defense
+        elif (self.pj_clas == Constants.INFILTRADO):
+            return 0.8 * self.attack + 0.3 * self.defense
 
-
-items = [{'type' : Constants.GUANTE, 'id' : 5}, {'type' : Constants.CASCO, 'id' : 5},{'type' : Constants.ARMA, 'id' : 5},{'type' : Constants.PECHERA, 'id' : 5}]
-char = Character(Constants.GUERRERO, 1.7, items)
+items = [{'type' : Constants.GUANTE, 'id' : 5}, {'type' : Constants.CASCO, 'id' : 5},{'type' : Constants.ARMA, 'id' : 5},{'type' : Constants.PECHERA, 'id' : 5}, {'type' : Constants.BOTA, 'id' : 5}]
+char = Character(Constants.GUERRERO, 1.6, items)
 char.calculate_stats()
 
-print(char)
+print(char.performance())
