@@ -1,12 +1,12 @@
 # from Node import Node
-# from game import Constants
+# from game import Constants.py
 # from game.Sokoban import Sokoban
 # from collections import deque
 
 
 # class Dfs:
 #     depth = 0
-#     movements = [Constants.UP, Constants.DOWN,Constants.LEFT, Constants.RIGHT]
+#     movements = [Constants.py.UP, Constants.py.DOWN,Constants.py.LEFT, Constants.py.RIGHT]
 
 #     def __init__(self, rootBoard):
 #         self.explored = []
@@ -29,16 +29,16 @@
 
 #             #si el juego no termino me fijo cuales son los movimientos validos y los agrego al arbol
 #             if node.sokoban.isGameFinished() == False:
-#                 if(goingUpNode.sokoban.move(Constants.UP) == Constants.VALID_MOVE and self._not_explored_board(goingUpNode) == True):
+#                 if(goingUpNode.sokoban.move(Constants.py.UP) == Constants.py.VALID_MOVE and self._not_explored_board(goingUpNode) == True):
 #                     node.appendChild(goingUpNode)
 #                     self.queue.append(goingUpNode)
-#                 if(goingDownNode.sokoban.move(Constants.DOWN) == Constants.VALID_MOVE and self._not_explored_board(goingDownNode) == True):
+#                 if(goingDownNode.sokoban.move(Constants.py.DOWN) == Constants.py.VALID_MOVE and self._not_explored_board(goingDownNode) == True):
 #                     node.appendChild(goingDownNode)
 #                     self.queue.append(goingDownNode)
-#                 if(goingLeftNode.sokoban.move(Constants.LEFT) == Constants.VALID_MOVE and self._not_explored_board(goingLeftNode) == True):
+#                 if(goingLeftNode.sokoban.move(Constants.py.LEFT) == Constants.py.VALID_MOVE and self._not_explored_board(goingLeftNode) == True):
 #                     node.appendChild(goingLeftNode)
 #                     self.queue.append(goingLeftNode)
-#                 if(goingRightNode.sokoban.move(Constants.RIGHT) == Constants.VALID_MOVE and self._not_explored_board(goingRightNode) == True):
+#                 if(goingRightNode.sokoban.move(Constants.py.RIGHT) == Constants.py.VALID_MOVE and self._not_explored_board(goingRightNode) == True):
 #                     node.appendChild(goingRightNode)
 #                     self.queue.append(goingRightNode)
 
