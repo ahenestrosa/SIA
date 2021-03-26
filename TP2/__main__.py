@@ -5,6 +5,9 @@ from Selection import Elite
 from Selection import Roulette
 from Selection import Ranking
 from Selection import Universal
+from Selection import Boltzmann
+from Selection import TournamentD
+from Selection import TournamentP
 
 
 boots = Utilities.itemParse(Constants.BOTAS_PATH)
@@ -20,7 +23,7 @@ helmets = Utilities.itemParse(Constants.CASCOS_PATH)
 g0 = Utilities.generateRandom(10,weapons, boots, gloves, armor, helmets)
 
 
-g1 = Ranking.select(g0, 5)
+g1 = TournamentP.select(g0, 5)
 
 
 
