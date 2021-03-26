@@ -15,6 +15,7 @@ class Character:
         self.pj_clas = pj_class
         self.height = height
         self.items = items
+        self.calculate_stats()
 
 
     def _calculate_item_stats(self):
@@ -59,13 +60,21 @@ class Character:
         self._calculate_agility()
         self._calculate_expertise()
         self._calculate_at_def()
+        self.calculate_fitness()
 
-    def fitness(self):
+    def calculate_fitness(self):
         if(self.pj_clas == Constants.GUERRERO):
-            return 0.6 * self.attack + 0.6 * self.defense
+            self.fitness = 0.6 * self.attack + 0.6 * self.defense
+            return self.fitness
         elif(self.pj_clas == Constants.ARQUERO):
-            return 0.9 * self.attack + 0.1 * self.defense
+            self.fitness = 0.9 * self.attack + 0.1 * self.defense
+            return self.fitness
         elif (self.pj_clas == Constants.DEFENSOR):
-            return 0.3 * self.attack + 0.8 * self.defense
+            self.fitness = 0.3 * self.attack + 0.8 * self.defense
+            return self.fitness
         elif (self.pj_clas == Constants.INFILTRADO):
-            return 0.8 * self.attack + 0.3 * self.defense
+            self.fitness = 0.8 * self.attack + 0.3 * self.defense
+            return self.fitness
+
+    def __lt__(self, other):
+        return self.fitness < other.fitness
