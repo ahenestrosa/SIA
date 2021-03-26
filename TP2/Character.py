@@ -11,10 +11,13 @@ class Character:
     resistance = 0
     health = 0
     items_stats = {Constants.FUERZA: 0, Constants.VIDA: 0, Constants.RESISTENCIA: 0, Constants.PERICIA: 0, Constants.AGILIDAD: 0}
-    def __init__(self, pj_class, height, items):
+    characterId = 0
+    
+    def __init__(self, pj_class, height, items, characterId):
         self.pj_clas = pj_class
         self.height = height
         self.items = items
+        self.characterId = characterId
         self.calculate_stats()
 
 
@@ -78,3 +81,15 @@ class Character:
 
     def __lt__(self, other):
         return self.fitness < other.fitness
+
+    def __str__(self):
+         rep = "Character id: " + str(self.characterId) + "\n"
+         rep += "   Height: " + str(self.height) + "\n"
+         rep += "   Class: " + str(self.pj_clas) + "\n"
+         rep += "   Attack: " + str(self.attack) + "\n"
+         rep += "   Defense: " + str(self.defense) + "\n"
+         rep += "   Fitness: " + str(self.fitness) +"\n"
+         return rep
+
+
+    
