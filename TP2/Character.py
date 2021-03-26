@@ -60,7 +60,7 @@ class Character:
         self._calculate_expertise()
         self._calculate_at_def()
 
-    def performance(self):
+    def fitness(self):
         if(self.pj_clas == Constants.GUERRERO):
             return 0.6 * self.attack + 0.6 * self.defense
         elif(self.pj_clas == Constants.ARQUERO):

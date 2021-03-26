@@ -19,4 +19,4 @@ char = Character(Constants.GUERRERO, 1.8, items)
 
 char.calculate_stats()
 
-print(char.performance())
+print(char.fitness())
