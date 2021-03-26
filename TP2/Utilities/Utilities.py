@@ -39,4 +39,3 @@ def findItem(filePath, id):
                 return item
 
     return item
-
