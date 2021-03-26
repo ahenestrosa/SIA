@@ -1,4 +1,10 @@
 from Utilities import Constants
+# from Character import Character
+from random import uniform
+from random import randint
+
+from TP2.Character import Character
+
 
 def itemParse(filePath):
 
@@ -41,3 +47,21 @@ def findItem(filePath, id):
                 return item
 
     return item
+
+def generateRandom(N, weapons, boots, gloves, armors, helmets):
+    g0 = []
+    characters = [Constants.GUERRERO, Constants.ARQUERO, Constants.INFILTRADO, Constants.DEFENSOR]
+
+    for i in range(N):
+        weapon = randint(1, len(weapons))
+        boot = randint(1, len(boots))
+        glove = randint(1, len(gloves))
+        armor = randint(1, len(armors))
+        helmet = randint(1, len(helmets))
+        items = [weapons[str(weapon)], boots[str(boot)], gloves[str(glove)], armors[str(armor)], helmets[str(helmet)]]
+        height = uniform(1.3, 2.0)
+        pj_class = randint(0, len(characters) - 1)
+        char = Character(characters[pj_class], height, items)
+        g0.append(char)
+
+    return g0
