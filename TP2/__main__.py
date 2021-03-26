@@ -1,6 +1,7 @@
 from Character import Character
 from Utilities import Utilities
 from Utilities import Constants
+from Population import Population
 from Selection import Elite
 from Selection import Roulette
 from Selection import Ranking
@@ -10,22 +11,18 @@ from Selection import TournamentD
 from Selection import TournamentP
 
 
-boots = Utilities.itemParse(Constants.BOTAS_PATH)
-weapons = Utilities.itemParse(Constants.ARMAS_PATH)
-armor = Utilities.itemParse(Constants.PECHERAS_PATH)
-gloves = Utilities.itemParse(Constants.GUANTES_PATH)
-helmets = Utilities.itemParse(Constants.CASCOS_PATH)
+items_information = {
+    Constants.BOTA:    Utilities.itemParse(Constants.BOTAS_PATH),
+    Constants.ARMA:    Utilities.itemParse(Constants.ARMAS_PATH),
+    Constants.CASCO:   Utilities.itemParse(Constants.CASCOS_PATH),
+    Constants.GUANTE:  Utilities.itemParse(Constants.GUANTES_PATH),
+    Constants.PECHERA: Utilities.itemParse(Constants.PECHERAS_PATH)
+}
 
+pop = Population(5, items_information)
+pop.generateRandomPopulation()
 
-# items = [boots['5'], weapons['1000'], armor['3500'], gloves['322'], helmets['4333']]
+for c in pop.characters:
+    print(c)
+    print()
 
-
-g0 = Utilities.generateRandom(10,weapons, boots, gloves, armor, helmets)
-
-
-g1 = TournamentP.select(g0, 5)
-
-
-
-
-print(g0)
