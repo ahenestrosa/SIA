@@ -2,6 +2,7 @@ from Character import Character
 from Utilities import Utilities
 from Utilities import Constants
 from Selection import Elite
+from Selection import Roulette
 
 
 boots = Utilities.itemParse(Constants.BOTAS_PATH)
@@ -17,7 +18,7 @@ helmets = Utilities.itemParse(Constants.CASCOS_PATH)
 g0 = Utilities.generateRandom(10,weapons, boots, gloves, armor, helmets)
 
 
-g1 = Elite.select(g0, 20)
+g1 = Roulette.select(g0, 5)
 
 
 
