@@ -6,6 +6,9 @@ from Selection import Elite
 from Selection import Roulette
 from Selection import Ranking
 from Selection import Universal
+from Selection import Boltzmann
+from Selection import TournamentD
+from Selection import TournamentP
 
 
 items_information = {
