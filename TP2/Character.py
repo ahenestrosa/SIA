@@ -44,6 +44,3 @@ items = [{'type' : Constants.GUANTE, 'id' : 5}, {'type' : Constants.CASCO, 'id' 
 char = Character(Constants.GUERRERO, 1.7, items)
 char.calculate_stats()
 
-print(char)
-
-
