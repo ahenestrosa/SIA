@@ -8,18 +8,18 @@ from Selection import Ranking
 from Selection import Universal
 
 
-boots = Utilities.itemParse(Constants.BOTAS_PATH)
-weapons = Utilities.itemParse(Constants.ARMAS_PATH)
-armor = Utilities.itemParse(Constants.PECHERAS_PATH)
-gloves = Utilities.itemParse(Constants.GUANTES_PATH)
-helmets = Utilities.itemParse(Constants.CASCOS_PATH)
+botas = Utilities.itemParse(Constants.BOTAS_PATH)
+armas = Utilities.itemParse(Constants.ARMAS_PATH)
+pecheras = Utilities.itemParse(Constants.PECHERAS_PATH)
+guantes = Utilities.itemParse(Constants.GUANTES_PATH)
+cascos = Utilities.itemParse(Constants.CASCOS_PATH)
 
 items_information = {
-    Constants.BOTA: boots,
-    Constants.ARMA: weapons,
-    Constants.CASCO: helmet,
-    Constants.GUANTE: glove,
-    Constants.PECHERA: armor
+    Constants.BOTA: botas,
+    Constants.ARMA: armas,
+    Constants.CASCO: cascos,
+    Constants.GUANTE: guantes,
+    Constants.PECHERA: pecheras
 }
 
 pop = Population(30, items_information)

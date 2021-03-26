@@ -1,5 +1,6 @@
 from random import randrange, uniform
 from Utilities import Constants
+from Character import Character
 
 class Population:
     populationSize = 0
@@ -19,9 +20,9 @@ class Population:
             #Calculate 5 random items
             itemList = []
             for i in range(0, 5):
-                currentItem = Constants.ITEMS_LIST[0]
+                currentItem = Constants.ITEMS_LIST[i]
                 randomItemNumber = randrange(Constants.ITEMS_SIZE)
-                newItem = itemsInformation[currentItem][randomItemNumber]
+                newItem = self.itemsInformation[currentItem][randomItemNumber]
                 itemList.append(newItem)
 
-            self.characters.append(pjClass, height, itemList)                
+            self.characters.append(Character(pjClass, height, itemList))                
