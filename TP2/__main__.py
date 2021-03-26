@@ -6,6 +6,7 @@ from Selection import Elite
 from Selection import Roulette
 from Selection import Ranking
 from Selection import Universal
+import json
 
 
 items_information = {
@@ -22,4 +23,17 @@ pop.generateRandomPopulation()
 for c in pop.characters:
     print(c)
     print()
+
+
+
+# with open('config.json') as config:
+#     data = json.load(config)
+
+# crossing = data['crossing']
+# mutation = data['mutation']
+# selector = data['selector']
+# implementation = data["implementation"]
+# stop = data["stop"]
+# character = data["character"]
+# pm = data["pm"]
 
