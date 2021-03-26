@@ -22,6 +22,7 @@ def itemParse(filePath):
                 lineNum += 1
     return items
 
+@DeprecationWarning
 def findItem(filePath, id):
     item = {}
     found = False

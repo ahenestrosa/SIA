@@ -1,6 +1,7 @@
 from Character import Character
 from Utilities import Utilities
 from Utilities import Constants
+from Population import Population
 
 
 
@@ -11,12 +12,14 @@ armor = Utilities.itemParse(Constants.PECHERAS_PATH)
 gloves = Utilities.itemParse(Constants.GUANTES_PATH)
 helmet = Utilities.itemParse(Constants.CASCOS_PATH)
 
+items_information = {
+    Constants.BOTA: boots,
+    Constants.ARMA: weapons,
+    Constants.CASCO: helmet,
+    Constants.GUANTE: glove,
+    Constants.PECHERA: armor
+}
 
-items = [boots['5'], weapons['1000'], armor['3500'], gloves['322'], helmet['4333']]
+pop = Population(30, items_information)
+pop.generateRandomPopulation()
 
-
-char = Character(Constants.GUERRERO, 1.8, items)
-
-char.calculate_stats()
-
-print(char.fitness())
