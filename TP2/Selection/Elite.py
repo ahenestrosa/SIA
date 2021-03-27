@@ -1,6 +1,7 @@
 import numpy as np
 import math
 from random import randint
+
 def select(characters, K):
     selection = []
     characters.sort(reverse=True)
