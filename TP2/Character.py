@@ -12,7 +12,7 @@ class Character:
     health = 0
     items_stats = {Constants.FUERZA: 0, Constants.VIDA: 0, Constants.RESISTENCIA: 0, Constants.PERICIA: 0, Constants.AGILIDAD: 0}
     characterId = 0
-    
+    fitness = 0
     def __init__(self, pj_class, height, items, characterId):
         self.pj_clas = pj_class
         self.height = height
@@ -22,7 +22,7 @@ class Character:
 
 
     def _calculate_item_stats(self):
-        for item in self.items:
+        for item in self.items.values():
             self._sum_item_stats(item)
 
 
@@ -79,6 +79,9 @@ class Character:
             self.fitness = 0.8 * self.attack + 0.3 * self.defense
             return self.fitness
 
+    def get_genes(self):
+        return [self.pj_clas, self.height, self.items[Constants.BOTA], self.items[Constants.ARMA], self.items[Constants.CASCO], self.items[Constants.GUANTE], self.items[Constants.PECHERA]]
+
     def __lt__(self, other):
         return self.fitness < other.fitness
 
@@ -89,6 +92,8 @@ class Character:
          rep += "   Attack: " + str(self.attack) + "\n"
          rep += "   Defense: " + str(self.defense) + "\n"
          rep += "   Fitness: " + str(self.fitness) +"\n"
+         for k in self.items:
+             rep += "       " + str(k) + ": " + str(self.items[k][Constants.ID]) + "\n" 
          return rep
 
 
