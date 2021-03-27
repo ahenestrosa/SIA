@@ -1,18 +1,22 @@
 from random import randrange, uniform
 from Utilities import Constants
 from Character import Character
+
 import math
+from functools import partial
 
 class Population:
     populationSize = 0
     characters = []
     itemsInformation = {}
-    def __init__(self, populationSize, itemsInformation, crossing, mutation, selection):
+    extraSelectionArgument = None
+    def __init__(self, populationSize, itemsInformation, crossing, mutation, selection, extraArgument=None):
         self.populationSize = populationSize
         self.itemsInformation = itemsInformation
         self.crossing = crossing
         self.mutation = mutation
         self.selection = selection
+        self.extraSelectionArgument = extraArgument
 
     
     def generateRandomPopulation(self):
@@ -35,9 +39,11 @@ class Population:
     def performSelection(self):
         allCharacters = self.performCrossing()
         #TODO: Add fill all and fill other
-        remainingCharacters = self.selection(allCharacters, self.populationSize)
-        self.characters = remainingCharacters
-
+        if self.extraSelectionArgument == None:
+            self.characters = self.selection(allCharacters, self.populationSize)
+        else:
+            self.characters = self.selection(allCharacters, self.populationSize, self.extraSelectionArgument)
+    
     def performCrossing(self):
         allCharacters = []
         for i in range(0, math.floor(self.populationSize/2), 2):
