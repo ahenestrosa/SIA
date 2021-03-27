@@ -20,6 +20,9 @@ def select(characters, K):
                 if random_num < sum_fit:
                     selection.append(characters[j])
                     found = True
+                elif random_num >= sum_fit and random_num < (sum_fit + (characters[j + 1].fitness / total_fitness)):
+                    selection.append(characters[j + 1])
+                    found = True
             else:
                 if random_num >= sum_fit and random_num < (sum_fit + (characters[j+1].fitness/ total_fitness)):
                     selection.append(characters[j + 1])
