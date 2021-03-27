@@ -20,16 +20,13 @@ items_information = {
     Constants.PECHERA: Utilities.itemParse(Constants.PECHERAS_PATH)
 }
 
-pop = Population(5, items_information)
+pop = Population(30, items_information, Crossing.onePointCrossing, None, Elite.select)
 pop.generateRandomPopulation()
 
-p1 = pop.characters[0]
-p2 = pop.characters[1]
+for i in range(0, 10):
+    (avgF, minF) = pop.getFitnessOfPopulation()
+    print(str(i) +  " - Avg: " + str(avgF) + " Min: " + str(minF)) 
+    pop.performSelection()
 
-(c1, c2) = Crossing.unifromCrossing(p1, p2)
 
-print(p1)
-print(p2)
-print(c1)
-print(c2)
 

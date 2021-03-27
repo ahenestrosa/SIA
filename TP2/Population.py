@@ -1,14 +1,18 @@
 from random import randrange, uniform
 from Utilities import Constants
 from Character import Character
+import math
 
 class Population:
     populationSize = 0
     characters = []
     itemsInformation = {}
-    def __init__(self, populationSize, itemsInformation):
+    def __init__(self, populationSize, itemsInformation, crossing, mutation, selection):
         self.populationSize = populationSize
         self.itemsInformation = itemsInformation
+        self.crossing = crossing
+        self.mutation = mutation
+        self.selection = selection
 
     
     def generateRandomPopulation(self):
@@ -25,4 +29,39 @@ class Population:
                 newItem = self.itemsInformation[currentItem][randomItemNumber]
                 items[currentItem] = newItem
 
-            self.characters.append(Character(pjClass, height, items, str(i)))                
+            self.characters.append(Character(pjClass, height, items, str(i)))
+
+    
+    def performSelection(self):
+        allCharacters = self.performCrossing()
+        #TODO: Add fill all and fill other
+        remainingCharacters = self.selection(allCharacters, self.populationSize)
+        self.characters = remainingCharacters
+
+    def performCrossing(self):
+        allCharacters = []
+        for i in range(0, math.floor(self.populationSize/2), 2):
+            p1 = self.characters[i]
+            p2 = self.characters[i+1]
+            (c1, c2) = self.crossing(p1, p2)
+            #TODO: Perform mutations over c1 and c2
+            allCharacters.append(p1)
+            allCharacters.append(p2)
+            allCharacters.append(c1)
+            allCharacters.append(c2)
+        return allCharacters
+
+
+    def getFitnessOfPopulation(self):
+        averageFitness = 0
+        minFitness = -1
+        for i in range(0, self.populationSize):
+            f = self.characters[i].fitness
+            averageFitness += f
+            if minFitness == -1 or minFitness > f:
+                minFitness = f
+        averageFitness = averageFitness / self.populationSize
+        return (averageFitness, minFitness)
+
+
+

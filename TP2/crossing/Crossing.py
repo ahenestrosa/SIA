@@ -21,8 +21,8 @@ class Crossing:
             child1Class = parent2.pj_clas
             child2Class = parent1.pj_clas
         elif gen == Constants.GEN_HEIGHT:
-            child1Height = parent2.pj_clas
-            child2Height = parent1.pj_clas
+            child1Height = parent2.height
+            child2Height = parent1.height
         else:
             child1Items[gen] = parent2.items[gen]
             child2Items[gen] = parent1.items[gen]

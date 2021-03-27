@@ -12,7 +12,7 @@ class Character:
     health = 0
     items_stats = {Constants.FUERZA: 0, Constants.VIDA: 0, Constants.RESISTENCIA: 0, Constants.PERICIA: 0, Constants.AGILIDAD: 0}
     characterId = 0
-    
+    fitness = 0
     def __init__(self, pj_class, height, items, characterId):
         self.pj_clas = pj_class
         self.height = height
@@ -92,6 +92,8 @@ class Character:
          rep += "   Attack: " + str(self.attack) + "\n"
          rep += "   Defense: " + str(self.defense) + "\n"
          rep += "   Fitness: " + str(self.fitness) +"\n"
+         for k in self.items:
+             rep += "       " + str(k) + ": " + str(self.items[k][Constants.ID]) + "\n" 
          return rep
 
 
