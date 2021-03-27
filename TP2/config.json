@@ -1,0 +1,9 @@
+{
+    "crossing": "ONE-POINT",
+    "mutation": "UNIFORM",
+    "selector": "ELITE",
+    "implementation": "FILL-ALL",
+    "stop": "time",
+    "character": "GUERRERO",
+    "pm": 0.5
+}

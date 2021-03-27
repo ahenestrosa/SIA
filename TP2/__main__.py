@@ -10,6 +10,7 @@ from Selection import Boltzmann
 from Selection import TournamentD
 from Selection import TournamentP
 from crossing.Crossing import Crossing
+import json
 
 
 items_information = {
@@ -29,4 +30,15 @@ for i in range(0, 10):
     pop.performSelection()
 
 
+
+# with open('config.json') as config:
+#     data = json.load(config)
+
+# crossing = data['crossing']
+# mutation = data['mutation']
+# selector = data['selector']
+# implementation = data["implementation"]
+# stop = data["stop"]
+# character = data["character"]
+# pm = data["pm"]
 
