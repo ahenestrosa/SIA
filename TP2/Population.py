@@ -10,6 +10,7 @@ class Population:
     characters = []
     itemsInformation = {}
     extraSelectionArgument = None
+    iteration = 0
     def __init__(self, populationSize, itemsInformation, crossing, mutation, selection, extraArgument=None):
         self.populationSize = populationSize
         self.itemsInformation = itemsInformation
@@ -41,9 +42,13 @@ class Population:
         #TODO: Add fill all and fill other
         if self.extraSelectionArgument == None:
             self.characters = self.selection(allCharacters, self.populationSize)
+        elif self.extraSelectionArgument == "it":
+            self.characters = self.selection(allCharacters, self.populationSize, self.iteration)
         else:
             self.characters = self.selection(allCharacters, self.populationSize, self.extraSelectionArgument)
     
+        self.iteration += 1
+
     def performCrossing(self):
         allCharacters = []
         for i in range(0, math.floor(self.populationSize/2), 2):

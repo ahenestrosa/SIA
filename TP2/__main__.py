@@ -41,7 +41,7 @@ elif selector == "RANKING":
     selectionMethod = Ranking.select
 elif selector == "BOLTZMANN":
     selectionMethod = Boltzmann.select
-    extraSelectionArgument = 10
+    extraSelectionArgument = "it"
 elif selector == "TOURNAMENT_P":
     selectionMethod = TournamentP.select
 elif selector == "TOURNAMENT_D":
