@@ -10,7 +10,7 @@ def select(characters, K):
             candidates.append(characters[random_int])
         threshold = random.uniform(0.5, 1)
         r = random.uniform(0, 1)
-        candidates.sort()
+        candidates.sort(reverse=True)
         if(r < threshold):
             selected.append(candidates[0])
         else:

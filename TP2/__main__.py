@@ -43,9 +43,10 @@ elif selector == "BOLTZMANN":
     selectionMethod = Boltzmann.select
     extraSelectionArgument = 10
 elif selector == "TOURNAMENT_P":
-    selectionMethod = TournamentD.select
+    selectionMethod = TournamentP.select
 elif selector == "TOURNAMENT_D":
     selectionMethod = TournamentD.select
+    extraSelectionArgument = 5
 elif selector == "ROULETTE":
     selectionMethod = Roulette.select
 elif selector == "UNIVERSAL":
@@ -54,7 +55,7 @@ elif selector == "UNIVERSAL":
 pop = Population(30, items_information, Crossing.onePointCrossing, None, selectionMethod, extraSelectionArgument)
 pop.generateRandomPopulation()
 
-for i in range(0, 10):
+for i in range(0, 20):
     (avgF, minF) = pop.getFitnessOfPopulation()
     print(str(i) +  " - Avg: " + str(avgF) + " Min: " + str(minF)) 
     pop.performSelection()

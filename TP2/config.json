@@ -1,7 +1,7 @@
 {
     "crossing": "ONE-POINT",
     "mutation": "UNIFORM",
-    "selector": "UNIVERSAL",
+    "selector": "TOURNAMENT_P",
     "implementation": "FILL-ALL",
     "stop": "time",
     "character": "GUERRERO",
