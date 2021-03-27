@@ -26,6 +26,9 @@ def select(characters, K):
                 if random_num < sum_rank:
                     selection.append(characters[j])
                     found = True
+                elif random_num >= sum_rank and random_num < (sum_rank + ((character_size - (j + 1)) / total_ranking)):
+                    selection.append(characters[j + 1])
+                    found = True
             else:
                 if random_num >= sum_rank and random_num < (sum_rank + ((character_size - (j + 1)) / total_ranking)):
                     selection.append(characters[j + 1])

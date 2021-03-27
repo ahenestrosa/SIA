@@ -23,6 +23,9 @@ def select(characters, K, t):
                 if random_num < sum_boltz:
                     selection.append(characters[j])
                     found = True
+                elif random_num >= sum_boltz and random_num < (sum_boltz + calculate_pseudo(characters[j+1], t)/ total_boltzman):
+                    selection.append(characters[j + 1])
+                    found = True
             else:
                 if random_num >= sum_boltz and random_num < (sum_boltz + calculate_pseudo(characters[j+1], t)/ total_boltzman):
                     selection.append(characters[j + 1])
