@@ -18,11 +18,11 @@ class Population:
             #Calculate random height
             height = uniform(Constants.MIN_HEIGHT, Constants.MAX_HEIGHT)
             #Calculate 5 random items
-            itemList = []
+            items = {}
             for j in range(0, 5):
                 currentItem = Constants.ITEMS_LIST[j]
                 randomItemNumber = randrange(Constants.ITEMS_SIZE)
                 newItem = self.itemsInformation[currentItem][randomItemNumber]
-                itemList.append(newItem)
+                items[currentItem] = newItem
 
-            self.characters.append(Character(pjClass, height, itemList, i))                
+            self.characters.append(Character(pjClass, height, items, str(i)))                

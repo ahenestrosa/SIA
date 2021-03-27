@@ -22,7 +22,7 @@ class Character:
 
 
     def _calculate_item_stats(self):
-        for item in self.items:
+        for item in self.items.values():
             self._sum_item_stats(item)
 
 
@@ -78,6 +78,9 @@ class Character:
         elif (self.pj_clas == Constants.INFILTRADO):
             self.fitness = 0.8 * self.attack + 0.3 * self.defense
             return self.fitness
+
+    def get_genes(self):
+        return [self.pj_clas, self.height, self.items[Constants.BOTA], self.items[Constants.ARMA], self.items[Constants.CASCO], self.items[Constants.GUANTE], self.items[Constants.PECHERA]]
 
     def __lt__(self, other):
         return self.fitness < other.fitness
