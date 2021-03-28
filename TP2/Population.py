@@ -11,11 +11,12 @@ class Population:
     itemsInformation = {}
     extraSelectionArgument = None
     iteration = 0
-    def __init__(self, populationSize, itemsInformation, crossing, mutation, selection, extraArgument=None):
+    def __init__(self, populationSize, itemsInformation, crossing, mutation, mutationProb, selection, extraArgument=None):
         self.populationSize = populationSize
         self.itemsInformation = itemsInformation
         self.crossing = crossing
         self.mutation = mutation
+        self.mutationProb = mutationProb
         self.selection = selection
         self.extraSelectionArgument = extraArgument
 
@@ -55,7 +56,8 @@ class Population:
             p1 = self.characters[i]
             p2 = self.characters[i+1]
             (c1, c2) = self.crossing(p1, p2)
-            #TODO: Perform mutations over c1 and c2
+            c1 = self.mutation(self.mutationProb, c1, self.itemsInformation)
+            c2 = self.mutation(self.mutationProb, c2, self.itemsInformation)
             allCharacters.append(p1)
             allCharacters.append(p2)
             allCharacters.append(c1)

@@ -10,6 +10,7 @@ from Selection import Boltzmann
 from Selection import TournamentD
 from Selection import TournamentP
 from crossing.Crossing import Crossing
+from Mutation.Mutation import Mutation
 
 import json
 
@@ -52,7 +53,13 @@ elif selector == "ROULETTE":
 elif selector == "UNIVERSAL":
     selectionMethod = Universal.select
 
-pop = Population(30, items_information, Crossing.onePointCrossing, None, selectionMethod, extraSelectionArgument)
+pop = Population(30, 
+                items_information, 
+                Crossing.onePointCrossing, 
+                Mutation.geneComplete,
+                0.5,
+                selectionMethod, 
+                extraSelectionArgument)
 pop.generateRandomPopulation()
 
 for i in range(0, 20):
