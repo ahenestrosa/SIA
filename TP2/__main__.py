@@ -60,7 +60,9 @@ pop = Population(character,
                 Crossing.twoPointCrossing, 
                 Mutation.uniformMultigene,
                 0.5,
-                selectionMethod, 
+                selectionMethod,
+                200,
+                "FILL_PARENT",
                 extraSelectionArgument)
 pop.generateRandomPopulation()
 

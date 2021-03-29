@@ -11,7 +11,7 @@ class Population:
     itemsInformation = {}
     extraSelectionArgument = None
     iteration = 0
-    def __init__(self, populationClass, populationSize, itemsInformation, crossing, mutation, mutationProb, selection, extraArgument=None):
+    def __init__(self, populationClass, populationSize, itemsInformation, crossing, mutation, mutationProb, selection, selectionChilds, fillMethod, extraArgument=None):
         self.populationClass = populationClass
         self.populationSize = populationSize
         self.itemsInformation = itemsInformation
@@ -19,11 +19,12 @@ class Population:
         self.mutation = mutation
         self.mutationProb = mutationProb
         self.selection = selection
+        self.selectionChilds = selectionChilds
+        self.fillMethod = fillMethod
         self.extraSelectionArgument = extraArgument
 
     
     def generateRandomPopulation(self):
-        print(self.populationClass)
         for i in range(0, self.populationSize):
             #Calculate random height
             height = uniform(Constants.MIN_HEIGHT, Constants.MAX_HEIGHT)
@@ -39,30 +40,51 @@ class Population:
 
     
     def performSelection(self):
-        allCharacters = self.performCrossing()
-        #TODO: Add fill all and fill other
+        childCharacters = self.performCrossing()
+
+        charactersToSelect = []
+        selectedCharacters = None
+        selectionSize = None
+        newGenerationCharacters = []
+
+        if self.fillMethod == "FILL_ALL":
+            charactersToSelect.extend(self.characters)
+            charactersToSelect.extend(childCharacters)
+            selectionSize = self.populationSize
+        elif self.fillMethod == "FILL_PARENT":
+            if len(childCharacters) > self.populationSize:
+                charactersToSelect.extend(childCharacters)
+                selectionSize = self.populationSize
+            else:
+                charactersToSelect.extend(self.characters)
+                selectionSize = self.populationSize-len(childCharacters)
+                newGenerationCharacters.extend(childCharacters)
+
+        
         if self.extraSelectionArgument == None:
-            self.characters = self.selection(allCharacters, self.populationSize)
+            selectedCharacters = self.selection(charactersToSelect, selectionSize)
         elif self.extraSelectionArgument == "it":
-            self.characters = self.selection(allCharacters, self.populationSize, self.iteration)
+            selectedCharacters = self.selection(charactersToSelect, selectionSize, self.iteration)
         else:
-            self.characters = self.selection(allCharacters, self.populationSize, self.extraSelectionArgument)
-    
+            selectedCharacters = self.selection(charactersToSelect, selectionSize, self.extraSelectionArgument)
+
+        newGenerationCharacters.extend(selectedCharacters)
+        self.characters = newGenerationCharacters
+
         self.iteration += 1
+        print(self.populationSize)
 
     def performCrossing(self):
-        allCharacters = []
-        for i in range(0, math.floor(self.populationSize/2), 2):
-            p1 = self.characters[i]
-            p2 = self.characters[i+1]
+        childCharacters = []
+        for i in range(0, math.floor(self.selectionChilds/2)):
+            p1 = self.characters[randrange(self.populationSize)]
+            p2 = self.characters[randrange(self.populationSize)]
             (c1, c2) = self.crossing(p1, p2)
             c1 = self.mutation(self.mutationProb, c1, self.itemsInformation)
             c2 = self.mutation(self.mutationProb, c2, self.itemsInformation)
-            allCharacters.append(p1)
-            allCharacters.append(p2)
-            allCharacters.append(c1)
-            allCharacters.append(c2)
-        return allCharacters
+            childCharacters.append(c1)
+            childCharacters.append(c2)
+        return childCharacters
 
 
     def getFitnessOfPopulation(self):
