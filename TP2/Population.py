@@ -14,6 +14,7 @@ class Population:
     extraSelectionArgument = None
     iteration = 0
     iterationTime = 0
+    charactersGeneration = []
     def __init__(self, populationClass, populationSize, itemsInformation, crossing, mutation, mutationProb, selection, selectionChilds, fillMethod, extraArgument=None):
         self.populationClass = populationClass
         self.populationSize = populationSize
@@ -53,15 +54,20 @@ class Population:
             ended = self.getEndingCondition(endingCondition, endingParameters)
 
     def getEndingCondition(self, endingCondition, params):
-        print(params)
         if endingCondition == "ACC_SOL":
             return EndingConditions.accSolutionEnding(self.characters, params[0])
         elif endingCondition == "CONTENT":
-            return EndingConditions.contentEnding(self.charactersGen, self.iteration, params[0])
+            self.charactersGeneration.append(self.characters)
+            if len(self.charactersGeneration) > 1:
+                return EndingConditions.contentEnding(self.charactersGeneration, self.iteration, params[0])
+            return False
         elif endingCondition == "GEN_AMMOUNT":
             return EndingConditions.generationsAmmountEnding(self.iteration, params[0])
         elif endingCondition == "STRUCTURE":
-            return EndingConditions.structureEnding(self.charactersGen, self.iteration, params[0], params[1], params[2], params[3])
+            self.charactersGeneration.append(self.characters)
+            if len(self.charactersGeneration) > 1:
+                return EndingConditions.structureEnding(self.charactersGeneration, self.iteration, params[0], params[1], params[2], params[3])
+            return False
         elif endingCondition == "TIME":
             return EndingConditions.timeEnding(time.time() -self.iterationTime, params[0])
 

@@ -65,7 +65,8 @@ elif endingCondition == "STRUCTURE":
     endingParameters = (data["endingStructureDh"], data["endingStructureDad"], data["endingStructureDf"], data["endingStructurePp"]) 
 elif endingCondition == "TIME":
     endingParameters = (data["endingTimeLimit"],)
-
+else:
+    exit(1)
 
 
 pop = Population(character,

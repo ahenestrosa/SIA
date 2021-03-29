@@ -3,11 +3,11 @@
     "mutation": "UNIFORM",
     "selector": "TOURNAMENT_P",
     "implementation": "FILL-ALL",
-    "endingCondition": "TIME",
+    "endingCondition": "ACC_SOL",
     "character": "GUERRERO",
     "pm": 0.5,
 
-    "endingFitnessLimit": 50,
+    "endingFitnessLimit": 150,
     "endingDeltaFitness": 3,
     "endingGenerationsLimit": 50,
     "endingStructureDh": 1,

@@ -24,7 +24,7 @@ class EndingConditions:
 
     @classmethod
     def generationsAmmountEnding(cls, iteration, limit):
-        return limit > iteration
+        return limit < iteration
 
     @classmethod
     def structureEnding(cls, characters_gen, generations, dh, dad, df, pp):
