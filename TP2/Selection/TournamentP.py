@@ -1,6 +1,6 @@
 import random
 
-def select(characters, K):
+def select(characters, K, threshold):
     selected = []
 
     for i in range(K):
@@ -8,7 +8,6 @@ def select(characters, K):
         for j in range(2):
             random_int = random.randint(0, len(characters) - 1)
             candidates.append(characters[random_int])
-        threshold = random.uniform(0.5, 1)
         r = random.uniform(0, 1)
         candidates.sort(reverse=True)
         if(r < threshold):
