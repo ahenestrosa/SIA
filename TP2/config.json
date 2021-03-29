@@ -3,7 +3,17 @@
     "mutation": "UNIFORM",
     "selector": "TOURNAMENT_P",
     "implementation": "FILL-ALL",
-    "stop": "time",
+    "endingCondition": "TIME",
     "character": "GUERRERO",
-    "pm": 0.5
+    "pm": 0.5,
+
+    "endingFitnessLimit": 50,
+    "endingDeltaFitness": 3,
+    "endingGenerationsLimit": 50,
+    "endingStructureDh": 1,
+    "endingStructureDad": 1,
+    "endingStructureDf": 1,
+    "endingStructurePp": 1,
+    "endingTimeLimit": 5.0
+
 }

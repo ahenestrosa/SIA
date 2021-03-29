@@ -1,9 +1,11 @@
 from random import randrange, uniform
 from Utilities import Constants
 from Character import Character
+from EndingConditions.EndingConditions import EndingConditions
 
 import math
 from functools import partial
+import time
 
 class Population:
     populationSize = 0
@@ -11,6 +13,7 @@ class Population:
     itemsInformation = {}
     extraSelectionArgument = None
     iteration = 0
+    iterationTime = 0
     def __init__(self, populationClass, populationSize, itemsInformation, crossing, mutation, mutationProb, selection, selectionChilds, fillMethod, extraArgument=None):
         self.populationClass = populationClass
         self.populationSize = populationSize
@@ -38,7 +41,31 @@ class Population:
 
             self.characters.append(Character(self.populationClass, height, items, str(i)))
 
-    
+    def performLifeCycle(self, endingCondition, endingParameters):
+        ended = False
+        self.iterationTime = time.time()
+
+        while not ended:
+            (avgF, minF) = self.getFitnessOfPopulation()
+            print(str(self.iteration) +  " - Avg: " + str(avgF) + " Min: " + str(minF)) 
+            self.performSelection()
+            self.iteration +=1
+            ended = self.getEndingCondition(endingCondition, endingParameters)
+
+    def getEndingCondition(self, endingCondition, params):
+        print(params)
+        if endingCondition == "ACC_SOL":
+            return EndingConditions.accSolutionEnding(self.characters, params[0])
+        elif endingCondition == "CONTENT":
+            return EndingConditions.contentEnding(self.charactersGen, self.iteration, params[0])
+        elif endingCondition == "GEN_AMMOUNT":
+            return EndingConditions.generationsAmmountEnding(self.iteration, params[0])
+        elif endingCondition == "STRUCTURE":
+            return EndingConditions.structureEnding(self.charactersGen, self.iteration, params[0], params[1], params[2], params[3])
+        elif endingCondition == "TIME":
+            return EndingConditions.timeEnding(time.time() -self.iterationTime, params[0])
+
+
     def performSelection(self):
         childCharacters = self.performCrossing()
 
@@ -71,8 +98,7 @@ class Population:
         newGenerationCharacters.extend(selectedCharacters)
         self.characters = newGenerationCharacters
 
-        self.iteration += 1
-        print(self.populationSize)
+
 
     def performCrossing(self):
         childCharacters = []

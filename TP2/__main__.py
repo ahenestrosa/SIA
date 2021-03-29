@@ -21,7 +21,7 @@ crossing = data['crossing']
 mutation = data['mutation']
 selector = data['selector']
 implementation = data["implementation"]
-stop = data["stop"]
+endingCondition = data["endingCondition"]
 character = data["character"]
 pm = data["pm"]
 
@@ -54,6 +54,20 @@ elif selector == "ROULETTE":
 elif selector == "UNIVERSAL":
     selectionMethod = Universal.select
 
+endingParameters = None
+if endingCondition == "ACC_SOL":
+    endingParameters = (data["endingFitnessLimit"],)
+elif endingCondition == "CONTENT":
+    endingParameters = (data["endingDeltaFitness"],)
+elif endingCondition == "GEN_AMMOUNT":
+    endingParameters = (data["endingGenerationsLimit"],)
+elif endingCondition == "STRUCTURE":
+    endingParameters = (data["endingStructureDh"], data["endingStructureDad"], data["endingStructureDf"], data["endingStructurePp"]) 
+elif endingCondition == "TIME":
+    endingParameters = (data["endingTimeLimit"],)
+
+
+
 pop = Population(character,
                 300, 
                 items_information, 
@@ -64,13 +78,9 @@ pop = Population(character,
                 200,
                 "FILL_PARENT",
                 extraSelectionArgument)
+                
 pop.generateRandomPopulation()
-
-for i in range(0, 30):
-    (avgF, minF) = pop.getFitnessOfPopulation()
-    print(str(i) +  " - Avg: " + str(avgF) + " Min: " + str(minF)) 
-    pop.performSelection()
-
+pop.performLifeCycle(endingCondition, endingParameters)
 
 
 
