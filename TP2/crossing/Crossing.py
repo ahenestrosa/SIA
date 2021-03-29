@@ -10,25 +10,20 @@ class Crossing:
         gn = randrange(Constants.GENES_SIZE)
         gen = Constants.GENES_LIST[gn]
 
-        child1Class = parent1.pj_clas
-        child2Class = parent2.pj_clas
         child1Height = parent1.height
         child2Height = parent2.height
         child1Items = parent1.items.copy()
         child2Items = parent2.items.copy()
 
-        if gen == Constants.GEN_CLASS:
-            child1Class = parent2.pj_clas
-            child2Class = parent1.pj_clas
-        elif gen == Constants.GEN_HEIGHT:
+        if gen == Constants.GEN_HEIGHT:
             child1Height = parent2.height
             child2Height = parent1.height
         else:
             child1Items[gen] = parent2.items[gen]
             child2Items[gen] = parent1.items[gen]
             
-        child1 = Character(child1Class, child1Height, child1Items, parent1.characterId + "-1")
-        child2 = Character(child2Class, child2Height, child2Items, parent2.characterId + "-2")
+        child1 = Character(parent1.pj_clas, child1Height, child1Items, parent1.characterId + "-1")
+        child2 = Character(parent1.pj_clas, child2Height, child2Items, parent2.characterId + "-2")
         return (child1, child2)
 
     @classmethod
@@ -50,22 +45,22 @@ class Crossing:
 
         
         child1Items = {
-            Constants.BOTA:    genes1List[2],
-            Constants.ARMA:    genes1List[3],
-            Constants.CASCO:   genes1List[4],
-            Constants.GUANTE:  genes1List[5],
-            Constants.PECHERA: genes1List[6]
+            Constants.BOTA:    genes1List[1],
+            Constants.ARMA:    genes1List[2],
+            Constants.CASCO:   genes1List[3],
+            Constants.GUANTE:  genes1List[4],
+            Constants.PECHERA: genes1List[5]
         }
-        child1 = Character(genes1List[0], genes1List[1], child1Items, parent1.characterId + "-1")
+        child1 = Character(parent1.pj_clas, genes1List[0], child1Items, parent1.characterId + "-1")
 
         child2Items = {
-            Constants.BOTA:    genes2List[2],
-            Constants.ARMA:    genes2List[3],
-            Constants.CASCO:   genes2List[4],
-            Constants.GUANTE:  genes2List[5],
-            Constants.PECHERA: genes2List[6]
+            Constants.BOTA:    genes2List[1],
+            Constants.ARMA:    genes2List[2],
+            Constants.CASCO:   genes2List[3],
+            Constants.GUANTE:  genes2List[4],
+            Constants.PECHERA: genes2List[5]
         }
-        child2 = Character(genes2List[0], genes2List[1], child2Items, parent2.characterId + "-2")
+        child2 = Character(parent1.pj_clas, genes2List[0], child2Items, parent2.characterId + "-2")
 
         return (child1, child2)
 
@@ -85,22 +80,22 @@ class Crossing:
             l -= 1
 
         child1Items = {
-            Constants.BOTA:    genes1List[2],
-            Constants.ARMA:    genes1List[3],
-            Constants.CASCO:   genes1List[4],
-            Constants.GUANTE:  genes1List[5],
-            Constants.PECHERA: genes1List[6]
+            Constants.BOTA:    genes1List[1],
+            Constants.ARMA:    genes1List[2],
+            Constants.CASCO:   genes1List[3],
+            Constants.GUANTE:  genes1List[4],
+            Constants.PECHERA: genes1List[5]
         }
-        child1 = Character(genes1List[0], genes1List[1], child1Items, parent1.characterId + "-1")
+        child1 = Character(parent1.pj_clas, genes1List[0], child1Items, parent1.characterId + "-1")
 
         child2Items = {
-            Constants.BOTA:    genes2List[2],
-            Constants.ARMA:    genes2List[3],
-            Constants.CASCO:   genes2List[4],
-            Constants.GUANTE:  genes2List[5],
-            Constants.PECHERA: genes2List[6]
+            Constants.BOTA:    genes2List[1],
+            Constants.ARMA:    genes2List[2],
+            Constants.CASCO:   genes2List[3],
+            Constants.GUANTE:  genes2List[4],
+            Constants.PECHERA: genes2List[5]
         }
-        child2 = Character(genes2List[0], genes2List[1], child2Items, parent2.characterId + "-2")
+        child2 = Character(parent1.pj_clas, genes2List[0], child2Items, parent2.characterId + "-2")
 
         return (child1, child2)
 
@@ -119,21 +114,21 @@ class Crossing:
                 genes2List[i] = tmp
 
         child1Items = {
-            Constants.BOTA:    genes1List[2],
-            Constants.ARMA:    genes1List[3],
-            Constants.CASCO:   genes1List[4],
-            Constants.GUANTE:  genes1List[5],
-            Constants.PECHERA: genes1List[6]
+            Constants.BOTA:    genes1List[1],
+            Constants.ARMA:    genes1List[2],
+            Constants.CASCO:   genes1List[3],
+            Constants.GUANTE:  genes1List[4],
+            Constants.PECHERA: genes1List[5]
         }
-        child1 = Character(genes1List[0], genes1List[1], child1Items, parent1.characterId + "-1")
+        child1 = Character(parent1.pj_clas, genes1List[1], child1Items, parent1.characterId + "-1")
 
         child2Items = {
-            Constants.BOTA:    genes2List[2],
-            Constants.ARMA:    genes2List[3],
-            Constants.CASCO:   genes2List[4],
-            Constants.GUANTE:  genes2List[5],
-            Constants.PECHERA: genes2List[6]
+            Constants.BOTA:    genes2List[1],
+            Constants.ARMA:    genes2List[2],
+            Constants.CASCO:   genes2List[3],
+            Constants.GUANTE:  genes2List[4],
+            Constants.PECHERA: genes2List[5]
         }
-        child2 = Character(genes2List[0], genes2List[1], child2Items, parent2.characterId + "-2")
+        child2 = Character(parent1.pj_clas, genes2List[0], child2Items, parent2.characterId + "-2")
 
         return (child1, child2)

@@ -80,16 +80,16 @@ class Character:
             return self.fitness
 
     def get_genes(self):
-        return [self.pj_clas, self.height, self.items[Constants.BOTA], self.items[Constants.ARMA], self.items[Constants.CASCO], self.items[Constants.GUANTE], self.items[Constants.PECHERA]]
+        return [self.height, self.items[Constants.BOTA], self.items[Constants.ARMA], self.items[Constants.CASCO], self.items[Constants.GUANTE], self.items[Constants.PECHERA]]
 
     def set_new_genes(self, newGenes):
-        self.pj_clas = newGenes[0]
-        self.height  = newGenes[1] 
-        self.items[Constants.BOTA]  = newGenes[2] 
-        self.items[Constants.ARMA]  = newGenes[3] 
-        self.items[Constants.CASCO]  = newGenes[4] 
-        self.items[Constants.GUANTE]  = newGenes[5] 
-        self.items[Constants.PECHERA]  = newGenes[6] 
+        self.height  = newGenes[0] 
+        self.items[Constants.BOTA]  = newGenes[1] 
+        self.items[Constants.ARMA]  = newGenes[2] 
+        self.items[Constants.CASCO]  = newGenes[3] 
+        self.items[Constants.GUANTE]  = newGenes[4] 
+        self.items[Constants.PECHERA]  = newGenes[5]
+        self.calculate_stats()
 
 
     def __lt__(self, other):

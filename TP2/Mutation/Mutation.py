@@ -54,9 +54,6 @@ class Mutation:
     def mutateGene(cls, name, items_info, character):
         if name == Constants.GEN_HEIGHT:
             return 1.3 + random.random()* 0.7 # h entre [1.3; 2]
-        elif name == Constants.GEN_CLASS:
-            #TODO: see how we mutate this if we need to
-            return character.pj_clas
         else:
             geneIdx = random.randrange(Constants.ITEMS_SIZE) #el nuevo idx es el de la posicion itemsInformation[name][geneIdx]
             return items_info[name][geneIdx]

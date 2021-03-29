@@ -54,9 +54,10 @@ elif selector == "ROULETTE":
 elif selector == "UNIVERSAL":
     selectionMethod = Universal.select
 
-pop = Population(300, 
+pop = Population(character,
+                300, 
                 items_information, 
-                Crossing.onePointCrossing, 
+                Crossing.twoPointCrossing, 
                 Mutation.uniformMultigene,
                 0.5,
                 selectionMethod, 

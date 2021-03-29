@@ -11,7 +11,8 @@ class Population:
     itemsInformation = {}
     extraSelectionArgument = None
     iteration = 0
-    def __init__(self, populationSize, itemsInformation, crossing, mutation, mutationProb, selection, extraArgument=None):
+    def __init__(self, populationClass, populationSize, itemsInformation, crossing, mutation, mutationProb, selection, extraArgument=None):
+        self.populationClass = populationClass
         self.populationSize = populationSize
         self.itemsInformation = itemsInformation
         self.crossing = crossing
@@ -22,9 +23,8 @@ class Population:
 
     
     def generateRandomPopulation(self):
+        print(self.populationClass)
         for i in range(0, self.populationSize):
-            #Calculate random pj class
-            pjClass =  Constants.PJ_CLASSES[randrange(4)]
             #Calculate random height
             height = uniform(Constants.MIN_HEIGHT, Constants.MAX_HEIGHT)
             #Calculate 5 random items
@@ -35,7 +35,7 @@ class Population:
                 newItem = self.itemsInformation[currentItem][randomItemNumber]
                 items[currentItem] = newItem
 
-            self.characters.append(Character(pjClass, height, items, str(i)))
+            self.characters.append(Character(self.populationClass, height, items, str(i)))
 
     
     def performSelection(self):
