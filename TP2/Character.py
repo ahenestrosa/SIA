@@ -34,19 +34,19 @@ class Character:
                             Constants.VIDA:  self.items_stats[Constants.VIDA] + f_item[Constants.VIDA]}
 
     def _calculate_force(self):
-        self.force += 100 * math.tanh(0.01 * self.items_stats[Constants.FUERZA])
+        self.force = 100 * math.tanh(0.01 * self.items_stats[Constants.FUERZA])
 
     def _calculate_agility(self):
-        self.agility += math.tanh(0.01 * self.items_stats[Constants.AGILIDAD])
+        self.agility = math.tanh(0.01 * self.items_stats[Constants.AGILIDAD])
 
     def _calculate_expertise(self):
-        self.expertise += 0.6 * math.tanh(0.01 * self.items_stats[Constants.PERICIA])
+        self.expertise = 0.6 * math.tanh(0.01 * self.items_stats[Constants.PERICIA])
 
     def _calculate_resistance(self):
-        self.resistance += math.tanh(0.01 * self.items_stats[Constants.RESISTENCIA])
+        self.resistance = math.tanh(0.01 * self.items_stats[Constants.RESISTENCIA])
 
     def _calculate_health(self):
-        self.health += 100 * math.tanh(0.01 * self.items_stats[Constants.VIDA])
+        self.health = 100 * math.tanh(0.01 * self.items_stats[Constants.VIDA])
 
     def _calculate_at_def(self):
         ATM =  0.7 - math.pow(3*self.height - 5, 4) + math.pow(3 * self.height - 5, 2) + self.height/4
@@ -56,6 +56,7 @@ class Character:
 
 
     def calculate_stats(self):
+        self.items_stats = {Constants.FUERZA: 0, Constants.VIDA: 0, Constants.RESISTENCIA: 0, Constants.PERICIA: 0, Constants.AGILIDAD: 0}
         self._calculate_item_stats()
         self._calculate_force()
         self._calculate_health()
