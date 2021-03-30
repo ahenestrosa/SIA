@@ -120,7 +120,7 @@ class Crossing:
             Constants.GUANTE:  genes1List[4],
             Constants.PECHERA: genes1List[5]
         }
-        child1 = Character(parent1.pj_clas, genes1List[1], child1Items, parent1.characterId + "-1")
+        child1 = Character(parent1.pj_clas, genes1List[0], child1Items, parent1.characterId + "-1")
 
         child2Items = {
             Constants.BOTA:    genes2List[1],
