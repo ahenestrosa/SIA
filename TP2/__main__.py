@@ -17,6 +17,7 @@ import json
 with open('config.json') as config:
     data = json.load(config)
 
+populationSize = data['populationSize']
 crossing = data['crossing']
 mutation = data['mutation']
 selector = data['selector']
@@ -24,6 +25,8 @@ implementation = data["implementation"]
 endingCondition = data["endingCondition"]
 character = data["character"]
 pm = data["pm"]
+selectionChilds = data["selectionChilds"]
+fillMethod = data["fillMethod"]
 
 
 items_information = {
@@ -70,14 +73,14 @@ else:
 
 
 pop = Population(character,
-                300, 
+                populationSize, 
                 items_information, 
                 Crossing.twoPointCrossing, 
                 Mutation.uniformMultigene,
-                0.5,
+                pm,
                 selectionMethod,
-                200,
-                "FILL_PARENT",
+                selectionChilds,
+                fillMethod,
                 extraSelectionArgument)
                 
 pop.generateRandomPopulation()

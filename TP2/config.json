@@ -1,4 +1,5 @@
 {
+    "populationSize": 400,
     "crossing": "ONE-POINT",
     "mutation": "UNIFORM",
     "selector": "TOURNAMENT_P",
@@ -6,6 +7,8 @@
     "endingCondition": "ACC_SOL",
     "character": "GUERRERO",
     "pm": 0.5,
+    "selectionChilds": 200,
+    "fillMethod": "FILL_PARENT",
 
     "endingFitnessLimit": 150,
     "endingDeltaFitness": 3,
