@@ -2,10 +2,12 @@ from random import randrange, uniform
 from Utilities import Constants
 from Character import Character
 from EndingConditions.EndingConditions import EndingConditions
-
+import matplotlib.pyplot as plt
 import math
 from functools import partial
 import time
+import numpy as np
+
 
 class Population:
     populationSize = 0
@@ -46,12 +48,21 @@ class Population:
         ended = False
         self.iterationTime = time.time()
 
+        #Plot
+        plt.xlabel("Generation")
+        plt.ylabel("Fitness")
         while not ended:
             (avgF, minF) = self.getFitnessOfPopulation()
-            print(str(self.iteration) +  " - Avg: " + str(avgF) + " Min: " + str(minF)) 
+            print(str(self.iteration) +  " - Avg: " + str(avgF) + " Min: " + str(minF))
+            plt.scatter(self.iteration,avgF, c='red')
+            plt.scatter(self.iteration,minF, c='green')
+            plt.pause(0.05)
             self.performSelection()
             self.iteration +=1
             ended = self.getEndingCondition(endingCondition, endingParameters)
+
+        plt.show()
+    
 
     def getEndingCondition(self, endingCondition, params):
         if endingCondition == "ACC_SOL":
