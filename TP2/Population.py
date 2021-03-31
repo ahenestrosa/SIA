@@ -54,13 +54,13 @@ class Population:
         while not ended:
             (avgF, minF) = self.getFitnessOfPopulation()
             print(str(self.iteration) +  " - Avg: " + str(avgF) + " Min: " + str(minF))
-            plt.scatter(self.iteration,avgF, c='red')
-            plt.scatter(self.iteration,minF, c='green')
+            plt.scatter(self.iteration,avgF, c='red', label='Avg')
+            plt.scatter(self.iteration,minF, c='green', label='Min Fitness')
             plt.pause(0.05)
             self.performSelection()
             self.iteration +=1
             ended = self.getEndingCondition(endingCondition, endingParameters)
-
+            
         plt.show()
     
 

@@ -37,6 +37,32 @@ items_information = {
     Constants.PECHERA: Utilities.itemParse(Constants.PECHERAS_PATH)
 }
 
+crossingMethod = None
+if crossing == "ONE-POINT":
+    crossingMethod = Crossing.onePointCrossing
+elif crossing == "TWO-POINT":
+    crossingMethod = Crossing.twoPointCrossing
+elif crossing == "ANULAR":
+    crossingMethod = Crossing.anularCrossing
+elif crossing == "UNIFORM":
+    crossingMethod = Crossing.unifromCrossing
+else:
+    print("Invalid Crossing Method.")
+    exit(1)
+
+mutationMethod = None
+if mutation == "GENE":
+    mutationMethod = Mutation.geneMutation
+elif mutation == "LIMITED-MULTIGENE":
+    mutationMethod = Mutation.limitedMultigene
+elif mutation == "UNIFORM":
+    mutationMethod = Mutation.uniformMultigene
+elif mutation == "GENE-COMPLETE":
+    mutationMethod = Mutation.geneComplete
+else:
+    print("Invalid Mutation Method.")
+    exit(1)
+
 selectionMethod = None
 extraSelectionArgument = None
 if selector == "ELITE":
@@ -56,6 +82,9 @@ elif selector == "ROULETTE":
     selectionMethod = Roulette.select
 elif selector == "UNIVERSAL":
     selectionMethod = Universal.select
+else:
+    print("Invalid Selection Method.")
+    exit(1)
 
 endingParameters = None
 if endingCondition == "ACC_SOL":
@@ -69,14 +98,15 @@ elif endingCondition == "STRUCTURE":
 elif endingCondition == "TIME":
     endingParameters = (data["endingTimeLimit"],)
 else:
+    print("Invalid Ending Method.")
     exit(1)
 
 
 pop = Population(character,
                 populationSize, 
                 items_information, 
-                Crossing.twoPointCrossing, 
-                Mutation.uniformMultigene,
+                crossingMethod, 
+                mutationMethod,
                 pm,
                 selectionMethod,
                 selectionChilds,
