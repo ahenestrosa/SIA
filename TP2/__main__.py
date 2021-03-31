@@ -90,11 +90,11 @@ endingParameters = None
 if endingCondition == "ACC_SOL":
     endingParameters = (data["endingFitnessLimit"],)
 elif endingCondition == "CONTENT":
-    endingParameters = (data["endingDeltaFitness"],)
+    endingParameters = (data["endingGenerationsCompared"],data["endingDeltaFitness"],)
 elif endingCondition == "GEN_AMMOUNT":
     endingParameters = (data["endingGenerationsLimit"],)
 elif endingCondition == "STRUCTURE":
-    endingParameters = (data["endingStructureDh"], data["endingStructureDad"], data["endingStructureDf"], data["endingStructurePp"]) 
+    endingParameters = (data["endingGenerationsCompared"], data["endingStructureDh"], data["endingStructureDad"], data["endingStructureDf"], data["endingStructurePp"])
 elif endingCondition == "TIME":
     endingParameters = (data["endingTimeLimit"],)
 else:

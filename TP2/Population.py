@@ -68,19 +68,25 @@ class Population:
         if endingCondition == "ACC_SOL":
             return EndingConditions.accSolutionEnding(self.characters, params[0])
         elif endingCondition == "CONTENT":
-            self.charactersGeneration.append(self.characters)
+            self.pushToQueue(params[0], self.characters)
             if len(self.charactersGeneration) > 1:
-                return EndingConditions.contentEnding(self.charactersGeneration, self.iteration, params[0])
+                return EndingConditions.contentEnding(self.charactersGeneration, params[0], params[1])
             return False
         elif endingCondition == "GEN_AMMOUNT":
             return EndingConditions.generationsAmmountEnding(self.iteration, params[0])
         elif endingCondition == "STRUCTURE":
-            self.charactersGeneration.append(self.characters)
+            self.pushToQueue(params[0], self.characters)
             if len(self.charactersGeneration) > 1:
-                return EndingConditions.structureEnding(self.charactersGeneration, self.iteration, params[0], params[1], params[2], params[3])
+                return EndingConditions.structureEnding(self.charactersGeneration, self.iteration, params[0], params[1], params[2], params[3], params[4])
             return False
         elif endingCondition == "TIME":
             return EndingConditions.timeEnding(time.time() -self.iterationTime, params[0])
+
+    def pushToQueue(self, generations, characters):
+        if len(self.charactersGeneration) == generations:
+            del self.charactersGeneration[0]
+
+        self.charactersGeneration.append(characters)
 
 
     def performSelection(self):

@@ -10,6 +10,7 @@
     "selectionChilds": 200,
     "fillMethod": "FILL_PARENT",
 
+    "endingGenerationsCompared": 2,
     "endingFitnessLimit": 150,
     "endingDeltaFitness": 3,
     "endingGenerationsLimit": 50,
