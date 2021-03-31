@@ -9,9 +9,9 @@ class EndingConditions:
 
     @classmethod
     def contentEnding(cls, characters_gen, generations, delta):
-        gen = 0
         if len(characters_gen):
             return False
+        gen = len(characters_gen) - generations
 
         while gen < len(characters_gen) - 1:
             if gen == 0:
@@ -28,10 +28,10 @@ class EndingConditions:
 
     @classmethod
     def structureEnding(cls, characters_gen, generations, dh, dad, df, pp):
-        gen = 0
+
         if len(characters_gen) < generations:
             return False
-
+        gen = len(characters_gen) - generations;
         while gen < generations - 1:
             j = 0
             counter = 0
