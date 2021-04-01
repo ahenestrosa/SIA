@@ -17,17 +17,21 @@ class Population:
     iteration = 0
     iterationTime = 0
     charactersGeneration = []
-    def __init__(self, populationClass, populationSize, itemsInformation, crossing, mutation, mutationProb, selection, selectionChilds, fillMethod, extraArgument=None):
+    def __init__(self, populationClass, populationSize, itemsInformation, crossing, mutation, mutationProb, selectionMethod1, selectionMethod2, selectionMethod3, selectionMethod4, selectorA, selectorB,selectionChilds, fillMethod):
         self.populationClass = populationClass
         self.populationSize = populationSize
         self.itemsInformation = itemsInformation
         self.crossing = crossing
         self.mutation = mutation
         self.mutationProb = mutationProb
-        self.selection = selection
+        self.selectionMethod1= selectionMethod1
+        self.selectionMethod2= selectionMethod2
+        self.selectionMethod3= selectionMethod3
+        self.selectionMethod4= selectionMethod4
+        self.selectorA = selectorA
+        self.selectorB = selectorB
         self.selectionChilds = selectionChilds
         self.fillMethod = fillMethod
-        self.extraSelectionArgument = extraArgument
 
     
     def generateRandomPopulation(self):
@@ -82,18 +86,10 @@ class Population:
         elif endingCondition == "TIME":
             return EndingConditions.timeEnding(time.time() -self.iterationTime, params[0])
 
-    def pushToQueue(self, generations, characters):
-        if len(self.charactersGeneration) == generations:
-            del self.charactersGeneration[0]
-
-        self.charactersGeneration.append(characters)
-
-
     def performSelection(self):
         childCharacters = self.performCrossing()
 
         charactersToSelect = []
-        selectedCharacters = None
         selectionSize = None
         newGenerationCharacters = []
 
@@ -110,24 +106,71 @@ class Population:
                 selectionSize = self.populationSize-len(childCharacters)
                 newGenerationCharacters.extend(childCharacters)
 
-        
-        if self.extraSelectionArgument == None:
-            selectedCharacters = self.selection(charactersToSelect, selectionSize)
-        elif self.extraSelectionArgument == "it":
-            selectedCharacters = self.selection(charactersToSelect, selectionSize, self.iteration)
-        else:
-            selectedCharacters = self.selection(charactersToSelect, selectionSize, self.extraSelectionArgument)
+        selectedCharacters3 = []
+        selectedCharacters4 = []
+        selectionSizeMethod3 = math.floor(selectionSize * self.selectorB)
+        selectionSizeMethod4 = math.ceil(selectionSize * (1 - self.selectorB))
 
-        newGenerationCharacters.extend(selectedCharacters)
+
+
+
+        if selectionSizeMethod3 > 0:
+            if self.selectionMethod3[1] == None:
+                selectedCharacters3 = self.selectionMethod3[0](charactersToSelect.copy(), selectionSizeMethod3)
+            elif self.selectionMethod3[1] == "it":
+                selectedCharacters3 = self.selectionMethod3[0](charactersToSelect.copy(), selectionSizeMethod3, self.iteration)
+            else:
+                selectedCharacters3 = self.selectionMethod3[0](charactersToSelect.copy(), selectionSizeMethod3, self.selectionMethod3[1])
+
+        if selectionSizeMethod4 > 0:
+            if self.selectionMethod4[1] == None:
+                selectedCharacters4 = self.selectionMethod4[0](charactersToSelect.copy(), selectionSizeMethod4)
+            elif self.selectionMethod4[1] == "it":
+                selectedCharacters4 = self.selectionMethod4[0](charactersToSelect.copy(), selectionSizeMethod4, self.iteration)
+            else:
+                selectedCharacters4 = self.selectionMethod4[0]=(charactersToSelect.copy(), selectionSizeMethod4, self.selectionMethod4[1])
+
+        
+        print('sizes:' + str(len(selectedCharacters3)) + '  ' + str(len(selectedCharacters4)))
+        
+        newGenerationCharacters.extend(selectedCharacters3)
+        newGenerationCharacters.extend(selectedCharacters4)
+        print('chars' + str(len(newGenerationCharacters)))
         self.characters = newGenerationCharacters
 
 
 
     def performCrossing(self):
         childCharacters = []
+
+        parentsToCross = []
+        selectedParents1 = []
+        selectedParents2 = []
+        selectionSizeMethod1 = math.floor(self.selectionChilds * self.selectorA)
+        selectionSizeMethod2 = math.ceil(self.selectionChilds * (1 - self.selectorA))
+
+        if selectionSizeMethod1 > 0:
+            if self.selectionMethod1[1] == None:
+                selectedParents1 = self.selectionMethod1[0](self.characters.copy(), selectionSizeMethod1)
+            elif self.selectionMethod1[1] == "it":
+                selectedParents1 = self.selectionMethod1[0](self.characters.copy(), selectionSizeMethod1, self.iteration)
+            else:
+                selectedParents1 = self.selectionMethod1[0](self.characters.copy(), selectionSizeMethod1, self.selectionMethod1[1])
+
+        if selectionSizeMethod2 > 0:
+            if self.selectionMethod2[1] == None:
+                selectedParents2 = self.selectionMethod2[0](self.characters.copy(), selectionSizeMethod2)
+            elif self.selectionMethod2[1] == "it":
+                selectedParents2 = self.selectionMethod2[0](self.characters.copy(), selectionSizeMethod2, self.iteration)
+            else:
+                selectedParents2 = self.selectionMethod2[0](self.characters.copy(), selectionSizeMethod2, self.selectionMethod2[1])
+
+        parentsToCross.extend(selectedParents1)
+        parentsToCross.extend(selectedParents2)
+
         for i in range(0, math.floor(self.selectionChilds/2)):
-            p1 = self.characters[randrange(self.populationSize)]
-            p2 = self.characters[randrange(self.populationSize)]
+            p1 = parentsToCross[i]
+            p2 = parentsToCross[i+1]
             (c1, c2) = self.crossing(p1, p2)
             c1 = self.mutation(self.mutationProb, c1, self.itemsInformation)
             c2 = self.mutation(self.mutationProb, c2, self.itemsInformation)
@@ -136,7 +179,9 @@ class Population:
         return childCharacters
 
 
+
     def getFitnessOfPopulation(self):
+        print(self.populationSize)
         averageFitness = 0
         minFitness = -1
         for i in range(0, self.populationSize):
@@ -147,5 +192,9 @@ class Population:
         averageFitness = averageFitness / self.populationSize
         return (averageFitness, minFitness)
 
+    def pushToQueue(self, generations, characters):
+        if len(self.charactersGeneration) == generations:
+            del self.charactersGeneration[0]
 
+        self.charactersGeneration.append(characters)
 

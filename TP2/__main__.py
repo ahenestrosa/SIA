@@ -14,13 +14,44 @@ from Mutation.Mutation import Mutation
 
 import json
 
+def getSelectionMethod(selector):
+    selectionMethod = None
+    extraSelectionArgument = None
+    if selector == "ELITE":
+        selectionMethod = Elite.select
+    elif selector == "RANKING":
+        selectionMethod = Ranking.select
+    elif selector == "BOLTZMANN":
+        selectionMethod = Boltzmann.select
+        extraSelectionArgument = "it"
+    elif selector == "TOURNAMENT_P":
+        selectionMethod = TournamentP.select
+        extraSelectionArgument = 0.7
+    elif selector == "TOURNAMENT_D":
+        selectionMethod = TournamentD.select
+        extraSelectionArgument = 5
+    elif selector == "ROULETTE":
+        selectionMethod = Roulette.select
+    elif selector == "UNIVERSAL":
+        selectionMethod = Universal.select
+    else:
+        print("Invalid Selection Method.")
+        exit(1)
+    
+    return (selectionMethod, extraSelectionArgument)
+
 with open('config.json') as config:
     data = json.load(config)
 
 populationSize = data['populationSize']
 crossing = data['crossing']
 mutation = data['mutation']
-selector = data['selector']
+selector1 = data['selector1']
+selector2 = data['selector2']
+selector3 = data['selector3']
+selector4 = data['selector4']
+selectorA = data['selectorA']
+selectorB = data['selectorB']
 implementation = data["implementation"]
 endingCondition = data["endingCondition"]
 character = data["character"]
@@ -63,28 +94,11 @@ else:
     print("Invalid Mutation Method.")
     exit(1)
 
-selectionMethod = None
-extraSelectionArgument = None
-if selector == "ELITE":
-    selectionMethod = Elite.select
-elif selector == "RANKING":
-    selectionMethod = Ranking.select
-elif selector == "BOLTZMANN":
-    selectionMethod = Boltzmann.select
-    extraSelectionArgument = "it"
-elif selector == "TOURNAMENT_P":
-    selectionMethod = TournamentP.select
-    extraSelectionArgument = 0.7
-elif selector == "TOURNAMENT_D":
-    selectionMethod = TournamentD.select
-    extraSelectionArgument = 5
-elif selector == "ROULETTE":
-    selectionMethod = Roulette.select
-elif selector == "UNIVERSAL":
-    selectionMethod = Universal.select
-else:
-    print("Invalid Selection Method.")
-    exit(1)
+
+selectionMethod1 = getSelectionMethod(selector1)
+selectionMethod2 = getSelectionMethod(selector2)
+selectionMethod3 = getSelectionMethod(selector3)
+selectionMethod4 = getSelectionMethod(selector4)
 
 endingParameters = None
 if endingCondition == "ACC_SOL":
@@ -108,13 +122,20 @@ pop = Population(character,
                 crossingMethod, 
                 mutationMethod,
                 pm,
-                selectionMethod,
+                selectionMethod1,
+                selectionMethod2,
+                selectionMethod3,
+                selectionMethod4,
+                selectorA,
+                selectorB,
                 selectionChilds,
-                fillMethod,
-                extraSelectionArgument)
+                fillMethod
+                )
                 
 pop.generateRandomPopulation()
 pop.performLifeCycle(endingCondition, endingParameters)
+exit(0)
+
 
 
 
