@@ -20,8 +20,10 @@ def itemParse(filePath):
                 newItem[Constants.VIDA] = float(split[5])
                 newItem[Constants.ID] = int(split[0])
                 items[int(split[0])] = newItem
-            else:
-                lineNum += 1
+            lineNum += 1
+
+            if lineNum > Constants.ITEMS_SIZE:
+                break
     return items
 
 @DeprecationWarning
