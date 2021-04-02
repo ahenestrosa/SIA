@@ -1,6 +1,6 @@
 {
     "populationSize": 400,
-    "crossing": "ONE-POINT",
+    "crossing": "UNIFORM",
     "mutation": "UNIFORM",
     "selector1": "TOURNAMENT_P",
     "selector2": "TOURNAMENT_P",
@@ -9,7 +9,7 @@
     "selectorA": 0.5,
     "selectorB": 0.5,
     "implementation": "FILL-ALL",
-    "endingCondition": "ACC_SOL",
+    "endingCondition": "TIME",
     "character": "GUERRERO",
     "pm": 0.5,
     "selectionChilds": 200,
@@ -23,6 +23,6 @@
     "endingStructureDad": 1,
     "endingStructureDf": 1,
     "endingStructurePp": 1,
-    "endingTimeLimit": 5.0
+    "endingTimeLimit": 10.0
 
 }

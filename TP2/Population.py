@@ -1,4 +1,4 @@
-from random import randrange, uniform
+from random import randrange, uniform, shuffle
 from Utilities import Constants
 from Character import Character
 from EndingConditions.EndingConditions import EndingConditions
@@ -111,9 +111,6 @@ class Population:
         selectionSizeMethod3 = math.floor(selectionSize * self.selectorB)
         selectionSizeMethod4 = math.ceil(selectionSize * (1 - self.selectorB))
 
-
-
-
         if selectionSizeMethod3 > 0:
             if self.selectionMethod3[1] == None:
                 selectedCharacters3 = self.selectionMethod3[0](charactersToSelect.copy(), selectionSizeMethod3)
@@ -130,12 +127,9 @@ class Population:
             else:
                 selectedCharacters4 = self.selectionMethod4[0]=(charactersToSelect.copy(), selectionSizeMethod4, self.selectionMethod4[1])
 
-        
-        print('sizes:' + str(len(selectedCharacters3)) + '  ' + str(len(selectedCharacters4)))
-        
+    
         newGenerationCharacters.extend(selectedCharacters3)
         newGenerationCharacters.extend(selectedCharacters4)
-        print('chars' + str(len(newGenerationCharacters)))
         self.characters = newGenerationCharacters
 
 
@@ -167,6 +161,7 @@ class Population:
 
         parentsToCross.extend(selectedParents1)
         parentsToCross.extend(selectedParents2)
+        shuffle(parentsToCross)
 
         for i in range(0, math.floor(self.selectionChilds/2)):
             p1 = parentsToCross[i]
@@ -181,7 +176,6 @@ class Population:
 
 
     def getFitnessOfPopulation(self):
-        print(self.populationSize)
         averageFitness = 0
         minFitness = -1
         for i in range(0, self.populationSize):

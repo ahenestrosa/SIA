@@ -26,7 +26,7 @@ CASCOS_PATH = "resources/allitems/cascos.tsv"
 GUANTES_PATH = "resources/allitems/guantes.tsv"
 PECHERAS_PATH = "resources/allitems/pecheras.tsv"
 ITEMS_LIST = [BOTA, ARMA, CASCO, GUANTE, PECHERA]
-ITEMS_SIZE = 1000000
+ITEMS_SIZE = 100000
 
 GEN_HEIGHT = "HEIGHT"
 GEN_BOTA = BOTA
