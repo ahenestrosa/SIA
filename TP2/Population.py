@@ -56,10 +56,11 @@ class Population:
         plt.xlabel("Generation")
         plt.ylabel("Fitness")
         while not ended:
-            (avgF, minF) = self.getFitnessOfPopulation()
-            print(str(self.iteration) +  " - Avg: " + str(avgF) + " Min: " + str(minF))
+            (avgF, minF, maxF) = self.getFitnessOfPopulation()
+            print(str(self.iteration) +  " - Avg: " + str(avgF) + " Min: " + str(minF) + " Max: " + str(maxF))
             plt.scatter(self.iteration,avgF, c='red', label='Avg')
             plt.scatter(self.iteration,minF, c='green', label='Min Fitness')
+            plt.scatter(self.iteration,maxF, c='blue', label='Max Fitness')
             plt.pause(0.05)
             self.performSelection()
             self.iteration +=1
@@ -81,7 +82,7 @@ class Population:
         elif endingCondition == "STRUCTURE":
             self.pushToQueue(params[0], self.characters)
             if len(self.charactersGeneration) > 1:
-                return EndingConditions.structureEnding(self.charactersGeneration, self.iteration, params[0], params[1], params[2], params[3], params[4])
+                return EndingConditions.structureEnding(self.charactersGeneration, params[0], params[1], params[2], params[3], params[4])
             return False
         elif endingCondition == "TIME":
             return EndingConditions.timeEnding(time.time() -self.iterationTime, params[0])
@@ -178,16 +179,19 @@ class Population:
     def getFitnessOfPopulation(self):
         averageFitness = 0
         minFitness = -1
+        maxFitnesss = -1
         for i in range(0, self.populationSize):
             f = self.characters[i].fitness
             averageFitness += f
             if minFitness == -1 or minFitness > f:
                 minFitness = f
+            if maxFitnesss == -1 or maxFitnesss < f:
+                maxFitnesss = f
         averageFitness = averageFitness / self.populationSize
-        return (averageFitness, minFitness)
+        return (averageFitness, minFitness, maxFitnesss)
 
     def pushToQueue(self, generations, characters):
-        if len(self.charactersGeneration) == generations:
+        if len(self.charactersGeneration) == generations+1:
             del self.charactersGeneration[0]
 
         self.charactersGeneration.append(characters)

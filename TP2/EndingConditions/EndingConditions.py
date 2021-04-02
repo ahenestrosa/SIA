@@ -9,18 +9,17 @@ class EndingConditions:
 
     @classmethod
     def contentEnding(cls, characters_gen, generations, delta):
-        if len(characters_gen):
+        if len(characters_gen)-generations-1 < 0:
             return False
-        gen = len(characters_gen) - generations
+        startGen = len(characters_gen) - generations - 1
+        endGen = len(characters_gen) - 1
+        characters_gen[startGen].sort(reverse=True)
+        characters_gen[endGen].sort(reverse=True)
 
-        while gen < len(characters_gen) - 1:
-            if gen == 0:
-                characters_gen[gen].sort(reverse=True)
-            characters_gen[gen+1].sort(reverse=True)
-
-            if abs(characters_gen[gen][0].fitness - characters_gen[gen + 1][0].fitness) > delta:
-                return False
+        if abs(characters_gen[startGen][0].fitness - characters_gen[endGen][0].fitness) > delta:
+            return False
         return True
+
 
     @classmethod
     def generationsAmmountEnding(cls, iteration, limit):
