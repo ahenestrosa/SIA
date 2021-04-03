@@ -11,7 +11,7 @@ from Selection import TournamentD
 from Selection import TournamentP
 from crossing.Crossing import Crossing
 from Mutation.Mutation import Mutation
-
+import time
 import json
 
 def getSelectionMethod(selector):
@@ -52,7 +52,6 @@ selector3 = data['selector3']
 selector4 = data['selector4']
 selectorA = data['selectorA']
 selectorB = data['selectorB']
-implementation = data["implementation"]
 endingCondition = data["endingCondition"]
 character = data["character"]
 pm = data["pm"]
@@ -116,6 +115,8 @@ else:
     exit(1)
 
 
+start_time = time.time()
+
 pop = Population(character,
                 populationSize, 
                 items_information, 
@@ -134,6 +135,12 @@ pop = Population(character,
                 
 pop.generateRandomPopulation()
 pop.performLifeCycle(endingCondition, endingParameters)
+
+end_time = time.time()
+
+print("Time: " + str(round(end_time - start_time), 4))
+
+
 exit(0)
 
 

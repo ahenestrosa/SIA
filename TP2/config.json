@@ -8,12 +8,11 @@
     "selector4": "ROULETTE",
     "selectorA": 0.5,
     "selectorB": 0.5,
-    "implementation": "FILL-ALL",
     "endingCondition": "CONTENT",
     "character": "ARQUERO",
     "pm": 0.5,
     "selectionChilds": 200,
-    "fillMethod": "FILL_PARENT",
+    "fillMethod": "FILL_ALL",
 
     "endingGenerationsCompared": 5,  
     "endingFitnessLimit": 20    ,
