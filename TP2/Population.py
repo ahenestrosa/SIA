@@ -65,8 +65,9 @@ class Population:
             self.performSelection()
             self.iteration +=1
             ended = self.getEndingCondition(endingCondition, endingParameters)
+
+        # plt.savefig("fig6.png")
             
-        plt.show()
     
 
     def getEndingCondition(self, endingCondition, params):

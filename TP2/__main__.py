@@ -137,8 +137,8 @@ pop.generateRandomPopulation()
 pop.performLifeCycle(endingCondition, endingParameters)
 
 end_time = time.time()
-
-print("Time: " + str(round(end_time - start_time), 4))
+time = round(end_time-start_time, 4)
+print("Time: " + str(time))
 
 
 exit(0)
