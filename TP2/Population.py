@@ -169,7 +169,7 @@ class Population:
             elif len(self.selectionMethod1[1]) == 3:
                 selectedParents1 = self.selectionMethod1[0](self.characters.copy(), selectionSizeMethod1, self.iteration, self.selectionMethod1[1][0], self.selectionMethod1[1][1], self.selectionMethod1[1][2])
             else:
-                selectedParents1 = self.selectionMethod1[0](self.characters.copy(), selectionSizeMethod1, self.selectionMethod1[1], self.selectionMethod1[1][0])
+                selectedParents1 = self.selectionMethod1[0](self.characters.copy(), selectionSizeMethod1, self.selectionMethod1[1][0])
 
         if selectionSizeMethod2 > 0:
             if self.selectionMethod2[1] == None:
