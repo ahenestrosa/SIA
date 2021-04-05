@@ -1,4 +1,4 @@
-from random import randrange, uniform
+from random import randrange, uniform, shuffle
 from Utilities import Constants
 from Character import Character
 from EndingConditions.EndingConditions import EndingConditions
@@ -56,16 +56,18 @@ class Population:
         plt.xlabel("Generation")
         plt.ylabel("Fitness")
         while not ended:
-            (avgF, minF) = self.getFitnessOfPopulation()
-            print(str(self.iteration) +  " - Avg: " + str(avgF) + " Min: " + str(minF))
+            (avgF, minF, maxF) = self.getFitnessOfPopulation()
+            print(str(self.iteration) +  " - Avg: " + str(avgF) + " Min: " + str(minF) + " Max: " + str(maxF))
             plt.scatter(self.iteration,avgF, c='red', label='Avg')
             plt.scatter(self.iteration,minF, c='green', label='Min Fitness')
+            plt.scatter(self.iteration,maxF, c='blue', label='Max Fitness')
             plt.pause(0.05)
             self.performSelection()
             self.iteration +=1
             ended = self.getEndingCondition(endingCondition, endingParameters)
+
+        # plt.savefig("fig6.png")
             
-        plt.show()
     
 
     def getEndingCondition(self, endingCondition, params):
@@ -81,7 +83,7 @@ class Population:
         elif endingCondition == "STRUCTURE":
             self.pushToQueue(params[0], self.characters)
             if len(self.charactersGeneration) > 1:
-                return EndingConditions.structureEnding(self.charactersGeneration, self.iteration, params[0], params[1], params[2], params[3], params[4])
+                return EndingConditions.structureEnding(self.charactersGeneration, params[0], params[1], params[2], params[3], params[4])
             return False
         elif endingCondition == "TIME":
             return EndingConditions.timeEnding(time.time() -self.iterationTime, params[0])
@@ -111,9 +113,6 @@ class Population:
         selectionSizeMethod3 = math.floor(selectionSize * self.selectorB)
         selectionSizeMethod4 = math.ceil(selectionSize * (1 - self.selectorB))
 
-
-
-
         if selectionSizeMethod3 > 0:
             if self.selectionMethod3[1] == None:
                 selectedCharacters3 = self.selectionMethod3[0](charactersToSelect.copy(), selectionSizeMethod3)
@@ -130,12 +129,9 @@ class Population:
             else:
                 selectedCharacters4 = self.selectionMethod4[0]=(charactersToSelect.copy(), selectionSizeMethod4, self.selectionMethod4[1])
 
-        
-        print('sizes:' + str(len(selectedCharacters3)) + '  ' + str(len(selectedCharacters4)))
-        
+    
         newGenerationCharacters.extend(selectedCharacters3)
         newGenerationCharacters.extend(selectedCharacters4)
-        print('chars' + str(len(newGenerationCharacters)))
         self.characters = newGenerationCharacters
 
 
@@ -167,6 +163,7 @@ class Population:
 
         parentsToCross.extend(selectedParents1)
         parentsToCross.extend(selectedParents2)
+        shuffle(parentsToCross)
 
         for i in range(0, math.floor(self.selectionChilds/2)):
             p1 = parentsToCross[i]
@@ -181,19 +178,21 @@ class Population:
 
 
     def getFitnessOfPopulation(self):
-        print(self.populationSize)
         averageFitness = 0
         minFitness = -1
+        maxFitnesss = -1
         for i in range(0, self.populationSize):
             f = self.characters[i].fitness
             averageFitness += f
             if minFitness == -1 or minFitness > f:
                 minFitness = f
+            if maxFitnesss == -1 or maxFitnesss < f:
+                maxFitnesss = f
         averageFitness = averageFitness / self.populationSize
-        return (averageFitness, minFitness)
+        return (averageFitness, minFitness, maxFitnesss)
 
     def pushToQueue(self, generations, characters):
-        if len(self.charactersGeneration) == generations:
+        if len(self.charactersGeneration) == generations+1:
             del self.charactersGeneration[0]
 
         self.charactersGeneration.append(characters)
