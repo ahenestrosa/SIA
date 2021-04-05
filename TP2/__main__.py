@@ -57,6 +57,10 @@ character = data["character"]
 pm = data["pm"]
 selectionChilds = data["selectionChilds"]
 fillMethod = data["fillMethod"]
+t0_temp = data["t0_temp"]
+tc_temp = data["tc_temp"]
+k_temp = data["k_temp"]
+
 
 
 items_information = {
@@ -130,7 +134,7 @@ pop = Population(character,
                 selectorA,
                 selectorB,
                 selectionChilds,
-                fillMethod
+                fillMethod,
                 )
                 
 pop.generateRandomPopulation()

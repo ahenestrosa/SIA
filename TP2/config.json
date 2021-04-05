@@ -13,6 +13,9 @@
     "pm": 0.5,
     "selectionChilds": 200,
     "fillMethod": "FILL_ALL",
+    "t0_temp" : 3,
+    "tc_temp" : 1.0,
+    "k_temp" : 0.1,
 
     "endingGenerationsCompared": 5,  
     "endingFitnessLimit": 20    ,
