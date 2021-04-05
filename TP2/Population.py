@@ -13,10 +13,11 @@ class Population:
     populationSize = 0
     characters = []
     itemsInformation = {}
-    extraSelectionArgument = None
     iteration = 0
     iterationTime = 0
     charactersGeneration = []
+    initialCharacters = []
+
     def __init__(self, populationClass, populationSize, itemsInformation, crossing, mutation, mutationProb, selectionMethod1, selectionMethod2, selectionMethod3, selectionMethod4, selectorA, selectorB,selectionChilds, fillMethod):
         self.populationClass = populationClass
         self.populationSize = populationSize
@@ -47,10 +48,13 @@ class Population:
                 items[currentItem] = newItem
 
             self.characters.append(Character(self.populationClass, height, items, str(i)))
+        self.initialCharacters = self.characters.copy()
 
     def performLifeCycle(self, endingCondition, endingParameters):
         ended = False
         self.iterationTime = time.time()
+        self.characters = self.initialCharacters.copy()
+        self.iteration = 0
 
         #Plot
         plt.xlabel("Generation")
@@ -67,6 +71,20 @@ class Population:
             ended = self.getEndingCondition(endingCondition, endingParameters)
 
         # plt.savefig("fig6.png")
+
+    def performLifeCycleSummarized(self, endingCondition, endingParameters):
+        ended = False
+        self.iterationTime = time.time()
+        self.characters = self.initialCharacters.copy()
+        self.iteration = 0
+
+        while not ended:
+            (avgF, minF, maxF) = self.getFitnessOfPopulation()
+            self.performSelection()
+            self.iteration +=1
+            ended = self.getEndingCondition(endingCondition, endingParameters)
+        return self.getFitnessOfPopulation()
+
             
     
 
