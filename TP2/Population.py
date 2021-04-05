@@ -116,18 +116,18 @@ class Population:
         if selectionSizeMethod3 > 0:
             if self.selectionMethod3[1] == None:
                 selectedCharacters3 = self.selectionMethod3[0](charactersToSelect.copy(), selectionSizeMethod3)
-            elif self.selectionMethod3[1] == "it":
-                selectedCharacters3 = self.selectionMethod3[0](charactersToSelect.copy(), selectionSizeMethod3, self.iteration)
+            elif len(self.selectionMethod3[1]) == 3:
+                selectedCharacters3 = self.selectionMethod3[0](charactersToSelect.copy(), selectionSizeMethod3, self.iteration, self.selectionMethod3[1][0], self.selectionMethod3[1][1], self.selectionMethod3[1][2])
             else:
-                selectedCharacters3 = self.selectionMethod3[0](charactersToSelect.copy(), selectionSizeMethod3, self.selectionMethod3[1])
+                selectedCharacters3 = self.selectionMethod3[0](charactersToSelect.copy(), selectionSizeMethod3, self.selectionMethod3[1][0])
 
         if selectionSizeMethod4 > 0:
             if self.selectionMethod4[1] == None:
                 selectedCharacters4 = self.selectionMethod4[0](charactersToSelect.copy(), selectionSizeMethod4)
-            elif self.selectionMethod4[1] == "it":
-                selectedCharacters4 = self.selectionMethod4[0](charactersToSelect.copy(), selectionSizeMethod4, self.iteration)
+            elif len(self.selectionMethod4[1]) == 3:
+                selectedCharacters4 = self.selectionMethod4[0](charactersToSelect.copy(), selectionSizeMethod4, self.iteration, self.selectionMethod4[1][0], self.selectionMethod4[1][1], self.selectionMethod4[1][2])
             else:
-                selectedCharacters4 = self.selectionMethod4[0]=(charactersToSelect.copy(), selectionSizeMethod4, self.selectionMethod4[1])
+                selectedCharacters4 = self.selectionMethod4[0]=(charactersToSelect.copy(), selectionSizeMethod4, self.selectionMethod4[1][0])
 
     
         newGenerationCharacters.extend(selectedCharacters3)
@@ -148,18 +148,18 @@ class Population:
         if selectionSizeMethod1 > 0:
             if self.selectionMethod1[1] == None:
                 selectedParents1 = self.selectionMethod1[0](self.characters.copy(), selectionSizeMethod1)
-            elif self.selectionMethod1[1] == "it":
-                selectedParents1 = self.selectionMethod1[0](self.characters.copy(), selectionSizeMethod1, self.iteration)
+            elif len(self.selectionMethod1[1]) == 3:
+                selectedParents1 = self.selectionMethod1[0](self.characters.copy(), selectionSizeMethod1, self.iteration, self.selectionMethod1[1][0], self.selectionMethod1[1][1], self.selectionMethod1[1][2])
             else:
-                selectedParents1 = self.selectionMethod1[0](self.characters.copy(), selectionSizeMethod1, self.selectionMethod1[1])
+                selectedParents1 = self.selectionMethod1[0](self.characters.copy(), selectionSizeMethod1, self.selectionMethod1[1], self.selectionMethod1[1][0])
 
         if selectionSizeMethod2 > 0:
             if self.selectionMethod2[1] == None:
                 selectedParents2 = self.selectionMethod2[0](self.characters.copy(), selectionSizeMethod2)
-            elif self.selectionMethod2[1] == "it":
-                selectedParents2 = self.selectionMethod2[0](self.characters.copy(), selectionSizeMethod2, self.iteration)
+            elif len(self.selectionMethod2[1]) == 3:
+                selectedParents2 = self.selectionMethod2[0](self.characters.copy(), selectionSizeMethod2, self.iteration, self.selectionMethod2[1][0], self.selectionMethod2[1][1], self.selectionMethod2[1][2])
             else:
-                selectedParents2 = self.selectionMethod2[0](self.characters.copy(), selectionSizeMethod2, self.selectionMethod2[1])
+                selectedParents2 = self.selectionMethod2[0](self.characters.copy(), selectionSizeMethod2, self.selectionMethod2[1][0])
 
         parentsToCross.extend(selectedParents1)
         parentsToCross.extend(selectedParents2)
