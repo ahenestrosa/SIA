@@ -127,7 +127,7 @@ class Population:
             elif len(self.selectionMethod4[1]) == 3:
                 selectedCharacters4 = self.selectionMethod4[0](charactersToSelect.copy(), selectionSizeMethod4, self.iteration, self.selectionMethod4[1][0], self.selectionMethod4[1][1], self.selectionMethod4[1][2])
             else:
-                selectedCharacters4 = self.selectionMethod4[0]=(charactersToSelect.copy(), selectionSizeMethod4, self.selectionMethod4[1][0])
+                selectedCharacters4 = self.selectionMethod4[0](charactersToSelect.copy(), selectionSizeMethod4, self.selectionMethod4[1][0])
 
     
         newGenerationCharacters.extend(selectedCharacters3)
