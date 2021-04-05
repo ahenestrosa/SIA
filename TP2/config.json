@@ -2,10 +2,10 @@
     "populationSize": 400,
     "crossing": "UNIFORM",
     "mutation": "UNIFORM",
-    "selector1": "TOURNAMENT_P",
-    "selector2": "TOURNAMENT_P",
-    "selector3": "BOLTZMANN",
-    "selector4": "ROULETTE",
+    "selector1": "BOLTZMANN",
+    "selector2": "TOURNAMENT_D",
+    "selector3": "TOURNAMENT_P",
+    "selector4": "BOLTZMANN",
     "selectorA": 0.5,
     "selectorB": 0.5,
     "endingCondition": "CONTENT",
@@ -13,9 +13,13 @@
     "pm": 0.5,
     "selectionChilds": 200,
     "fillMethod": "FILL_ALL",
+
+
     "t0_temp" : 3,
     "tc_temp" : 1.0,
     "k_temp" : 0.1,
+    "tp_threshold": 0.5,
+    "td_m": 5,
 
     "endingGenerationsCompared": 5,  
     "endingFitnessLimit": 20    ,

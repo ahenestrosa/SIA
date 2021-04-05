@@ -14,7 +14,7 @@ from Mutation.Mutation import Mutation
 import time
 import json
 
-def getSelectionMethod(selector):
+def getSelectionMethod(selector, t0_temp, tc_temp, k_temp, td_m, tp_treshold):
     selectionMethod = None
     extraSelectionArgument = None
     if selector == "ELITE":
@@ -23,13 +23,13 @@ def getSelectionMethod(selector):
         selectionMethod = Ranking.select
     elif selector == "BOLTZMANN":
         selectionMethod = Boltzmann.select
-        extraSelectionArgument = "it"
+        extraSelectionArgument = (t0_temp, tc_temp, k_temp)
     elif selector == "TOURNAMENT_P":
         selectionMethod = TournamentP.select
-        extraSelectionArgument = 0.7
+        extraSelectionArgument = (tp_treshold,)
     elif selector == "TOURNAMENT_D":
         selectionMethod = TournamentD.select
-        extraSelectionArgument = 5
+        extraSelectionArgument = (td_m,)
     elif selector == "ROULETTE":
         selectionMethod = Roulette.select
     elif selector == "UNIVERSAL":
@@ -57,9 +57,12 @@ character = data["character"]
 pm = data["pm"]
 selectionChilds = data["selectionChilds"]
 fillMethod = data["fillMethod"]
+
 t0_temp = data["t0_temp"]
 tc_temp = data["tc_temp"]
 k_temp = data["k_temp"]
+tp_treshold = data['tp_threshold']
+td_m = data['td_m']
 
 
 
@@ -98,10 +101,10 @@ else:
     exit(1)
 
 
-selectionMethod1 = getSelectionMethod(selector1)
-selectionMethod2 = getSelectionMethod(selector2)
-selectionMethod3 = getSelectionMethod(selector3)
-selectionMethod4 = getSelectionMethod(selector4)
+selectionMethod1 = getSelectionMethod(selector1, t0_temp, tc_temp, k_temp, td_m, tp_treshold)
+selectionMethod2 = getSelectionMethod(selector2, t0_temp, tc_temp, k_temp, td_m, tp_treshold)
+selectionMethod3 = getSelectionMethod(selector3, t0_temp, tc_temp, k_temp, td_m, tp_treshold)
+selectionMethod4 = getSelectionMethod(selector4, t0_temp, tc_temp, k_temp, td_m, tp_treshold)
 
 endingParameters = None
 if endingCondition == "ACC_SOL":
