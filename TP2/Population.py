@@ -70,6 +70,9 @@ class Population:
             self.iteration +=1
             ended = self.getEndingCondition(endingCondition, endingParameters)
 
+        self.characters.sort(reverse=True)
+        print(self.characters[0])
+
         # plt.savefig("fig6.png")
 
     def performLifeCycleSummarized(self, endingCondition, endingParameters):
