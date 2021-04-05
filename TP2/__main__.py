@@ -11,8 +11,10 @@ from Selection import TournamentD
 from Selection import TournamentP
 from crossing.Crossing import Crossing
 from Mutation.Mutation import Mutation
+
 import time
 import json
+import itertools
 
 def getCrossingMethod(crossing):
     crossingMethod = None
@@ -195,41 +197,80 @@ pop.generateRandomPopulation()
 #     "endingTimeLimit": 10.0
 # }
 
+
+
 CROSSING_LIST = ["ONE-POINT", "TWO-POINT", "ANULAR", "UNIFORM"]
 MUTATION_LIST = ["GENE", "LIMITED-MULTIGENE", "UNIFORM", "GENE-COMPLETE"]
-SELECTION_LIST_SUB_ELITE = ["RANKING", "BOLTZMANN", "ROULETTE", "TOURNAMENT_D", "TOURNAMENT_P", "UNIVERSAL"]
-ELITE_PROPORTION = [0.2, 0.8]
-MUTATION_PROB = [0.25, 0.75]
-
+SELECTION_LIST= ["ELITE", "RANKING", "BOLTZMANN", "ROULETTE", "TOURNAMENT_D", "TOURNAMENT_P", "UNIVERSAL"]
 f = open("results.txt", "a")
+
+
 
 cases = 1
 
+selectionCombinations = []
+for elem in itertools.combinations(SELECTION_LIST, 2):
+    selectionCombinations.append(elem)
+for elem in SELECTION_LIST:
+    selectionCombinations.append((elem, elem))
+
 for cross in CROSSING_LIST:
     for mut in MUTATION_LIST:
-        for sel in SELECTION_LIST_SUB_ELITE:
-            for proportion in ELITE_PROPORTION:
-                for prob in MUTATION_PROB:
+        for selTuple in selectionCombinations:
 
-                    pop.crossing = getCrossingMethod(cross)
-                    pop.mutation = getMutationMethod(mut)
-                    pop.selectionMethod1 = getSelectionMethod("ELITE", t0_temp, tc_temp, k_temp, td_m, tp_treshold)
-                    pop.selectionMethod2 = getSelectionMethod(sel, t0_temp, tc_temp, k_temp, td_m, tp_treshold)
-                    pop.selectionMethod3 = getSelectionMethod("ELITE", t0_temp, tc_temp, k_temp, td_m, tp_treshold)
-                    pop.selectionMethod4 = getSelectionMethod(sel, t0_temp, tc_temp, k_temp, td_m, tp_treshold)
-                    pop.selectorA = proportion
-                    pop.selectorB = proportion
-                    pop.mutationProb = prob
+                pop.crossing = getCrossingMethod(cross)
+                pop.mutation = getMutationMethod(mut)
+                pop.selectionMethod1 = getSelectionMethod(selTuple[0], t0_temp, tc_temp, k_temp, td_m, tp_treshold)
+                pop.selectionMethod2 = getSelectionMethod(selTuple[1], t0_temp, tc_temp, k_temp, td_m, tp_treshold)
+                pop.selectionMethod3 = getSelectionMethod(selTuple[0], t0_temp, tc_temp, k_temp, td_m, tp_treshold)
+                pop.selectionMethod4 = getSelectionMethod(selTuple[1], t0_temp, tc_temp, k_temp, td_m, tp_treshold)
 
-                    (avgF, minF, maxF) = pop.performLifeCycleSummarized(endingCondition, endingParameters)
+                (avgF, minF, maxF) = pop.performLifeCycleSummarized(endingCondition, endingParameters)
 
-                    f.write(cross + " " + mut + " " + sel + " " + str(proportion) + " " + str(avgF) + " "+ str(maxF) +" "+ str(minF) + " " + str(prob) +"\n")
+                f.write(cross + " " + mut + " " + selTuple[0] + " " + selTuple[1] + " " + str(avgF) + " "+ str(maxF) +" "+ str(minF) +"\n")
 
-                    print(str(cases)+ " covered")
-                    cases += 1
+                print(str(cases)+ " covered")
+                cases += 1
 
 
 f.close()
+
+
+# CROSSING_LIST = ["ONE-POINT", "TWO-POINT", "ANULAR", "UNIFORM"]
+# MUTATION_LIST = ["GENE", "LIMITED-MULTIGENE", "UNIFORM", "GENE-COMPLETE"]
+# SELECTION_LIST_SUB_ELITE = ["RANKING", "BOLTZMANN", "ROULETTE", "TOURNAMENT_D", "TOURNAMENT_P", "UNIVERSAL"]
+# ELITE_PROPORTION = [0.2, 0.8]
+# MUTATION_PROB = [0.25, 0.75]
+
+# f = open("results.txt", "a")
+
+# cases = 1
+
+# for cross in CROSSING_LIST:
+#     for mut in MUTATION_LIST:
+#         for sel in SELECTION_LIST_SUB_ELITE:
+#             for proportion in ELITE_PROPORTION:
+#                 for prob in MUTATION_PROB:
+
+#                     pop.crossing = getCrossingMethod(cross)
+#                     pop.mutation = getMutationMethod(mut)
+#                     pop.selectionMethod1 = getSelectionMethod("ELITE", t0_temp, tc_temp, k_temp, td_m, tp_treshold)
+#                     pop.selectionMethod2 = getSelectionMethod(sel, t0_temp, tc_temp, k_temp, td_m, tp_treshold)
+#                     pop.selectionMethod3 = getSelectionMethod("ELITE", t0_temp, tc_temp, k_temp, td_m, tp_treshold)
+#                     pop.selectionMethod4 = getSelectionMethod(sel, t0_temp, tc_temp, k_temp, td_m, tp_treshold)
+#                     pop.selectorA = proportion
+#                     pop.selectorB = proportion
+#                     pop.mutationProb = prob
+
+#                     (avgF, minF, maxF) = pop.performLifeCycleSummarized(endingCondition, endingParameters)
+
+#                     f.write(cross + " " + mut + " " + sel + " " + str(proportion) + " " + str(avgF) + " "+ str(maxF) +" "+ str(minF) + " " + str(prob) +"\n")
+
+#                     print(str(cases)+ " covered")
+#                     cases += 1
+
+
+# f.close()
 
 
 
