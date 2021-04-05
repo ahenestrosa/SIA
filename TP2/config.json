@@ -18,7 +18,7 @@
     "t0_temp" : 3,
     "tc_temp" : 1.0,
     "k_temp" : 0.1,
-    "tp_threshold": 0.5,
+    "tp_threshold": 0.75,
     "td_m": 5,
 
     "endingGenerationsCompared": 5,  
