@@ -53,6 +53,8 @@ class Population:
     def performLifeCycle(self, endingCondition, endingParameters):
         ended = False
         self.iterationTime = time.time()
+        self.characters = self.initialCharacters.copy()
+        self.iteration = 0
 
         #Plot
         plt.xlabel("Generation")
@@ -70,18 +72,18 @@ class Population:
 
         # plt.savefig("fig6.png")
 
-    def performLifeCyclePermutations(self, endingCondition, endingParameters):
-
-        
+    def performLifeCycleSummarized(self, endingCondition, endingParameters):
         ended = False
         self.iterationTime = time.time()
+        self.characters = self.initialCharacters.copy()
+        self.iteration = 0
 
         while not ended:
             (avgF, minF, maxF) = self.getFitnessOfPopulation()
             self.performSelection()
             self.iteration +=1
             ended = self.getEndingCondition(endingCondition, endingParameters)
-
+        return self.getFitnessOfPopulation()
 
             
     
@@ -143,7 +145,7 @@ class Population:
             elif len(self.selectionMethod4[1]) == 3:
                 selectedCharacters4 = self.selectionMethod4[0](charactersToSelect.copy(), selectionSizeMethod4, self.iteration, self.selectionMethod4[1][0], self.selectionMethod4[1][1], self.selectionMethod4[1][2])
             else:
-                selectedCharacters4 = self.selectionMethod4[0]=(charactersToSelect.copy(), selectionSizeMethod4, self.selectionMethod4[1][0])
+                selectedCharacters4 = self.selectionMethod4[0](charactersToSelect.copy(), selectionSizeMethod4, self.selectionMethod4[1][0])
 
     
         newGenerationCharacters.extend(selectedCharacters3)
