@@ -1,0 +1,34 @@
+{
+    "populationSize": 400,
+    "crossing": "ANULAR",
+    "mutation": "GENE",
+    "selector1": "TOURNAMENT_D",
+    "selector2": "UNIVERSAL",
+    "selector3": "TOURNAMENT_D",
+    "selector4": "UNIVERSAL",
+    "selectorA": 0.5,
+    "selectorB": 0.5,
+    "endingCondition": "TIME",
+    "character": "INFILTRADO",
+    "pm": 0.5,
+    "selectionChilds": 200,
+    "fillMethod": "FILL_ALL",
+
+
+    "t0_temp" : 3,
+    "tc_temp" : 1.0,
+    "k_temp" : 0.1,
+    "tp_threshold": 0.75,
+    "td_m": 5,
+
+    "endingGenerationsCompared": 5,  
+    "endingFitnessLimit": 20    ,
+    "endingDeltaFitness": 1,
+    "endingGenerationsLimit": 100,
+    "endingStructureDh": 1,
+    "endingStructureDad": 1,
+    "endingStructureDf": 1,
+    "endingStructurePp": 1,
+    "endingTimeLimit": 5.0
+
+}
