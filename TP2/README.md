@@ -8,29 +8,37 @@ Un ejemplo de archivo de configuración es el siguiente:
 ```
 {
     "populationSize": 400,
-    "crossing": "UNIFORM",
-    "mutation": "UNIFORM",
-    "selector1": "TOURNAMENT_P",
-    "selector2": "ROULETTE",
-    "selector3": "ELITE",
-    "selector4": "RANKING",
-    "selectorA": 0.75,
-    "selectorB": 0.25,
-    "endingCondition": "GEN_AMMOUNT",
-    "character": "GUERRERO",
-    "pm": 0.25,
+    "crossing": "ANULAR",
+    "mutation": "GENE",
+    "selector1": "TOURNAMENT_D",
+    "selector2": "UNIVERSAL",
+    "selector3": "TOURNAMENT_D",
+    "selector4": "UNIVERSAL",
+    "selectorA": 0.5,
+    "selectorB": 0.5,
+    "endingCondition": "TIME",
+    "character": "INFILTRADO",
+    "pm": 0.5,
     "selectionChilds": 200,
     "fillMethod": "FILL_ALL",
 
-    "endingGenerationsCompared": 10,  
-    "endingFitnessLimit": 50,
-    "endingDeltaFitness": 3,
-    "endingGenerationsLimit": 50,
+
+    "t0_temp" : 3,
+    "tc_temp" : 1.0,
+    "k_temp" : 0.1,
+    "tp_threshold": 0.75,
+    "td_m": 5,
+
+    "endingGenerationsCompared": 5,  
+    "endingFitnessLimit": 20    ,
+    "endingDeltaFitness": 1,
+    "endingGenerationsLimit": 100,
     "endingStructureDh": 1,
     "endingStructureDad": 1,
     "endingStructureDf": 1,
     "endingStructurePp": 1,
     "endingTimeLimit": 30.0
+
 }
 ```
 
@@ -45,13 +53,11 @@ Los 4 `selector` pueden ser: **BOLTZMANN, ELITE, RANKING, ROULETTE, TOURNAMENT_D
 El campo `fillMethod`solo puede tener dos valores: **FILL_ALL, FILL_PARENT**
 
 En cuanto al campo `endingCondition` podrá tomar los siguientes valores: **ACC_SOL, CONTENT, GEN_AMMOUNT, STRUCTURE, TIME**.
-Cada una de estas condiciones de corte tambien tienen sus respectivas configuraciones, todas ellas pueden tomar como valores numeros enteros.
+Cada una de estas condiciones de corte tambien tienen sus respectivas configuraciones, todas ellas pueden tomar como valores numeros enteros o float's.
 
 ## Instrucciones para incorporacion del Dataset
 
 El Dataset debe estar en formato `.tsv` y para que el sistema lea de dicho Dataset se debe agregar el path al mismo en el archivo `Constants.py` (en el lugar **BOTAS_PATH, GUANTES_PATH, ARMAS_PATH, PECHERA_PATH, CASCOS_PATH**) ubicado en la carpeta `TP2/Utilities`.
-
-***Completar***
 
 ## Instrucciones para la Ejecución
 
@@ -62,8 +68,6 @@ python3 __main__.py
 ```
 
 Se podrá ver mediante un grafico en tiempo real el Fitness Mínimo, Fitness Promedio y el Fitness Máximo por cada Generación.
-
-***Completar***
 
 
 ## Integrantes
