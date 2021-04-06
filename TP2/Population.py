@@ -57,24 +57,22 @@ class Population:
         self.iteration = 0
 
         #Plot
-        # plt.xlabel("Generation")
-        # plt.ylabel("Fitness")
+        plt.xlabel("Generation")
+        plt.ylabel("Fitness")
         while not ended:
             (avgF, minF, maxF) = self.getFitnessOfPopulation()
             print(str(self.iteration) +  " - Avg: " + str(avgF) + " Min: " + str(minF) + " Max: " + str(maxF))
-            # plt.scatter(self.iteration,avgF, c='red', label='Avg')
-            # plt.scatter(self.iteration,minF, c='green', label='Min Fitness')
-            # plt.scatter(self.iteration,maxF, c='blue', label='Max Fitness')
-            # plt.pause(0.05)
+            plt.scatter(self.iteration,avgF, c='red', label='Avg')
+            plt.scatter(self.iteration,minF, c='green', label='Min Fitness')
+            plt.scatter(self.iteration,maxF, c='blue', label='Max Fitness')
+            plt.pause(0.05)
             self.performSelection()
             self.iteration +=1
             ended = self.getEndingCondition(endingCondition, endingParameters)
 
-        self.characters.sort(reverse=True)
-        print(self.characters[0])
-
-        # plt.savefig("fig6.png")
-
+        # self.characters.sort(reverse=True)
+        # print(self.characters[0])
+        
     def performLifeCycleSummarized(self, endingCondition, endingParameters):
         ended = False
         self.iterationTime = time.time()

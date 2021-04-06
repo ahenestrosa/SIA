@@ -52,8 +52,33 @@ Los 4 `selector` pueden ser: **BOLTZMANN, ELITE, RANKING, ROULETTE, TOURNAMENT_D
 
 El campo `fillMethod`solo puede tener dos valores: **FILL_ALL, FILL_PARENT**
 
+Los valores para parametrizar **BOLTZMANN** son:
+- `t0_temp`: temperatura inicial
+- `tc_temp`: temperatura de corte
+-` k_temp`: parametro de la exponencial
+
+Los valores para parametrizar **TOURNAMENT_P** son:
+-`tp_threshold`: indica el threshold.
+
+Los valores para parametrizar **TOURNAMENT_D** son:
+-`td_m`: indica la cantidad de individuos a elegir
+
 En cuanto al campo `endingCondition` podrá tomar los siguientes valores: **ACC_SOL, CONTENT, GEN_AMMOUNT, STRUCTURE, TIME**.
+Los valores para su parametrizacion son:
+- `endingGenerationsCompared`:  Cantidad de generaciones utilizada para comparar: utilizado por STRUCTURE Y CONTENT
+- `endingFitnessLimit`: Fitness limite, utilizado por ACC_SOL
+- `endingDeltaFitness`: Variacion minima del fitness, utilizado por CONTENT
+- `endingGenerationsLimit`: Limite de generaciones, utilizado por GEN_AMMOUNT
+- `endingStructureDh`: Utilizado por STRUCTURE
+- `endingStructureDad`: Utilizado por STRUCTURE
+- `endingStructureDf`: Utilizado por STRUCTURE
+- `endingStructurePp`: Utilizado por STRUCTURE
+- `endingTimeLimit`: Tiempo limite, utilizado por TIME
+
+
 Cada una de estas condiciones de corte tambien tienen sus respectivas configuraciones, todas ellas pueden tomar como valores numeros enteros o float's.
+
+
 
 ## Instrucciones para incorporacion del Dataset
 
