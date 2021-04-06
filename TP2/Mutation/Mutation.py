@@ -18,8 +18,9 @@ class Mutation:
     def limitedMultigene(cls, pm,character,items_info):
         #se selecciona random M genes para mutar
         geneList = character.get_genes()
-        m = random.randrange(Constants.GENES_SIZE)
-        for gene in range(m):
+        idx = [0,1,2,3,4,5]
+        genToMutate = random.sample([0,1,2,3,4,5],random.randrange(Constants.GENES_SIZE))
+        for gene in genToMutate:
             muta = random.random() #muta con prob pm
             if muta <= pm:
                 geneList[gene] = Mutation.mutateGene(Constants.GENES_LIST[gene],items_info, character) 
