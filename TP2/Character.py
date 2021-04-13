@@ -11,27 +11,19 @@ class Character:
     resistance = 0
     health = 0
     items_stats = {Constants.FUERZA: 0, Constants.VIDA: 0, Constants.RESISTENCIA: 0, Constants.PERICIA: 0, Constants.AGILIDAD: 0}
-    def __init__(self, pj_class, height, items):
+    characterId = 0
+    fitness = 0
+    def __init__(self, pj_class, height, items, characterId):
         self.pj_clas = pj_class
         self.height = height
         self.items = items
+        self.characterId = characterId
+        self.calculate_stats()
 
 
     def _calculate_item_stats(self):
-        for item in self.items:
-            found_item = {}
-            id = item['id']
-            if item['type'] == Constants.GUANTE:
-                found_item = Utilities.findItem(Constants.GUANTES_PATH, id)
-            elif item['type'] == Constants.CASCO:
-                found_item = Utilities.findItem(Constants.CASCOS_PATH, id)
-            elif item['type'] == Constants.ARMA:
-                found_item = Utilities.findItem(Constants.ARMAS_PATH, id)
-            elif item['type'] == Constants.PECHERA:
-                found_item = Utilities.findItem(Constants.PECHERAS_PATH, id)
-            elif item['type'] == Constants.BOTA:
-                found_item = Utilities.findItem(Constants.BOTAS_PATH, id)
-            self._sum_item_stats(found_item)
+        for item in self.items.values():
+            self._sum_item_stats(item)
 
 
     def _sum_item_stats(self, f_item):
@@ -42,19 +34,19 @@ class Character:
                             Constants.VIDA:  self.items_stats[Constants.VIDA] + f_item[Constants.VIDA]}
 
     def _calculate_force(self):
-        self.force += 100 * math.tanh(0.01 * self.items_stats[Constants.FUERZA])
+        self.force = 100 * math.tanh(0.01 * self.items_stats[Constants.FUERZA])
 
     def _calculate_agility(self):
-        self.agility += math.tanh(0.01 * self.items_stats[Constants.AGILIDAD])
+        self.agility = math.tanh(0.01 * self.items_stats[Constants.AGILIDAD])
 
     def _calculate_expertise(self):
-        self.expertise += 0.6 * math.tanh(0.01 * self.items_stats[Constants.PERICIA])
+        self.expertise = 0.6 * math.tanh(0.01 * self.items_stats[Constants.PERICIA])
 
     def _calculate_resistance(self):
-        self.resistance += math.tanh(0.01 * self.items_stats[Constants.RESISTENCIA])
+        self.resistance = math.tanh(0.01 * self.items_stats[Constants.RESISTENCIA])
 
     def _calculate_health(self):
-        self.health += 100 * math.tanh(0.01 * self.items_stats[Constants.VIDA])
+        self.health = 100 * math.tanh(0.01 * self.items_stats[Constants.VIDA])
 
     def _calculate_at_def(self):
         ATM =  0.7 - math.pow(3*self.height - 5, 4) + math.pow(3 * self.height - 5, 2) + self.height/4
@@ -64,6 +56,7 @@ class Character:
 
 
     def calculate_stats(self):
+        self.items_stats = {Constants.FUERZA: 0, Constants.VIDA: 0, Constants.RESISTENCIA: 0, Constants.PERICIA: 0, Constants.AGILIDAD: 0}
         self._calculate_item_stats()
         self._calculate_force()
         self._calculate_health()
@@ -71,11 +64,48 @@ class Character:
         self._calculate_agility()
         self._calculate_expertise()
         self._calculate_at_def()
+        self.calculate_fitness()
+
+    def calculate_fitness(self):
+        if(self.pj_clas == Constants.GUERRERO):
+            self.fitness = 0.6 * self.attack + 0.6 * self.defense
+            return self.fitness
+        elif(self.pj_clas == Constants.ARQUERO):
+            self.fitness = 0.9 * self.attack + 0.1 * self.defense
+            return self.fitness
+        elif (self.pj_clas == Constants.DEFENSOR):
+            self.fitness = 0.3 * self.attack + 0.8 * self.defense
+            return self.fitness
+        elif (self.pj_clas == Constants.INFILTRADO):
+            self.fitness = 0.8 * self.attack + 0.3 * self.defense
+            return self.fitness
+
+    def get_genes(self):
+        return [self.height, self.items[Constants.BOTA], self.items[Constants.ARMA], self.items[Constants.CASCO], self.items[Constants.GUANTE], self.items[Constants.PECHERA]]
+
+    def set_new_genes(self, newGenes):
+        self.height  = newGenes[0] 
+        self.items[Constants.BOTA]  = newGenes[1] 
+        self.items[Constants.ARMA]  = newGenes[2] 
+        self.items[Constants.CASCO]  = newGenes[3] 
+        self.items[Constants.GUANTE]  = newGenes[4] 
+        self.items[Constants.PECHERA]  = newGenes[5]
+        self.calculate_stats()
 
 
+    def __lt__(self, other):
+        return self.fitness < other.fitness
 
-items = [{'type' : Constants.GUANTE, 'id' : 5}, {'type' : Constants.CASCO, 'id' : 5},{'type' : Constants.ARMA, 'id' : 5},{'type' : Constants.PECHERA, 'id' : 5}]
-char = Character(Constants.GUERRERO, 1.7, items)
-char.calculate_stats()
+    def __str__(self):
+         rep = "Character id: " + str(self.characterId) + "\n"
+         rep += "   Height: " + str(self.height) + "\n"
+         rep += "   Class: " + str(self.pj_clas) + "\n"
+         rep += "   Attack: " + str(self.attack) + "\n"
+         rep += "   Defense: " + str(self.defense) + "\n"
+         rep += "   Fitness: " + str(self.fitness) +"\n"
+         for k in self.items:
+             rep += "       " + str(k) + ": " + str(self.items[k][Constants.ID]) + "\n" 
+         return rep
 
-print(char)
+
+    

@@ -1,4 +1,7 @@
 from Utilities import Constants
+from random import uniform
+from random import randint
+
 
 def itemParse(filePath):
 
@@ -7,7 +10,6 @@ def itemParse(filePath):
     with open(filePath, 'r') as reader:
         # Read and print the entire file line by line
         for line in reader:
-            print()
             if lineNum != 0:
                 newItem = {}
                 split = line.split('\t')
@@ -16,11 +18,15 @@ def itemParse(filePath):
                 newItem[Constants.PERICIA] = float(split[3])
                 newItem[Constants.RESISTENCIA] = float(split[4])
                 newItem[Constants.VIDA] = float(split[5])
-                items[split[0]] = newItem
-            else:
-                lineNum += 1
+                newItem[Constants.ID] = int(split[0])
+                items[int(split[0])] = newItem
+            lineNum += 1
+
+            if lineNum > Constants.ITEMS_SIZE:
+                break
     return items
 
+@DeprecationWarning
 def findItem(filePath, id):
     item = {}
     found = False
@@ -39,4 +45,3 @@ def findItem(filePath, id):
                 return item
 
     return item
-
