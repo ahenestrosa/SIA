@@ -35,10 +35,9 @@ hs_err_pid*
 venv/
 
 TP1/demofile2.txt
-
-
 TP1/results/
 
 TP2/resources/allitems
-
 TP2/results.txt
+
+TP3/resources/*.txt
