@@ -26,13 +26,13 @@ class PerceptronSimpleStep:
 
         
 
-    def trainPerceptron(self, inputs, ouputs):
+    def trainPerceptron(self, inputs, outputs):
         for i in range(len(inputs)):
             curr_input = inputs[i]
             o = self.calculateOutput(curr_input)
             #agrego el umbral
             curr_input_ext = curr_input + [1]
             for j in range(self.weightSize):
-                deltaW = self.learningRate * (ouputs[i] - o) * curr_input_ext[j]
+                deltaW = self.learningRate * (outputs[i] - o) * curr_input_ext[j]
                 self.weights[j] += deltaW
     
