@@ -30,10 +30,18 @@ def main():
     # perceptron = xorPerceptron()
     # print(perceptron.calculateOutput([1,-1]))
 
-    multiLayerPerceptron = PerceptronMultilayer(2,1,[3,4], 'tanh', 1)
-    r,v,h = multiLayerPerceptron.calculateOutput([1,2])
-    deltas = multiLayerPerceptron.backPropagate([3,1], v, h)
-    multiLayerPerceptron.updateWeights(v, deltas)
+    # multiLayerPerceptron = PerceptronMultilayer(2,1,[2,5,2], 'tanh', 1)
+    # r,v,h = multiLayerPerceptron.calculateOutput([1,2])
+    # deltas = multiLayerPerceptron.backPropagate([3,1], v, h)
+    # multiLayerPerceptron.updateWeights(v, deltas)
+
+    trainingSet = [[1,1], [1,-1], [-1,1], [-1,-1]]
+    resultSet = [[-1],[1],[1],[-1]]
+    multiLayerPerceptron = PerceptronMultilayer(2,1,[3], 'tanh', 10000)
+    multiLayerPerceptron.train(0.01, 100, trainingSet, resultSet)
+    r, a, v = multiLayerPerceptron.calculateOutput([1,-1])
+    print(r)
+
 
 
 

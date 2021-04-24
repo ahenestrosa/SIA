@@ -34,6 +34,15 @@ class PerceptronMultilayer:
             print("Invalid function")
             exit(1)
 
+    #TODO: Add error ending condition
+    def train(self, error, maxEpochs, inputData, outputData):
+
+        for e in range(maxEpochs):
+            for i in range(len(inputData)):
+                res, activations, values = self.calculateOutput(inputData[i])
+                deltaForLayer = self.backPropagate(outputData[i], activations, values)
+                self.updateWeights(activations, deltaForLayer)
+
         
     def calculateOutput(self, inputData):
         if len(inputData) != self.inputDim:
@@ -49,7 +58,7 @@ class PerceptronMultilayer:
             newValues = np.matmul(self.weightsByLayer[l], lastActivations)
             valueForLayer.append(newValues.copy())
             for i in range(len(newValues)):
-                newValues[i,0] = self.function(newValues[i])
+                newValues[i] = self.function(newValues[i])
             activationsForLayer.append(newValues)
 
         # Emitimos los resultados, valores activados y valores no activados para cada capa
@@ -76,6 +85,7 @@ class PerceptronMultilayer:
             #El delta de una capa mas que usamos para propagar
             nextDeltaLayer = deltaForLayer[m]
             deltaLayer = []
+            #Este es el value de la capa actual, no de la capa siguiente
             valueLayer = valueForLayer[m]
             # Para cada elemento de esa capa calculo el di
             for i in range(len(valueLayer)):
@@ -91,9 +101,7 @@ class PerceptronMultilayer:
 
         return deltaForLayer
 
-    def updateWeights(self, activationForLayer, deltaForLayer):
-
-        print(self.weightsByLayer)    
+    def updateWeights(self, activationForLayer, deltaForLayer): 
         M = len(self.weightsByLayer)
         for m in range(M):
             weights = self.weightsByLayer[m]
@@ -103,9 +111,9 @@ class PerceptronMultilayer:
             for i in range(len(deltasNextLayer)):
                 for j in range(len(activationsPrevLayer)):
                     dW = deltasNextLayer[i] * activationsPrevLayer[j]
-                    weights[i,j] += dW
+                    weights[i,j] += self.learningRate * dW
 
-        print(self.weightsByLayer)
+
 
 
 
