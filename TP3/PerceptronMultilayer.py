@@ -8,9 +8,8 @@ def test(x):
 beta = 1
 def tanh(x):
     return np.tanh(beta * x)
-
 def tanhPrime(x):
-    return beta* (1- math.pow(tanh(beta * x), 2))
+    return beta * (1 - np.power(tanh(beta * x), 2))
 
 class PerceptronMultilayer:
 
@@ -22,10 +21,18 @@ class PerceptronMultilayer:
 
         self.weightsByLayer = []
 
-        self.weightsByLayer.append(np.asmatrix(np.random.uniform(size = (middleLayersDim[0], inputDim))))
+        # Weights for each layer
+        self.weightsByLayer.append(np.asmatrix(np.ones(shape = (middleLayersDim[0], inputDim))))
         for i in range(0, len(middleLayersDim)-1):
-            self.weightsByLayer.append(np.asmatrix(np.random.uniform(size = ( middleLayersDim[i+1], middleLayersDim[i]))))
-        self.weightsByLayer.append(np.asmatrix(np.random.uniform(size = (outputDim, middleLayersDim[len(middleLayersDim)-1]))))
+            self.weightsByLayer.append(np.asmatrix(np.ones(shape = ( middleLayersDim[i+1], middleLayersDim[i]))))
+        self.weightsByLayer.append(np.asmatrix(np.ones(shape = (outputDim, middleLayersDim[len(middleLayersDim)-1]))))
+        
+        # Bias for each layer
+        self.biasByLayer = []
+        self.biasByLayer.append(np.asmatrix(np.random.uniform(size=(1, middleLayersDim[0]))))
+        for i in range(1, len(middleLayersDim)-1):
+            self.biasByLayer[i].append(np.asmatrix(np.random.uniform(size=(1, middleLayerDims[i-1]))))
+        self.biasByLayer.append(np.asmatrix(np.random.uniform(size=(1, outputDim)))) #Biases for layer M
         
         if function == 'tanh':
             self.function = tanh
@@ -34,32 +41,40 @@ class PerceptronMultilayer:
             print("Invalid function")
             exit(1)
 
-    #TODO: Add error ending condition
-    def train(self, error, maxEpochs, inputData, outputData):
+
+    def train(self, maxError, maxEpochs, inputData, outputData):
 
         for e in range(maxEpochs):
+            outputs = []
             for i in range(len(inputData)):
                 res, activations, values = self.calculateOutput(inputData[i])
                 deltaForLayer = self.backPropagate(outputData[i], activations, values)
                 self.updateWeights(activations, deltaForLayer)
+                outputs.append(res)
+            
+            error = self.calculateError(outputData, outputs)
+            print(error)
+            if error < maxError:
+                break
 
-        
+        # print(self.weightsByLayer[1])
+
     def calculateOutput(self, inputData):
         if len(inputData) != self.inputDim:
-            print("Invalid data size")
+            print("Invalid data shape")
             exit(1)
 
         valueForLayer = [np.transpose(np.matrix(inputData))]
         activationsForLayer = [np.transpose(np.matrix(inputData))]
+        currActivations = activationsForLayer[0]
 
         # Para cada capa calculamos el output basados en los pesos y en lso valores de la capa anterior
         for l in range(len(self.weightsByLayer)):
-            lastActivations = activationsForLayer[l]
-            newValues = np.matmul(self.weightsByLayer[l], lastActivations)
+            newValues = np.matmul(self.weightsByLayer[l], currActivations)
+            newValues += self.biasByLayer[l].T
             valueForLayer.append(newValues.copy())
-            for i in range(len(newValues)):
-                newValues[i] = self.function(newValues[i])
-            activationsForLayer.append(newValues)
+            currActivations = self.function(newValues)
+            activationsForLayer.append(currActivations)
 
         # Emitimos los resultados, valores activados y valores no activados para cada capa
         return activationsForLayer[-1], activationsForLayer, valueForLayer
@@ -105,13 +120,31 @@ class PerceptronMultilayer:
         M = len(self.weightsByLayer)
         for m in range(M):
             weights = self.weightsByLayer[m]
+            biases = self.biasByLayer[m]
             activationsPrevLayer = activationForLayer[m]
             deltasNextLayer = deltaForLayer[m]
 
             for i in range(len(deltasNextLayer)):
+                biases[0,i] += self.learningRate * deltasNextLayer[i]
                 for j in range(len(activationsPrevLayer)):
                     dW = deltasNextLayer[i] * activationsPrevLayer[j]
                     weights[i,j] += self.learningRate * dW
+
+
+
+    def calculateError(self, realOutputs, ouputs):
+        e = 0
+        # Para cada ejemplo
+        for u in range(len(realOutputs)):
+            rO = realOutputs[u]
+            o = ouputs[u]
+
+            # Cada salida
+            for i in range(len(rO)):
+                e += math.pow(rO[i] - o[i], 2)
+        
+        return e/2
+
 
 
 
