@@ -12,7 +12,8 @@ class SimpleLinearPerceptron:
 
     def trainPerceptron(self, trainingSet, epsilon, epoch):
         minW = self.weights
-        X = [ [[1, t[0] , t[1], t[2]] , t[3]] for t in trainingSet ]
+        X = [ [[1, t[0][0] , t[0][1], t[0][2]] , t[1]] for t in trainingSet ]
+
         # print(X)
         error = 1 
         minError = 2 * len(trainingSet) * 1000
@@ -41,6 +42,14 @@ class SimpleLinearPerceptron:
         return e * 0.5
 
     def activation(self,X):
-        # print(self.weights)
-        return np.inner(X,np.array(self.weights))
+        return X
 
+    def get_output(self, trainingSet):
+        print("MIN W: {}".format(self.weights))
+        outputs = []
+        print(trainingSet)
+        X = [ [[1, y[0][0], y[0][1], y[0][2]]] for y in trainingSet]      
+        for i in range(len(X)):
+            excited_state = np.inner(X[i], self.weights)
+            outputs.append(self.activation(excited_state))
+        return outputs
