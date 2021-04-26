@@ -9,6 +9,8 @@ class SimpleNonLinearPerceptron:
         self.weightSize = inputSize + 1
         self.learningRate = learningRate
         self.weights = np.random.random(self.weightSize)
+        self.epochError = []
+        self.minError = sys.maxsize
 
 
 
@@ -17,7 +19,7 @@ class SimpleNonLinearPerceptron:
         X = [ [[1, t[0][0] , t[0][1], t[0][2]] , t[1]] for t in trainingSet ]
         # print(X)
         error = sys.maxsize # https://stackoverflow.com/questions/7604966/maximum-and-minimum-values-for-ints
-        minError = error
+        self.minError = error
         counter = 0
         while error > epsilon and counter < epoch:
 
@@ -30,12 +32,13 @@ class SimpleNonLinearPerceptron:
             
             error = self.calculateError(X)
 
-            if error < minError:
-                minError = error
+            if error < self.minError:
+                self.minError = error
                 minW = self.weights
 
             counter += 1
-        # print(minError)
+            self.epochError.append(self.minError)
+
         self.weights = minW
 
     def calculateError(self, X):
