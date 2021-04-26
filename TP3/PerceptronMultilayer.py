@@ -13,11 +13,12 @@ def tanhPrime(x):
 
 class PerceptronMultilayer:
 
-    def __init__(self, inputDim, outputDim, middleLayersDim, function, learningRate, costFunction='default'):
+    def __init__(self, inputDim, outputDim, middleLayersDim, function, learningRate, costFunction='default', momentum=None):
         self.inputDim = inputDim
         self.outputDim = outputDim
         self.middleLayersDim = middleLayersDim
         self.learningRate = learningRate
+        self.momentum = momentum
 
 
         # Weights for each layer
@@ -52,6 +53,26 @@ class PerceptronMultilayer:
         else:
             print("Invalid function")
             exit(1)
+
+        if self.momentum != None:
+            self.updateWeights = self.updateWeightsMomentum
+
+            self.oldDeltaWByLayer = []
+            self.oldDeltaWByLayer.append(np.asmatrix(np.zeros(shape = (middleLayersDim[0], inputDim))))
+            for i in range(0, len(middleLayersDim)-1):
+                self.oldDeltaWByLayer.append(np.asmatrix(np.zeros(shape = ( middleLayersDim[i+1], middleLayersDim[i]))))
+            self.oldDeltaWByLayer.append(np.asmatrix(np.zeros(shape = (outputDim, middleLayersDim[len(middleLayersDim)-1]))))
+            
+            self.oldDeltaBiasByLayer = []
+            self.oldDeltaBiasByLayer.append(np.asmatrix(np.zeros(shape=(1, middleLayersDim[0]))))
+            for i in range(1, len(middleLayersDim)):
+                self.oldDeltaBiasByLayer.append(np.asmatrix(np.zeros(shape=(1, middleLayersDim[i]))))
+            self.oldDeltaBiasByLayer.append(np.asmatrix(np.zeros(shape=(1, outputDim)))) #Biases for layer M
+        
+            
+        else: 
+            self.updateWeights = self.updateWeightsDefault
+            
 
         
 
@@ -172,7 +193,7 @@ class PerceptronMultilayer:
 
         return deltaForLayer
 
-    def updateWeights(self, activationForLayer, deltaForLayer): 
+    def updateWeightsDefault(self, activationForLayer, deltaForLayer): 
         M = len(self.weightsByLayer)
         for m in range(M):
             weights = self.weightsByLayer[m]
@@ -185,6 +206,28 @@ class PerceptronMultilayer:
                 for j in range(len(activationsPrevLayer)):
                     dW = deltasNextLayer[i] * activationsPrevLayer[j]
                     weights[i,j] += self.learningRate * dW
+
+    def updateWeightsMomentum(self, activationForLayer, deltaForLayer): 
+        M = len(self.weightsByLayer)
+
+        for m in range(M):
+            weights = self.weightsByLayer[m]
+            biases = self.biasByLayer[m]
+            activationsPrevLayer = activationForLayer[m]
+            deltasNextLayer = deltaForLayer[m]
+
+            oldDeltaBias = self.oldDeltaBiasByLayer[m]
+            oldDeltaW = self.oldDeltaWByLayer[m]
+
+            for i in range(len(deltasNextLayer)):
+                deltaBias = self.learningRate * deltasNextLayer[i] + self.momentum * oldDeltaBias[0, i]
+                biases[0,i] += deltaBias 
+                oldDeltaBias[0, i] = deltaBias
+                for j in range(len(activationsPrevLayer)):
+                    dW = deltasNextLayer[i] * activationsPrevLayer[j] * self.learningRate + self.momentum * oldDeltaW[i,j]
+                    weights[i,j] += dW 
+                    oldDeltaW[i,j] = dW
+
 
 
 
