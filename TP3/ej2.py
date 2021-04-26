@@ -8,38 +8,42 @@ import numpy as np
 
 
 ##### SIMPLE LINEAL #####
-trainingSet = parser.parseFile("resources/TP3-ej2-Conjuntoentrenamiento.txt")
-resultSet = parser.parseFile("resources/TP3-ej2-Salida-deseada.txt")
+# trainingSet = parser.parseFile("resources/TP3-ej2-Conjuntoentrenamiento.txt")
+# resultSet = parser.parseFile("resources/TP3-ej2-Salida-deseada.txt")
 
-X = []
-counter = 0
-for i in trainingSet:
-    X.append([ [ i[0], i[1], i[2] ],resultSet[counter]])
-    counter +=1
+# X = []
+# counter = 0
+# for i in trainingSet:
+#     X.append([ [ i[0], i[1], i[2] ],resultSet[counter]])
+#     counter +=1
 
-slp = SimpleLinearPerceptron(len(trainingSet[0]), 0.01)
-slp.trainPerceptron(X, 0.001,10000)
+# slp = SimpleLinearPerceptron(len(trainingSet[0]), 0.01)
+# slp.trainPerceptron(X, 0.001,10000)
 
-output = slp.get_output(X)
+# output = slp.get_output(X)
 
-for x in range(len(output)):
-    print("prediction: {} -- expected: {}" .format(output[x],X[x][1] ))
+# for x in range(len(output)):
+#     print("prediction: {} -- expected: {}" .format(output[x],X[x][1] ))
 
 ################
 
 
 ##### SIMPLE NO LINEAL #####
 ## Normalizo solo para el NO LINEAL
-# normalized = parser.readAndNormalize("resources/TP3-ej2-Conjuntoentrenamiento.txt","resources/TP3-ej2-Salida-deseada.txt")
+normalized = parser.readAndNormalize("resources/TP3-ej2-Conjuntoentrenamiento.txt","resources/TP3-ej2-Salida-deseada.txt")
 
-# X = []
-# X = [ [[y[0], y[1], y[2]], y[3]] for y in normalized]
+X = []
+X = [ [[y[0], y[1], y[2]], y[3]] for y in normalized]
 
-# snlp = SimpleNonLinearPerceptron(len(X[0][0]), 0.03)
-# snlp.trainPerceptron(X, 0.001,10000)
+split = int(len(X)*0.5)
+training = X[:split]
+test = X[split:]
 
-# output = snlp.get_output(X)
+snlp = SimpleNonLinearPerceptron(len(training[0][0]), 0.03)
+snlp.trainPerceptron(training, 0.001,10000)
 
-# for x in range(len(output)):
-#     print("prediction: {} -- expected: {}" .format(output[x],X[x][1] ))
+output = snlp.get_output(test)
+
+for x in range(len(output)):
+    print("prediction: {} -- expected: {}" .format(output[x],test[x][1] ))
 ################

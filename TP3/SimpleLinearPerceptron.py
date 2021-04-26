@@ -45,9 +45,8 @@ class SimpleLinearPerceptron:
         return X
 
     def get_output(self, trainingSet):
-        print("MIN W: {}".format(self.weights))
+        # print("MIN W: {}".format(self.weights))
         outputs = []
-        print(trainingSet)
         X = [ [[1, y[0][0], y[0][1], y[0][2]]] for y in trainingSet]      
         for i in range(len(X)):
             excited_state = np.inner(X[i], self.weights)
