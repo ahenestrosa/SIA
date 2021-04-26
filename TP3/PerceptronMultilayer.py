@@ -13,12 +13,13 @@ def tanhPrime(x):
 
 class PerceptronMultilayer:
 
-    def __init__(self, inputDim, outputDim, middleLayersDim, function, learningRate, costFunction='default', momentum=None):
+    def __init__(self, inputDim, outputDim, middleLayersDim, function, learningRate, costFunction='default', momentum=None, adaptative=None):
         self.inputDim = inputDim
         self.outputDim = outputDim
         self.middleLayersDim = middleLayersDim
         self.learningRate = learningRate
         self.momentum = momentum
+        self.adaptative = adaptative
 
 
         # Weights for each layer
@@ -78,7 +79,7 @@ class PerceptronMultilayer:
 
 
     def train(self, maxError, maxEpochs, inputData, outputData, verbose=True):
-        error = 0
+        error = float('inf')
         for e in range(maxEpochs):
             if verbose:
                 print("Epoch " + str(e))
@@ -90,10 +91,17 @@ class PerceptronMultilayer:
                 self.updateWeights(activations, deltaForLayer)
                 outputs.append(res)
             
+            lastError = error
             error = self.calculateError(outputData, outputs)
-            # print(error)
             if error < maxError:
                 break
+            
+            if self.adaptative != None:
+                if error < lastError:
+                    self.learningRate += self.adaptative[0]
+                elif error > lastError:
+                    self.learningRate -= self.adaptative[1] * self.learningRate
+
 
         print("############## FINISHED TRAINING ##################")
         print("Error: " + str(error))

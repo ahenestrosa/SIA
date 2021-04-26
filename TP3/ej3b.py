@@ -43,7 +43,7 @@ print("----------------------------------------------------")
 print("--------- Testing set = Training set ---------------")
 print("----------------------------------------------------")
 
-multiLayerPerceptron = PerceptronMultilayer(7*5,1,[8,4,2], 'tanh', 0.01, costFunction='entropic', momentum=0.9)
+multiLayerPerceptron = PerceptronMultilayer(7*5,1,[8,4,2], 'tanh', 0.01, costFunction='entropic', momentum=0.9, adaptative=(0.0001, 0.00001))
 multiLayerPerceptron.train(0.001, 500, inputs, ouputs, verbose=True)
 
 for i in range(10):
