@@ -8,7 +8,8 @@ class SimpleLinearPerceptron:
         self.weightSize = inputSize + 1
         self.learningRate = learningRate
         self.weights = [0] * (self.weightSize)
-
+        self.epochError = []
+        self.minError = sys.maxsize
 
     def trainPerceptron(self, trainingSet, epsilon, epoch):
         minW = self.weights
@@ -16,7 +17,7 @@ class SimpleLinearPerceptron:
 
         # print(X)
         error = 1 
-        minError = 2 * len(trainingSet) * 1000
+        self.minError = 2 * len(trainingSet) * 1000
         counter = 0
         while error > epsilon and counter < epoch:
 
@@ -27,10 +28,12 @@ class SimpleLinearPerceptron:
 
             error = self.calculateError(X)
         
-            if error < minError:
-                minError = error
+            if error < self.minError:
+                self.minError = error
                 minW = self.weights 
             counter += 1
+            self.epochError.append(self.minError)
+
         self.weights = minW
 
     def calculateError(self, X):
@@ -45,9 +48,8 @@ class SimpleLinearPerceptron:
         return X
 
     def get_output(self, trainingSet):
-        print("MIN W: {}".format(self.weights))
+        # print("MIN W: {}".format(self.weights))
         outputs = []
-        print(trainingSet)
         X = [ [[1, y[0][0], y[0][1], y[0][2]]] for y in trainingSet]      
         for i in range(len(X)):
             excited_state = np.inner(X[i], self.weights)
