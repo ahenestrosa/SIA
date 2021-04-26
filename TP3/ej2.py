@@ -40,11 +40,11 @@ def executeLinear():
         print("prediction: {} -- expected: {}" .format(output[x],X[x][1] ))
     print(f'Min Error: {slp.minError}')
 
-    plt.plot(range(epochs), slp.epochError , marker='o', linestyle='--')
+    plt.plot(range(len(slp.epochError)), slp.epochError , marker='o', linestyle='--')
     plt.xlabel('Epoch')
     plt.ylabel('Error')
     plt.xscale('log')
-    plt.savefig(f'linear-{epochs}-error.png')
+    plt.savefig(f'linear-{len(slp.epochError)}-error.png')
     plt.show()
 
 ################
@@ -59,13 +59,13 @@ def executeNonLinear():
     X = []
     X = [ [[y[0], y[1], y[2]], y[3]] for y in normalized]
 
-    split = int(len(X)*0.7)
+    split = int(len(X)*0.5)
     training = X[:split]
     test = X[split:]
 
-    epochs = 1000
+    epochs = 10000
     snlp = SimpleNonLinearPerceptron(len(training[0][0]), 0.03)
-    snlp.trainPerceptron(training, 0.00,epochs)
+    snlp.trainPerceptron(training, 0.001,epochs)
 
     output = snlp.get_output(test)
 
@@ -75,11 +75,11 @@ def executeNonLinear():
         print(snlp.minError)
 
     ## error por epoca
-    plt.plot(range(epochs), snlp.epochError , marker='o', linestyle='--')
+    plt.plot(range(len(snlp.epochError)), snlp.epochError , marker='o', linestyle='--')
     plt.xlabel('Epoch')
     plt.ylabel('Error')
     plt.xscale('log')
-    plt.savefig(f'non-linear-{epochs}-error.png')
+    plt.savefig(f'non-linear-{len(snlp.epochError)}-error.png')
     plt.show()
 
 #########
@@ -92,7 +92,7 @@ def testMultipleEpochs():
     X = []
     X = [ [[y[0], y[1], y[2]], y[3]] for y in normalized]
 
-    split = int(len(X)*0.7)
+    split = int(len(X)*0.5)
     training = X[:split]
     test = X[split:]
     ## Error por epoca cambiandole el learning rate
