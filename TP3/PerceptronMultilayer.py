@@ -80,6 +80,7 @@ class PerceptronMultilayer:
 
     def train(self, maxError, maxEpochs, inputData, outputData, verbose=True):
         error = float('inf')
+        errors = []
         for e in range(maxEpochs):
             if verbose:
                 print("Epoch " + str(e))
@@ -95,6 +96,7 @@ class PerceptronMultilayer:
             error = self.calculateError(outputData, outputs)
             if error < maxError:
                 break
+            errors.append(error)
             
             if self.adaptative != None:
                 if error < lastError:
@@ -106,6 +108,11 @@ class PerceptronMultilayer:
         print("############## FINISHED TRAINING ##################")
         print("Error: " + str(error))
         print("Epochs: " + str(e))
+
+        return errors, e
+        
+
+
 
     def calculateOutput(self, inputData):
         if len(inputData) != self.inputDim:

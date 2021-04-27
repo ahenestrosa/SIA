@@ -24,10 +24,5 @@ def xorPerceptron():
     return perceptron
 
 
-    perceptron = xorPerceptron()
-    print(perceptron.calculateOutput([1,-1]))
-
-    multiLayerPerceptron = PerceptronMultilayer(2,1,[2,5,2], 'tanh', 1)
-    r,v,h = multiLayerPerceptron.calculateOutput([1,2])
-    deltas = multiLayerPerceptron.backPropagate([3,1], v, h)
-    multiLayerPerceptron.updateWeights(v, deltas)
+perceptron = andPerceptron()
+print(perceptron.calculateOutput([1,-1]))

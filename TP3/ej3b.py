@@ -1,7 +1,11 @@
 from PerceptronMultilayer import PerceptronMultilayer
 
 from random import randrange, choice
-
+import matplotlib.pyplot as plt
+def classify(num):
+    if num > 0:
+        return 1
+    return -1
 
 def loadInput():
     f = open('./data/ej3b.txt')
@@ -66,7 +70,7 @@ for i in [0, 1, 4, 5, 7, 8]:
     trainingSetInputs.append(inputs[i])
     trainingSetOutputs.append(ouputs[i])
 
-multiLayerPerceptron = PerceptronMultilayer(7*5,1,[8,4,2], 'tanh', 0.01, costFunction='entropic')
+multiLayerPerceptron = PerceptronMultilayer(7*5,1,[8,4,2], 'tanh', 0.01, costFunction='entropic', momentum=0.9, adaptative=(0.0001, 0.00001))
 multiLayerPerceptron.train(0.01, 1000, trainingSetInputs, trainingSetOutputs, verbose=False)
 
 #Test set
@@ -76,6 +80,8 @@ for i in [2,3,5,9]:
     testOutput = ouputs[i]
     r, V, h = multiLayerPerceptron.calculateOutput(testInput)
     printInput(testInput)
-    print("Expected: " + str(testOutput) + " Actual: " + str(r[0]))
+    print("Expected: " + str(testOutput))
+    print("Actual: " + str(r[0,0]))
+    print("Classified: " + str(classify(r[0,0])))
 
 
