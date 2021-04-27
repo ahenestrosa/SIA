@@ -37,7 +37,8 @@ def executeLinear():
 
     print("~~~~~~~~~~~~~~~~~~ Simple Linear Perceptron Results ~~~~~~~~~~~~~~~~~~ \n")
     for x in range(len(output)):
-        print("prediction: {} -- expected: {}" .format(output[x],X[x][1] ))
+        print("prediction: {} -- expected: {} -- error: {}" .format(round(float(output[x]),4),X[x][1], abs(output[x]-X[x][1]) ))
+
     print(f'Min Error: {slp.minError}')
 
     plt.plot(range(len(slp.epochError)), slp.epochError , marker='o', linestyle='--')
@@ -59,11 +60,11 @@ def executeNonLinear():
     X = []
     X = [ [[y[0], y[1], y[2]], y[3]] for y in normalized]
 
-    split = int(len(X)*0.5)
+    split = int(len(X)*0.7)
     training = X[:split]
     test = X[split:]
 
-    epochs = 10000
+    epochs = 1000
     snlp = SimpleNonLinearPerceptron(len(training[0][0]), 0.03)
     snlp.trainPerceptron(training, 0.001,epochs)
 
@@ -71,8 +72,8 @@ def executeNonLinear():
 
     print("~~~~~~~~~~~~~~~~~~ Simple Non Linear Perceptron Results ~~~~~~~~~~~~~~~~~~ \n")
     for x in range(len(output)):
-        print("prediction: {} -- expected: {}" .format(output[x],test[x][1] ))
-        print(snlp.minError)
+        print("prediction: {} -- expected: {} -- error: {}" .format(round(float(output[x]),4),test[x][1], abs(output[x]-test[x][1]) ))
+    print(snlp.minError)
 
     ## error por epoca
     plt.plot(range(len(snlp.epochError)), snlp.epochError , marker='o', linestyle='--')
