@@ -9,7 +9,7 @@ class Hopfield:
         self.N = len(patterns[0])
 
         K = np.asmatrix(self.patterns.T)
-        self.weights = (1/self.N) *  K * K.T - (np.identity(self.N) * 0.25 * self.patternsSize)
+        self.weights = np.matrix((1/self.N) *  K * K.T) #- (np.identity(self.N) * 0.25 * self.patternsSize)
 
         for i in range(self.N):
             self.weights[i,i] = 0
@@ -32,7 +32,7 @@ class Hopfield:
             lastPattern = newPattern.copy()
             newPattern = np.array(np.sign(np.matmul(self.weights, lastPattern))).flatten()
 
-        return newPattern.flatten()
+        return newPattern
 
     @classmethod
     def printLetter(cls, input):

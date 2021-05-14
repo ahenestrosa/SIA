@@ -33,15 +33,10 @@ patterns = loadInput()
 hopfield = Hopfield(patterns)
 
 testPattern = patterns[2].copy()
-testPattern[3] = -testPattern[3]
+
 testPattern[2] = -testPattern[2]
 testPattern[22] = -testPattern[22]
-# testPattern[15] = -testPattern[15]
-testPattern[16] = -testPattern[16]
-testPattern[17] = -testPattern[17]
 
-testPattern[21] = -testPattern[21]
-testPattern[9] = -testPattern[9]
-testPattern[9] = -testPattern[10]
+
 
 newPattern = hopfield.evaluate(testPattern)
