@@ -6,12 +6,7 @@ class Hopfield:
     def __init__(self, patterns):
         self.patterns = np.array(patterns)
         self.patternsSize = len(patterns)
-        self.N = len(patterns[0])
-
-        # print(np.shape(patterns))
-        # for i in range(4):
-        #     for j in range(25):
-        #         print(np.dot(patterns[i,:], patterns[j,:] ))
+        self.N = len(patterns[0])  
         
         K = np.asmatrix(self.patterns.T)
         self.weights = np.matrix((1/self.N) *  K * K.T) #- (np.identity(self.N) * 0.25 * self.patternsSize)
