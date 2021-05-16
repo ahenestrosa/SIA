@@ -44,16 +44,32 @@ def calculateOrthogonality(patterns):
                 hopfield.printLetter(patterns[j])
 
 
+def multipleTest(patterns, hopfield):
+    p = [0.1, 0.15, 0.2, 0.25, 0.3 , 0.35]
+    for i in p:
+        for j in range(len(patterns)):
+            print("~~~~~ Initial Letter: ~~~~~")
+            hopfield.printLetter(patterns[j]) 
+            test = modifyInput(patterns[j].copy(), i)
+            print(f"~~~~~ Results: {i} noise ~~~~~")
+            hopfield.evaluate(test)
+
+
 
 patterns = loadInput()
 hopfield = Hopfield(patterns)
 randomInput = random.randrange(4)
-p = 0.3
+p = 0.2
+
+# calculateOrthogonality(patterns)
 
 print("~~~~~ Initial Letter: ~~~~~")
 hopfield.printLetter(patterns[randomInput])
+# hopfield.plotLetter(patterns[randomInput])
 
-tester = modifyInput(patterns[randomInput].copy(), p )
-print("~~~~~ Results: ~~~~~")
-newPattern = hopfield.evaluate(tester)
+# tester = modifyInput(patterns[randomInput].copy(), p )
+# print("~~~~~ Results: ~~~~~")
+# newPattern = hopfield.evaluate(tester)
+
+multipleTest(patterns,hopfield)
 
