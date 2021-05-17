@@ -21,9 +21,25 @@ class Kohonen:
 
         while iteration < epochs:
             country = np.random.randint(data.shape[0])
-            sx, sy = self._calculateMinDistance(data[country],distEuc)
+            sx, sy = self._calculateMinDistance(data[country],False)
             self._neighbors_variation(self._R(iteration, R), sx, sy, data[country], iteration)
             iteration += 1
+
+
+    def calculateNeuronsDistance(self):
+        dist = []
+        for i in range(self.K):
+            distAux = []
+            for j in range(self.K):
+                xRow = [(i - 1) if (i - 1) >= 0 else 0,(i + 1) if (i + 1) < self.K else (self.K - 1)]  # to go through x axis
+                yRow = [(j - 1) if (j - 1) >= 0 else 0,(j + 1) if (j + 1) < self.K else (self.K - 1)]  # to go through y axis
+                distance = []
+                for k in range(xRow[0], xRow[1]):
+                    for l in range(yRow[0], yRow[1]):
+                        distance.append(np.abs(self.W[i][j] - self.W[k][l]))
+                distAux.append(np.mean(distance))
+            dist.append(distAux)
+        return dist
 
 
 
@@ -70,9 +86,11 @@ class Kohonen:
                     self.W[i][j] /= np.linalg.norm(self.W[i][j])
 
     def _R(self,t, R): #Boltzmann
-        return (1 + (R - 1) * math.exp(-0.002 * t))
+        # return (1 + (R - 1) * math.exp(-0.002 * t))
+        return 4
 
 
     def _eta(self, t):
-        return 1/(t + 1)
+        # return 1/(t + 1)
+        return 0.05
 
