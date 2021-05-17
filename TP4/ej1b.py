@@ -7,7 +7,7 @@ from sklearn.decomposition import PCA
 
 
 
-filePath = "/Users/franciscochoi/Desktop/SIA/TP4/Resources/europe.csv"
+filePath = "./Resources/europe.csv"
 
 matrix = pd.read_csv(filePath)
 

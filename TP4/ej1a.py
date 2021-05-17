@@ -4,7 +4,7 @@ from sklearn.preprocessing import StandardScaler
 import numpy as np
 import matplotlib.pyplot as plt
 
-filePath = "/Users/franciscochoi/Desktop/SIA/TP4/Resources/europe.csv"
+filePath = "./Resources/europe.csv"
 
 matrix = pd.read_csv(filePath)
 
