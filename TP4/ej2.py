@@ -59,7 +59,7 @@ def multipleTest(patterns, hopfield):
 patterns = loadInput()
 hopfield = Hopfield(patterns)
 randomInput = random.randrange(4)
-p = 0.2
+p = 0.5
 
 # calculateOrthogonality(patterns)
 
@@ -67,9 +67,10 @@ print("~~~~~ Initial Letter: ~~~~~")
 hopfield.printLetter(patterns[randomInput])
 # hopfield.plotLetter(patterns[randomInput])
 
-# tester = modifyInput(patterns[randomInput].copy(), p )
-# print("~~~~~ Results: ~~~~~")
-# newPattern = hopfield.evaluate(tester)
+tester = modifyInput(patterns[randomInput].copy(), p )
+print("~~~~~ Results: ~~~~~")
+newPattern = hopfield.evaluate(tester)
 
-multipleTest(patterns,hopfield)
+print(hopfield.energy)
+# multipleTest(patterns,hopfield)
 
