@@ -32,8 +32,8 @@ class Hopfield:
         i = 0
         while not np.array_equal(newPattern, lastPattern):
             Hopfield.printLetter(newPattern)
-            Hopfield.plotLetter(newPattern,i)
-            i+=1
+            # Hopfield.plotLetter(newPattern,i)
+            # i+=1
             lastPattern = newPattern.copy()
             newPattern = np.array(np.sign(np.matmul(self.weights, lastPattern))).flatten()
 
