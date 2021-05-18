@@ -47,17 +47,19 @@ valuesStdMat = pd.DataFrame(StandardScaler().fit_transform(values), index=countr
 
 valuesStd = valuesStdMat.values
 
-netSize = 4
+netSize = 3
 
 kohonen = Kohonen(7, netSize)
 kohonen.trainRule(valuesStd, 3000, 2, True, False, False)
+
+
 
 
 location = []
 xLoc = []
 yLoc = []
 for i in range(valuesStd.shape[0]):
-    sx, sy = kohonen._calculateMinDistance(valuesStd[i], True)
+    sx, sy, d= kohonen._calculateMinDistance(valuesStd[i], True)
     aux = [sx,sy,countries[i]]
     xLoc.append(sx)
     yLoc.append(sy)
@@ -75,3 +77,8 @@ for i in range(valuesStd.shape[0]):
 
 
 
+fig, ax = plt.subplots()
+
+ax.scatter(range(len(trainData)), trainData)
+
+plt.show()
