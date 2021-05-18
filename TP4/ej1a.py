@@ -50,7 +50,7 @@ valuesStd = valuesStdMat.values
 netSize = 3
 
 kohonen = Kohonen(7, netSize)
-trainData = kohonen.trainRule(valuesStd, 100, 2, True, False, False)
+trainData = kohonen.trainRule(valuesStd, 1, 2, True, False, False)
 
 
 

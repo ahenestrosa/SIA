@@ -22,9 +22,13 @@ class Kohonen:
 
         while iteration < epochs:
             partialData = []
+            np.random.shuffle(data)
             for i in range(len(data)):
                 sx, sy, d = self._calculateMinDistance(data[i], distEuc)
+                print('b: ' + str(d))
                 self._neighbors_variation(self._R(iteration, R, rVar), sx, sy, data[i], iteration, etaVar)
+                ax,ay,ad = self._calculateMinDistance(data[i], distEuc)
+                print('a: ' + str(ad))
                 partialData.append(d)
             evolTemp.append(np.average(partialData))
             iteration += 1
@@ -80,17 +84,23 @@ class Kohonen:
         floorR = math.floor(R)
         xRow = [(x - floorR) if (x - floorR) >= 0 else 0,(x + floorR) if (x + floorR) < self.K else (self.K - 1)] #to go through x axis
         yRow = [(y - floorR) if (y - floorR) >= 0 else 0, (y + floorR) if (y + floorR) < self.K else (self.K - 1)] #to go through y axis
+        # print(self.W[x][y])
+        # print(x)
+        # print(y)
+        for i in range(xRow[0], xRow[1] + 1):
+            for j in range(yRow[0], yRow[1] + 1):
+                # process = True
+                # if i != x and j != y: #this is in the diagonal
+                #     if np.linalg.norm([x - i, y - j]) > R:
+                #         process = False
+                #
+                # if process == True:
 
-        for i in range(xRow[0], xRow[1]):
-            for j in range(yRow[0], yRow[1]):
-                process = True
-                if i != x and j != y: #this is in the diagonal
-                    if np.linalg.norm([x - i, y - j]) > R:
-                        process = False
-
-                if process == True:
-                    self.W[i][j] = self.W[i][j] + self._eta(iteration, etaVar) * (xp - self.W[i][j])
+                if np.linalg.norm(np.array((x,y)) - np.array((i,j))) <= R:
+                    self.W[i][j] += self._eta(iteration, etaVar) * (xp - self.W[i][j])
                     self.W[i][j] /= np.linalg.norm(self.W[i][j])
+        # print(np.linalg.norm(self._eta(iteration, etaVar) * (xp - self.W[x][y])))
+        # print(np.linalg.norm(xp - self.W[x][y]))
 
     def _R(self,t, R, rVar): #Boltzmann
         if rVar == True:
