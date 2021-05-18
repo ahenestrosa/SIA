@@ -4,6 +4,34 @@ from sklearn.preprocessing import StandardScaler
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+def outputResults(location, outputFile, kohonen):
+    distance = kohonen.calculateNeuronsDistance()
+
+    plt.clf()
+    plt.imshow(distance, origin='lower')
+    plt.colorbar()
+    plt.savefig('./Resources/output/' + outputFile + 'distance')
+    plt.show()
+
+    sortedCountries = sorted(location, key=lambda x: (x[0], x[1]))
+    outF = open('./Resources/output/' + outputFile + '.csv', 'w')
+    for country in sortedCountries:
+        outF.write(str(country[0]) + ',' + str(country[1]) + ',' + country[2])
+        outF.write('\n')
+
+    outF.close()
+
+    heatmap, xedges, yedges = np.histogram2d(xLoc, yLoc, bins=netSize)
+    extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
+
+    plt.clf()
+    plt.imshow(heatmap.T, origin='lower')
+    cb = plt.colorbar()
+    plt.savefig('./Resources/output/' + outputFile)
+    plt.show()
+
+
 filePath = "./Resources/europe.csv"
 oututDir = "./Output/"
 
@@ -22,7 +50,7 @@ valuesStd = valuesStdMat.values
 netSize = 4
 
 kohonen = Kohonen(7, netSize)
-kohonen.trainRule(valuesStd, 3000, 2)
+kohonen.trainRule(valuesStd, 3000, 2, True, False, False)
 
 
 location = []
@@ -34,34 +62,16 @@ for i in range(valuesStd.shape[0]):
     xLoc.append(sx)
     yLoc.append(sy)
     location.append(aux)
-    # print(aux)
 
 
-distance = kohonen.calculateNeuronsDistance()
 
 
-plt.clf()
-plt.imshow(distance,origin='lower')
-plt.colorbar()
-plt.savefig(outputFile + 'distance')
 
-plt.show()
 
-sortedCountries = sorted(location, key=lambda x:(x[0], x[1]))
 
-outF = open(outputFile + '.csv', 'w')
-for country in sortedCountries:
-    outF.write(str(country[0]) + ',' + str(country[1]) + ',' + country[2])
-    outF.write('\n')
 
-outF.close()
 
-heatmap, xedges, yedges = np.histogram2d(xLoc, yLoc, bins=netSize)
-extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
 
-print(heatmap)
-plt.clf()
-plt.imshow(heatmap.T,  origin='lower')
-cb = plt.colorbar()
-plt.savefig(outputFile)
-plt.show()
+
+
+
