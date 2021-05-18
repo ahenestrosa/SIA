@@ -25,6 +25,6 @@ class Oja:
                 self.w = self.w + eta * s * (var - s * self.w)
             iteration += 1
 
-            # if np.abs(wVal - self.w).all() <= eta*10:
-            #     eta /= 10
+            if np.abs(wVal - self.w).all() <= eta*10:
+                eta /= 10
         return inflationUnemploymentW
