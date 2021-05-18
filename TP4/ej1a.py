@@ -47,10 +47,10 @@ plt.savefig(outputFile + 'distance')
 
 plt.show()
 
-
+sortedCountries = sorted(location, key=lambda x:(x[0], x[1]))
 
 outF = open(outputFile + '.csv', 'w')
-for country in location:
+for country in sortedCountries:
     outF.write(str(country[0]) + ',' + str(country[1]) + ',' + country[2])
     outF.write('\n')
 
