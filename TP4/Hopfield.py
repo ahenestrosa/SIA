@@ -8,7 +8,8 @@ class Hopfield:
     def __init__(self, patterns):
         self.patterns = np.array(patterns)
         self.patternsSize = len(patterns)
-        self.N = len(patterns[0])  
+        self.N = len(patterns[0]) 
+        self.energy = []  
         
         K = np.asmatrix(self.patterns.T)
         self.weights = np.matrix((1/self.N) *  K * K.T) #- (np.identity(self.N) * 0.25 * self.patternsSize)
@@ -26,7 +27,6 @@ class Hopfield:
             print('Invalid pattern')
             exit(1)
 
-
         newPattern = np.array(pattern)
         lastPattern = None
         i = 0
@@ -34,10 +34,27 @@ class Hopfield:
             Hopfield.printLetter(newPattern)
             # Hopfield.plotLetter(newPattern,i)
             i+=1
+            self.energy.append(self.calculate_energy(newPattern))
             lastPattern = newPattern.copy()
             newPattern = np.array(np.sign(np.matmul(self.weights, lastPattern))).flatten()
 
+        self.plot_energy()
         return newPattern
+
+    def calculate_energy(self, s):
+        sum = 0
+        for i in range(len(self.weights)):
+            for j in range(i + 1, len(self.weights)):
+                sum += self.weights[i,j] * s[i] * s[j]
+        return -sum
+
+    def plot_energy(self):
+        x = [ i for i in range(len(self.energy)) ]
+        plt.grid()
+        plt.plot(x ,self.energy, marker='o')
+        plt.xlabel('Iteración')
+        plt.ylabel('Energía')
+        plt.show()
 
     @classmethod
     def printLetter(cls, input):

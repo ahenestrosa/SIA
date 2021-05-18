@@ -18,12 +18,18 @@ class Kohonen:
 
     def trainRule(self, data, epochs, R= 4, distEuc=True, etaVar=False, rVar=False):
         iteration = 0
+        evolTemp = []
 
         while iteration < epochs:
-            country = np.random.randint(data.shape[0])
-            sx, sy = self._calculateMinDistance(data[country],False)
-            self._neighbors_variation(self._R(iteration, R, rVar), sx, sy, data[country], iteration, etaVar)
+            partialData = []
+            for i in range(len(data)):
+                sx, sy, d = self._calculateMinDistance(data[i], distEuc)
+                self._neighbors_variation(self._R(iteration, R, rVar), sx, sy, data[i], iteration, etaVar)
+                partialData.append(d)
+            evolTemp.append(np.average(partialData))
             iteration += 1
+
+        return evolTemp
 
 
     def calculateNeuronsDistance(self):
@@ -56,6 +62,7 @@ class Kohonen:
                         minDist = dist
                         minx = i
                         miny = j
+            return minx, miny, minDist
         else:
             maxArg = -float("inf")
             for i in range(self.K):
@@ -65,7 +72,7 @@ class Kohonen:
                         maxArg = dist
                         minx = i
                         miny = j
-        return minx, miny
+            return minx, miny, maxArg
 
 
     def _neighbors_variation(self,R, x, y, xp, iteration, etaVar):

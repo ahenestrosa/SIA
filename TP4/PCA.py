@@ -62,8 +62,8 @@ for i in range(n):
         ax.arrow(0, 0, coeff[i,0], coeff[i,1],color = 'r',alpha = 0.5)
         ax.text(coeff[i,0]* 1.15, coeff[i,1] * 1.15, variables[i], color = 'g', ha = 'center', va = 'center')
 
-ax.set_xlim([-0.75,0.75])
-ax.set_ylim([-0.75,0.75])
+ax.set_xlim([-0.7       ,0.6])
+ax.set_ylim([-0.6,0.8])
 ax.set_xlabel("First Component")
 ax.set_ylabel("Second Component")
 ax.grid()
@@ -71,11 +71,9 @@ ax.grid()
 
 
 
-# we did not show names as points are very close
-# plt.tight_layout()
 
 for i, txt in enumerate(countries):
-        ax.annotate(countries[i], (first_component[i] * scalex, second_component[i] * scaley + 0.02), fontsize=8, ha='center',)
+        ax.annotate(countries[i], (first_component[i] * scalex, second_component[i] * scaley + 0.02), fontsize=9, ha='center',)
 
 
 
