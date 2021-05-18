@@ -16,13 +16,13 @@ class Kohonen:
                 aux = initData[index, :]
                 self.W.append(aux)
 
-    def trainRule(self, data, epochs, R= 4, distEuc=True):
+    def trainRule(self, data, epochs, R= 4, distEuc=True, etaVar=False, rVar=False):
         iteration = 0
 
         while iteration < epochs:
             country = np.random.randint(data.shape[0])
             sx, sy = self._calculateMinDistance(data[country],False)
-            self._neighbors_variation(self._R(iteration, R), sx, sy, data[country], iteration)
+            self._neighbors_variation(self._R(iteration, R, rVar), sx, sy, data[country], iteration, etaVar)
             iteration += 1
 
 
@@ -68,7 +68,7 @@ class Kohonen:
         return minx, miny
 
 
-    def _neighbors_variation(self,R, x, y, xp, iteration):
+    def _neighbors_variation(self,R, x, y, xp, iteration, etaVar):
         pairs = []
         floorR = math.floor(R)
         xRow = [(x - floorR) if (x - floorR) >= 0 else 0,(x + floorR) if (x + floorR) < self.K else (self.K - 1)] #to go through x axis
@@ -82,15 +82,19 @@ class Kohonen:
                         process = False
 
                 if process == True:
-                    self.W[i][j] = self.W[i][j] + self._eta(iteration) * (xp - self.W[i][j])
+                    self.W[i][j] = self.W[i][j] + self._eta(iteration, etaVar) * (xp - self.W[i][j])
                     self.W[i][j] /= np.linalg.norm(self.W[i][j])
 
-    def _R(self,t, R): #Boltzmann
-        # return (1 + (R - 1) * math.exp(-0.002 * t))
-        return 4
+    def _R(self,t, R, rVar): #Boltzmann
+        if rVar == True:
+            return (1 + (R - 1) * math.exp(-0.002 * t))
+        else:
+            return R
 
 
-    def _eta(self, t):
-        # return 1/(t + 1)
-        return 0.05
+    def _eta(self, t, etaVar):
+        if etaVar:
+            return 1/(t + 1)
+        else:
+            return 0.05
 

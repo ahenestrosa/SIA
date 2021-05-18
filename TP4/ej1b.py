@@ -83,7 +83,7 @@ for i in range(valuesStd.shape[1]):
     plt.text(i, ymin - 0.2, variables[i])
 
 
-plt.savefig('DiferenceEtaFixed')
+plt.savefig('DiferenceEta')
 
 plt.show()
 
