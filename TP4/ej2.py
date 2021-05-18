@@ -45,7 +45,7 @@ def calculateOrthogonality(patterns):
 
 
 def multipleTest(patterns, hopfield):
-    p = [0.1, 0.15, 0.2, 0.25, 0.3 , 0.35]
+    p = [0.1, 0.15, 0.2, 0.25, 0.3 , 0.35, 0.4]
     for i in p:
         for j in range(len(patterns)):
             print("~~~~~ Initial Letter: ~~~~~")
