@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-filePath = "/Users/franciscochoi/Desktop/SIA/TP4/Resources/europe.csv"
+filePath = "./Resources/europe.csv"
 
 matrix = pd.read_csv(filePath)
 
@@ -53,18 +53,20 @@ variables = ["Area", "GDP", "Inflation", "Life Expectancy", "Military", "Pop Gro
 # for m in range(len(first_component)):
 #         plt.scatter(first_component[m] * scalex, second_component[m] * scaley, label=countries[m])
 
-plt.scatter(first_component * scalex, second_component * scaley)
+fig, ax = plt.subplots()
+
+ax.scatter(first_component * scalex, second_component * scaley)
 
 # print(variables)
 for i in range(n):
-        plt.arrow(0, 0, coeff[i,0], coeff[i,1],color = 'r',alpha = 0.5)
-        plt.text(coeff[i,0]* 1.15, coeff[i,1] * 1.15, variables[i], color = 'g', ha = 'center', va = 'center')
+        ax.arrow(0, 0, coeff[i,0], coeff[i,1],color = 'r',alpha = 0.5)
+        ax.text(coeff[i,0]* 1.15, coeff[i,1] * 1.15, variables[i], color = 'g', ha = 'center', va = 'center')
 
-plt.xlim(-1,1)
-plt.ylim(-1,1)
-plt.xlabel("First Component")
-plt.ylabel("Second Component")
-plt.grid()
+ax.set_xlim([-0.75,0.75])
+ax.set_ylim([-0.75,0.75])
+ax.set_xlabel("First Component")
+ax.set_ylabel("Second Component")
+ax.grid()
 # plt.legend()
 
 
@@ -72,8 +74,9 @@ plt.grid()
 # we did not show names as points are very close
 # plt.tight_layout()
 
-# for i, txt in enumerate(countries):
-#     plt.annotate(txt, (first_component[i], second_component[i]))
+for i, txt in enumerate(countries):
+        ax.annotate(countries[i], (first_component[i] * scalex, second_component[i] * scaley + 0.02), fontsize=8, ha='center',)
+
 
 
 plt.show()

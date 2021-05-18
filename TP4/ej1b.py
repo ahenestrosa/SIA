@@ -38,10 +38,10 @@ print(components.components_[0]) #this shows the influence of every variable in 
 
 variables = ["Area", "GDP", "Inflation", "LE", "Military", "PG", "Unemployment"]
 
-# df = pd.DataFrame(valuesStd, columns=variables)
-# boxplot = df.boxplot(column=variables)
-# plt.savefig('Boxplot')
-# plt.show()
+df = pd.DataFrame(valuesStd, columns=variables)
+boxplot = df.boxplot(column=variables)
+plt.savefig('Boxplot')
+plt.show()
 
 
 
@@ -65,10 +65,10 @@ if np.linalg.norm(ojaRule.w - components.components_[0]) > np.linalg.norm((ojaRu
 
 
 
-# plt.scatter(x, printingW)
-# plt.scatter(x, components.components_[0])
-# plt.bar(x, printingW - components.components_[0], align='center', alpha=0.5)
-# plt.fill_between(x, printingW, components.components_[0], color='grey', alpha=0.3)
+plt.scatter(x, printingW)
+plt.scatter(x, components.components_[0])
+plt.bar(x, printingW - components.components_[0], align='center', alpha=0.5)
+plt.fill_between(x, printingW, components.components_[0], color='grey', alpha=0.3)
 
 print(printingW -components.components_[0])
 

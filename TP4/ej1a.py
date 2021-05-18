@@ -5,10 +5,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 filePath = "./Resources/europe.csv"
+oututDir = "./Output/"
 
 matrix = pd.read_csv(filePath)
 
-outputFile = 'RFixedEtaFixedMaxArgs'
+outputFile = oututDir + 'RFixedEtaFixedMaxArgs'
 
 values = matrix.iloc[:,1:8].values #only values
 countries = matrix.iloc[:, 0].values #only country names
@@ -18,7 +19,9 @@ valuesStdMat = pd.DataFrame(StandardScaler().fit_transform(values), index=countr
 
 valuesStd = valuesStdMat.values
 
-kohonen = Kohonen(7, 20)
+netSize = 4
+
+kohonen = Kohonen(7, netSize)
 kohonen.trainRule(valuesStd, 3000, 2)
 
 
@@ -53,7 +56,7 @@ for country in location:
 
 outF.close()
 
-heatmap, xedges, yedges = np.histogram2d(xLoc, yLoc, bins=20)
+heatmap, xedges, yedges = np.histogram2d(xLoc, yLoc, bins=netSize)
 extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
 
 print(heatmap)
