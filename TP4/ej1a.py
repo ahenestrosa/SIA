@@ -50,7 +50,7 @@ valuesStd = valuesStdMat.values
 netSize = 3
 
 kohonen = Kohonen(7, netSize)
-kohonen.trainRule(valuesStd, 3000, 2, True, False, False)
+trainData = kohonen.trainRule(valuesStd, 100, 2, True, False, False)
 
 
 
@@ -64,16 +64,6 @@ for i in range(valuesStd.shape[0]):
     xLoc.append(sx)
     yLoc.append(sy)
     location.append(aux)
-
-
-
-
-
-
-
-
-
-
 
 
 

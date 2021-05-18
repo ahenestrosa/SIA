@@ -24,7 +24,7 @@ class Kohonen:
             partialData = []
             for i in range(len(data)):
                 sx, sy, d = self._calculateMinDistance(data[i], distEuc)
-                self._neighbors_variation(self._R(iteration, R), sx, sy, data[i], iteration)
+                self._neighbors_variation(self._R(iteration, R, rVar), sx, sy, data[i], iteration, etaVar)
                 partialData.append(d)
             evolTemp.append(np.average(partialData))
             iteration += 1
