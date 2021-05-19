@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 
 def outputResults(outputFile, kohonen):
@@ -18,7 +19,7 @@ def outputResults(outputFile, kohonen):
     distance = kohonen.calculateNeuronsDistance()
 
     plt.clf()
-    plt.imshow(distance, origin='lower')
+    plt.imshow(distance)
     plt.colorbar()
     plt.savefig(outputFile + 'distance')
 
@@ -57,7 +58,7 @@ def outputResults(outputFile, kohonen):
     plt.show()
 
 filePath = "./Resources/europe.csv"
-oututDir = "./Output/"
+oututDir = "./Resources/output"
 
 matrix = pd.read_csv(filePath)
 
@@ -74,17 +75,17 @@ valuesStd = valuesStdMat.values
 netSize = 4
 
 
-# outputFile = oututDir + 'RFixedEtaFixed'
-# kohonen = Kohonen(7, netSize)
-# trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, False)
+outputFile = oututDir + 'RFixedEtaFixed'
+kohonen = Kohonen(7, netSize)
+trainData = kohonen.trainRule(valuesStd, 1000, math.sqrt(2), True, False, False)
 
-# outputResults(outputFile, kohonen)
+outputResults(outputFile, kohonen)
 
-# outputFile = oututDir + 'RFixedEtaVar'
-# kohonen = Kohonen(7, netSize)
-# trainData = kohonen.trainRule(valuesStd, 1000, 2, True, True, False)
+outputFile = oututDir + 'RFixedEtaVar'
+kohonen = Kohonen(7, netSize)
+trainData = kohonen.trainRule(valuesStd, 1000, math.sqrt(2), True, True, False)
 
-# outputResults(outputFile, kohonen)
+outputResults(outputFile, kohonen)
 
 outputFile = oututDir + 'RVarEtaVar'
 kohonen = Kohonen(7, netSize)
@@ -94,48 +95,48 @@ outputResults(outputFile, kohonen)
 
 
 
-# outputFile = oututDir + 'RVarEtaFixed'
-# kohonen = Kohonen(7, netSize)
-# trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, True)
+outputFile = oututDir + 'RVarEtaFixed'
+kohonen = Kohonen(7, netSize)
+trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, True)
 
-# outputResults(outputFile, kohonen)
+outputResults(outputFile, kohonen)
 
-# outputFile = oututDir + 'MVRFixedEtaFixed'
-# kohonen = Kohonen(7, netSize, valuesStd, False)
-# trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, False)
+outputFile = oututDir + 'MVRFixedEtaFixed'
+kohonen = Kohonen(7, netSize, valuesStd, False)
+trainData = kohonen.trainRule(valuesStd, 1000, math.sqrt(2), True, False, False)
 
-# outputResults(outputFile, kohonen)
+outputResults(outputFile, kohonen)
 
-# outputFile = oututDir + 'MVRFixedEtaVar'
-# kohonen = Kohonen(7, netSize, valuesStd, False)
-# trainData = kohonen.trainRule(valuesStd, 1000, 2, True, True, False)
+outputFile = oututDir + 'MVRFixedEtaVar'
+kohonen = Kohonen(7, netSize, valuesStd, False)
+trainData = kohonen.trainRule(valuesStd, 1000, math.sqrt(2), True, True, False)
 
-# outputResults(outputFile, kohonen)
+outputResults(outputFile, kohonen)
 
-# outputFile = oututDir + 'MVRVarEtaVar'
-# kohonen = Kohonen(7, netSize, valuesStd, False)
-# trainData = kohonen.trainRule(valuesStd, 1000, 2, True, True, True)
+outputFile = oututDir + 'MVRVarEtaVar'
+kohonen = Kohonen(7, netSize, valuesStd, False)
+trainData = kohonen.trainRule(valuesStd, 1000, 2, True, True, True)
 
-# outputResults(outputFile, kohonen)
+outputResults(outputFile, kohonen)
 
-# outputFile = oututDir + 'MVRVarEtaFixed'
-# kohonen = Kohonen(7, netSize, valuesStd, False)
-# trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, False)
+outputFile = oututDir + 'MVRVarEtaFixed'
+kohonen = Kohonen(7, netSize, valuesStd, False)
+trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, False)
 
-# outputResults(outputFile, kohonen)
+outputResults(outputFile, kohonen)
 
-# outputFile = oututDir + 'MVRVarEtaVarCorrelate'
-# kohonen = Kohonen(7, netSize, valuesStd, False)
-# trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, False)
+outputFile = oututDir + 'MVRVarEtaVarCorrelate'
+kohonen = Kohonen(7, netSize, valuesStd, False)
+trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, False)
 
-# outputResults(outputFile, kohonen)
+outputResults(outputFile, kohonen)
 
-# outputFile = oututDir + 'RVarEtaVarCorrelate'
-# kohonen = Kohonen(7, netSize)
-# trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, False)
+outputFile = oututDir + 'RVarEtaVarCorrelate'
+kohonen = Kohonen(7, netSize)
+trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, False)
 
 
-# outputResults(outputFile, kohonen)
+outputResults(outputFile, kohonen)
 
 fig, ax = plt.subplots()
 ax.scatter(range(len(trainData)), trainData)
