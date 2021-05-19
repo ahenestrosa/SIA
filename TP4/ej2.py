@@ -83,21 +83,21 @@ def inputVsObservable(hopfield, patterns):
 patterns = loadInput()
 hopfield = Hopfield(patterns)
 
-inputVsObservable(hopfield, patterns)
+# inputVsObservable(hopfield, patterns)
 
-# randomInput = random.randrange(4)
-# p = 0.5
+randomInput = random.randrange(4)
+p = 0.5
 
-# calculateOrthogonality(patterns)
+calculateOrthogonality(patterns)
 
-# print("~~~~~ Initial Letter: ~~~~~")
-# hopfield.printLetter(patterns[randomInput])
-# hopfield.plotLetter(patterns[randomInput])
+print("~~~~~ Initial Letter: ~~~~~")
+hopfield.printLetter(patterns[randomInput])
+hopfield.plotLetter(patterns[randomInput])
 
-# tester = modifyInput(patterns[randomInput].copy(), p )
-# print("~~~~~ Results: ~~~~~")
-# newPattern = hopfield.evaluate(tester)
+tester = modifyInput(patterns[randomInput].copy(), p )
+print("~~~~~ Results: ~~~~~")
+newPattern = hopfield.evaluate(tester)
 
-# print(hopfield.energy)
-# multipleTest(patterns,hopfield)
+print(hopfield.energy)
+multipleTest(patterns,hopfield)
 

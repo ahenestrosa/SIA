@@ -79,7 +79,7 @@ def testForConfiguration(configuration, valuesStd):
     outputFile = oututDir + configuration[0]
     kohonen = Kohonen(7, netSize,initData=valuesStd, r=configuration[1])
     trainData = kohonen.trainRule(valuesStd, 1000, configuration[2], configuration[3], configuration[4], configuration[5])
-    outputResults(outputFile, kohonen)
+    # outputResults(outputFile, kohonen)
     return trainData
 
 
@@ -92,26 +92,40 @@ def testForConfiguration(configuration, valuesStd):
 # 6. R variable (True)
 
 configuration = []
-configuration.append(('RFixedEtaFixed', True, math.sqrt(2), True, False, False ))
-configuration.append(('RFixedEtaVar', True, math.sqrt(2), True, True, False))
-configuration.append(('RVarEtaVar', True, 2, True, True, True))
-configuration.append(('RVarEtaFixed', True,2, True, False, True))
-configuration.append(('MVRFixedEtaFixed',False,math.sqrt(2), True, False, False))
-configuration.append(('MVRFixedEtaVar', False, math.sqrt(2), True, True, False))
-configuration.append(('MVRVarEtaVar',False, 2, True, True, True))
-configuration.append(('MVRVarEtaFixed',False,True, False, False))
-configuration.append(('MVRVarEtaVarCorrelate',False,2, False,  True, True))
-configuration.append(('RVarEtaVarCorrelate', True, 2, False, True, True))
+configuration.append(('RFixed\nEtaFixed', True, math.sqrt(2), True, False, False ))
+configuration.append(('RFixed\nEtaVar', True, math.sqrt(2), True, True, False))
+configuration.append(('RVar\nEtaVar', True, 2, True, True, True))
+configuration.append(('RVar\nEtaFixed', True,2, True, False, True))
+configuration.append(('MV\nRFixed\nEtaFixed',False,math.sqrt(2), True, False, False))
+configuration.append(('MV\nRFixed\nEtaVar', False, math.sqrt(2), True, True, False))
+configuration.append(('MV\nRVar\nEtaVar',False, 2, True, True, True))
+configuration.append(('MV\nRVar\nEtaFixed',False, 2,True, False, False))
+
+# Estos son con Correlate no euclidea
+configuration.append(('MV\nRVar\nEtaVar\nCorrelate',False,2, False,  True, True))
+configuration.append(('RVar\nEtaVar\nCorrelate', True, 2, False, True, True))
 
 
+# results = []
+# inps = []
+# for conf in configuration:
+#     trainData = testForConfiguration(conf, valuesStd)
+#     inps.append(conf[0])
+#     results.append(trainData[-1])
 
-trainData = testForConfiguration(configuration[0], valuesStd)
 
-fig, ax = plt.subplots()
-ax.plot(range(len(trainData)), trainData)
-ax.set_xlabel("Epoch")
-ax.set_ylabel("Error")
-plt.show()
+# fig, ax = plt.subplots()
+# ax.plot(inps, results, 'o')
+# ax.set_xlabel('Configuración')
+# ax.set_ylabel('Error final promedio')
+# plt.grid()
+# plt.show()
+
+# fig, ax = plt.subplots()
+# ax.plot(range(len(trainData)), trainData)
+# ax.set_xlabel("Epoch")
+# ax.set_ylabel("Error")
+# plt.show()
 
 
 
