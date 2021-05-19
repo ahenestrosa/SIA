@@ -28,7 +28,7 @@ Para `ej1b` en la salida se mostrarán gráficos de la distribución de las vari
 ```bash
 python3 ej2.py 
 ```
-En la salida se mostrará el gráfico de probabilidad de mutación vs porcentaje de éxito. 
+En la salida se mostrará el producto interno entre los patrones elegidos, los resultados de multiples tests con probabilidad de mutación entre 0.1 y 0.4, el gráfico de probabilidad de mutación vs porcentaje de éxito y los valores de energía. 
 
 
 ## Integrantes

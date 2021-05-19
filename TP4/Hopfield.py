@@ -31,7 +31,7 @@ class Hopfield:
         lastPattern = None
         i = 0
         while not np.array_equal(newPattern, lastPattern) and i < 20:
-            # Hopfield.printLetter(newPattern)
+            Hopfield.printLetter(newPattern)
             # Hopfield.plotLetter(newPattern,i)
             i+=1
             self.energy.append(self.calculate_energy(newPattern))

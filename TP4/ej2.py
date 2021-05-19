@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def loadInput():
-    f = open('./Resources/letters2.txt')
+    f = open('./Resources/letters7.txt')
     examples = []
     example = []
     inputNumber = 0
@@ -92,7 +92,7 @@ calculateOrthogonality(patterns)
 
 print("~~~~~ Initial Letter: ~~~~~")
 hopfield.printLetter(patterns[randomInput])
-hopfield.plotLetter(patterns[randomInput])
+# hopfield.plotLetter(patterns[randomInput])
 
 tester = modifyInput(patterns[randomInput].copy(), p )
 print("~~~~~ Results: ~~~~~")
