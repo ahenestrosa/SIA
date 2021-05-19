@@ -20,13 +20,15 @@ Situados en la carpeta `TP4` del proyecto, se puede ejecutar el ejercicio desead
 ```bash
 python3 [ej1a.py|ej1b.py] 
 ```
-En la salida se mostrará **COMPLETAR**
+Para `ej1a` en la salida se mostrará una matriz con la cantidad de paises agrupados y su respectivo plot con los nombres de los paises por cada grupo. Además se podrá ver un grafico de época vs error.
+
+Para `ej1b` en la salida se mostrarán gráficos de la distribución de las variables estandarizadas y la diferencia entre PCA y Oja con eta variable.
 
 **EJECUCION Del Ejercicio 2**
 ```bash
 python3 ej2.py 
 ```
-En la salida se mostrará **COMPLETAR**
+En la salida se mostrará el gráfico de probabilidad de mutación vs porcentaje de éxito. 
 
 
 ## Integrantes
