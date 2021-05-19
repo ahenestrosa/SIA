@@ -1,6 +1,7 @@
 from Hopfield import Hopfield
 import random
 import numpy as np
+import matplotlib.pyplot as plt
 
 def loadInput():
     f = open('./Resources/letters7.txt')
@@ -55,22 +56,48 @@ def multipleTest(patterns, hopfield):
             hopfield.evaluate(test)
 
 
+def inputVsObservable(hopfield, patterns):
+    prob = 0
+    inps = []
+    results = []
+    while prob <= 1:
+        res = 0
+        for pattern in patterns:
+            test = modifyInput(pattern.copy(), prob)
+            testResult = hopfield.evaluate(test)
+            if np.array_equal(pattern, testResult):
+                res += 1
+
+        results.append(res/len(patterns))
+        inps.append(prob)
+        prob += 0.1
+
+
+    fig, ax = plt.subplots()
+    ax.plot(inps, results, '--o')
+    ax.set_xlabel('Probabilidad de mutación')
+    ax.set_ylabel('Porcentaje de éxito')
+    plt.grid()
+    plt.show()
 
 patterns = loadInput()
 hopfield = Hopfield(patterns)
-randomInput = random.randrange(4)
-p = 0.5
+
+inputVsObservable(hopfield, patterns)
+
+# randomInput = random.randrange(4)
+# p = 0.5
 
 # calculateOrthogonality(patterns)
 
-print("~~~~~ Initial Letter: ~~~~~")
-hopfield.printLetter(patterns[randomInput])
+# print("~~~~~ Initial Letter: ~~~~~")
+# hopfield.printLetter(patterns[randomInput])
 # hopfield.plotLetter(patterns[randomInput])
 
-tester = modifyInput(patterns[randomInput].copy(), p )
-print("~~~~~ Results: ~~~~~")
-newPattern = hopfield.evaluate(tester)
+# tester = modifyInput(patterns[randomInput].copy(), p )
+# print("~~~~~ Results: ~~~~~")
+# newPattern = hopfield.evaluate(tester)
 
-print(hopfield.energy)
+# print(hopfield.energy)
 # multipleTest(patterns,hopfield)
 
