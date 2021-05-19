@@ -100,8 +100,8 @@ configuration.append(('MVRFixedEtaFixed',False,math.sqrt(2), True, False, False)
 configuration.append(('MVRFixedEtaVar', False, math.sqrt(2), True, True, False))
 configuration.append(('MVRVarEtaVar',False, 2, True, True, True))
 configuration.append(('MVRVarEtaFixed',False,True, False, False))
-configuration.append(('MVRVarEtaVarCorrelate',False,2, True, False, False))
-configuration.append(('RVarEtaVarCorrelate', True, 2, True, False, False))
+configuration.append(('MVRVarEtaVarCorrelate',False,2, False,  True, True))
+configuration.append(('RVarEtaVarCorrelate', True, 2, False, True, True))
 
 
 
