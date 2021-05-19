@@ -21,7 +21,7 @@ def outputResults(outputFile, kohonen):
     plt.clf()
     plt.imshow(distance)
     plt.colorbar()
-    plt.savefig(outputFile + 'distance')
+    plt.savefig(outputFile + 'distance', bbox_inches='tight')
 
 
 
@@ -52,12 +52,13 @@ def outputResults(outputFile, kohonen):
             pos = (pos[0], pos[1] + desp)
 
 
-        plt.annotate(country[2], (pos[0] - 0.4, pos[1]))
+        plt.annotate(country[2], (pos[0] - 0.4, pos[1] - 0.3), size=8)
 
-    plt.savefig(outputFile)
+    plt.savefig(outputFile, bbox_inches='tight')
     plt.show()
 
 filePath = "./Resources/europe.csv"
+outputDir = "./Output/"
 oututDir = "./Resources/output"
 
 matrix = pd.read_csv(filePath)
@@ -74,72 +75,42 @@ valuesStd = valuesStdMat.values
 
 netSize = 4
 
-
-outputFile = oututDir + 'RFixedEtaFixed'
-kohonen = Kohonen(7, netSize)
-trainData = kohonen.trainRule(valuesStd, 1000, math.sqrt(2), True, False, False)
-
-outputResults(outputFile, kohonen)
-
-outputFile = oututDir + 'RFixedEtaVar'
-kohonen = Kohonen(7, netSize)
-trainData = kohonen.trainRule(valuesStd, 1000, math.sqrt(2), True, True, False)
-
-outputResults(outputFile, kohonen)
-
-outputFile = oututDir + 'RVarEtaVar'
-kohonen = Kohonen(7, netSize)
-trainData = kohonen.trainRule(valuesStd, 1000, 2, True, True, True)
-
-outputResults(outputFile, kohonen)
+def testForConfiguration(configuration, valuesStd):
+    outputFile = oututDir + configuration[0]
+    kohonen = Kohonen(7, netSize,initData=valuesStd, r=configuration[1])
+    trainData = kohonen.trainRule(valuesStd, 1000, configuration[2], configuration[3], configuration[4], configuration[5])
+    outputResults(outputFile, kohonen)
+    return trainData
 
 
+#Configuration
+# 1. Name
+# 2. Initialize random(True) or with values(False)
+# 3. Initial radius
+# 4. Dist euc(True) or correlation (false)
+# 5. Eta variable (True)
+# 6. R variable (True)
 
-outputFile = oututDir + 'RVarEtaFixed'
-kohonen = Kohonen(7, netSize)
-trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, True)
-
-outputResults(outputFile, kohonen)
-
-outputFile = oututDir + 'MVRFixedEtaFixed'
-kohonen = Kohonen(7, netSize, valuesStd, False)
-trainData = kohonen.trainRule(valuesStd, 1000, math.sqrt(2), True, False, False)
-
-outputResults(outputFile, kohonen)
-
-outputFile = oututDir + 'MVRFixedEtaVar'
-kohonen = Kohonen(7, netSize, valuesStd, False)
-trainData = kohonen.trainRule(valuesStd, 1000, math.sqrt(2), True, True, False)
-
-outputResults(outputFile, kohonen)
-
-outputFile = oututDir + 'MVRVarEtaVar'
-kohonen = Kohonen(7, netSize, valuesStd, False)
-trainData = kohonen.trainRule(valuesStd, 1000, 2, True, True, True)
-
-outputResults(outputFile, kohonen)
-
-outputFile = oututDir + 'MVRVarEtaFixed'
-kohonen = Kohonen(7, netSize, valuesStd, False)
-trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, False)
-
-outputResults(outputFile, kohonen)
-
-outputFile = oututDir + 'MVRVarEtaVarCorrelate'
-kohonen = Kohonen(7, netSize, valuesStd, False)
-trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, False)
-
-outputResults(outputFile, kohonen)
-
-outputFile = oututDir + 'RVarEtaVarCorrelate'
-kohonen = Kohonen(7, netSize)
-trainData = kohonen.trainRule(valuesStd, 1000, 2, True, False, False)
+configuration = []
+configuration.append(('RFixedEtaFixed', True, math.sqrt(2), True, False, False ))
+configuration.append(('RFixedEtaVar', True, math.sqrt(2), True, True, False))
+configuration.append(('RVarEtaVar', True, 2, True, True, True))
+configuration.append(('RVarEtaFixed', True,2, True, False, True))
+configuration.append(('MVRFixedEtaFixed',False,math.sqrt(2), True, False, False))
+configuration.append(('MVRFixedEtaVar', False, math.sqrt(2), True, True, False))
+configuration.append(('MVRVarEtaVar',False, 2, True, True, True))
+configuration.append(('MVRVarEtaFixed',False,True, False, False))
+configuration.append(('MVRVarEtaVarCorrelate',False,2, True, False, False))
+configuration.append(('RVarEtaVarCorrelate', True, 2, True, False, False))
 
 
-outputResults(outputFile, kohonen)
+
+trainData = testForConfiguration(configuration[0], valuesStd)
 
 fig, ax = plt.subplots()
-ax.scatter(range(len(trainData)), trainData)
+ax.plot(range(len(trainData)), trainData)
+ax.set_xlabel("Epoch")
+ax.set_ylabel("Error")
 plt.show()
 
 

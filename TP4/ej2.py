@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def loadInput():
-    f = open('./Resources/letters7.txt')
+    f = open('./Resources/letters2.txt')
     examples = []
     example = []
     inputNumber = 0
@@ -74,7 +74,7 @@ def inputVsObservable(hopfield, patterns):
 
 
     fig, ax = plt.subplots()
-    ax.plot(inps, results, '--o')
+    ax.plot(inps, results, '--ok')
     ax.set_xlabel('Probabilidad de mutación')
     ax.set_ylabel('Porcentaje de éxito')
     plt.grid()
