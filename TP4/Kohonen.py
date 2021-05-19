@@ -25,7 +25,10 @@ class Kohonen:
             np.random.shuffle(data)
             for i in range(len(data)):
                 sx, sy, d = self._calculateMinDistance(data[i], distEuc)
+                # print('b: ' + str(d))
                 self._neighbors_variation(self._R(iteration, R, rVar), sx, sy, data[i], iteration, etaVar)
+                ax,ay,ad = self._calculateMinDistance(data[i], distEuc)
+                # print('a: ' + str(ad))
                 partialData.append(d)
             evolTemp.append(np.average(partialData))
             iteration += 1
