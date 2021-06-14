@@ -1,6 +1,4 @@
-# Aca tienen 3 juegos de fonts para entrenar el autoencoder.
-# Usen solo uno de los tres.  Son 32 patrones de 7x5 cada uno.
-
+import numpy as np
 
 
 
@@ -109,4 +107,20 @@ Font3 = [
    [0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f]   # 0x7f, DEL
    ]
 
+
+def bitConversion(font):
+   bitmap = []
+   for x in font:
+      letter = []
+      for hexa in x:
+         line = [int(digit) for digit in format(hexa, '#07b')[2:]] #this forces the hexa to 7 digits binary and gets rid of 0b
+         letter.append([1 if bit == 1 else -1 for bit in line])
+
+      bitmap.append(np.reshape(letter, (35, )))
+   return bitmap
+
+
+font1bitmap = bitConversion(Font1)
+font2bitmap = bitConversion(Font2)
+font3bitmap = bitConversion(Font3)
 
