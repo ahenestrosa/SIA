@@ -278,6 +278,19 @@ class PerceptronMultilayer:
         
         return e
 
+    def forwardPropagateFromLayer(self, input, layer):
+        layers = len(self.weightsByLayer)
+        output = [np.transpose(np.matrix(input))]
+        output = output[0]
+        if layer < 0 or layers < layer:
+            return None
+        #print()
+        for nLay in range(layer , layers):
+            newValues = np.matmul(self.weightsByLayer[nLay], output)
+            newValues += self.biasByLayer[nLay].T
+            output = self.function(newValues)
+        return output
+
 
 
 
