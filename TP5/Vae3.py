@@ -1,35 +1,58 @@
+from PIL import Image
+from numpy import asarray
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 import tensorflow as tf
-
+import gzip
 from tensorflow import keras
-### hack tf-keras to appear as top level keras
 import sys
 sys.modules['keras'] = keras
-### end of hack
-
 from keras.layers import Input, Dense, Lambda, Reshape
 from keras.models import Model
 from keras import backend as K
 from keras import metrics
 from keras.datasets import mnist
-
 from tensorflow.python.framework.ops import disable_eager_execution
 disable_eager_execution()
 
-import fonts
-import utils
 
+
+
+
+# Load de las imagenes
+files = ['/home/augusto/Desktop/yalefaces/subject01.gif',
+'/home/augusto/Desktop/yalefaces/subject01.happy',
+'/home/augusto/Desktop/yalefaces/subject01.sad',
+'/home/augusto/Desktop/yalefaces/subject01.sleepy',
+'/home/augusto/Desktop/yalefaces/subject01.surprised',
+'/home/augusto/Desktop/yalefaces/subject01.wink']
+
+# Parametros de la imagen
+base_width = 64
+base_height = None
+img = Image.open(files[0])
+wpercent = (base_width/float(img.size[0]))
+base_height = int((float(img.size[1])*float(wpercent)))
+
+x_train = np.zeros((len(files), base_width * base_height))
+
+
+i=0
+for f in files:
+    img = Image.open(f)
+    img = img.resize((base_width,base_height), Image.ANTIALIAS)
+    numpydata = asarray(img).astype('float32') / 255.
+    x_train[i] = numpydata.ravel()
+    i += 1
 
 # Parametros de la red
 batch_size = 100
-original_dim = 7 * 5
+original_dim = base_height * base_width
 latent_dim = 2
-intermediate_dim = 16
-epochs = 3000
+intermediate_dim = 1024
+epochs = 500
 epsilon_std = 1.0
-
 
 
 
@@ -96,9 +119,11 @@ vae.compile( loss=vae_loss,experimental_run_tf_function=False)
 # vae.summary()
 
 
-### Entrenamiento y datos ###
 
-x_train = fonts.font2bitmapMa[1:10] # just 10 letters
+### Training ###
+
+
+
 
 vae.fit(x_train, x_train,
         shuffle=True,
@@ -106,19 +131,23 @@ vae.fit(x_train, x_train,
         batch_size=batch_size)
 
 
+
+
+
+
+
 ### Resultados ###
 x_test_encoded = encoder.predict(x_train, batch_size=batch_size)[0]
-labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+labels = ['normal', 'happy', 'sad', 'sleepy', 'surprised', 'wink']
 plt.figure(figsize=(6, 6))
 plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1])
 for i, txt in enumerate(labels):
-    plt.annotate(txt, (x_test_encoded[i][0] + 0.05, x_test_encoded[i][1] + 0.05))
+    plt.annotate(txt, (x_test_encoded[i][0] + 0.01, x_test_encoded[i][1] + 0.01))
 plt.show()
 
-n = 12 # figure with 15x15 digits
-digit_width = 5
-digit_height = 7
-figure = np.ones((digit_height * n, digit_width * n))
+
+n =  6
+figure = np.ones((base_height * n, base_width * n))
 # linearly spaced coordinates on the unit square were transformed through the inverse CDF (ppf) of the Gaussian
 # to produce values of the latent variables z, since the prior of the latent space is Gaussian
 grid_x = norm.ppf(np.linspace(0.05, 0.95, n))
@@ -129,22 +158,12 @@ for i, yi in enumerate(grid_x):
         z_sample = np.array([[xi, yi]])
         x_decoded = decoder.predict(z_sample)
         # print(fonts.printLetter(x_decoded[0]))
-        digit = x_decoded[0].reshape(digit_height, digit_width)
-        figure[i * digit_height: (i + 1) * digit_height,
-               j * digit_width: (j + 1) * digit_width] = 1-digit
+        digit = x_decoded[0].reshape(base_height, base_width)
+        figure[i * base_height: (i + 1) * base_height,
+               j * base_width: (j + 1) * base_width] = digit
 
 # figure[0][0] = 0
 
 plt.figure(figsize=(10, 10))
 plt.imshow(figure , cmap='Greys_r')
-
-xline = np.linspace(-0.5, digit_width*n - 0.5)
-for i in range(1, n):
-    plt.plot(xline, np.array([-0.5+digit_height*i for t in range(len(xline))]), color='red', linewidth=3)
-
-yline = np.linspace(-0.5, digit_height*n - 0.5)
-for i in range(1, n):
-    plt.plot(np.array([-0.5+digit_width*i for t in range(len(yline))]) ,yline, color='red', linewidth=3)
-
-
 plt.show()

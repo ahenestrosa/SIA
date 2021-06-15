@@ -19,15 +19,12 @@ from keras.datasets import mnist
 from tensorflow.python.framework.ops import disable_eager_execution
 disable_eager_execution()
 
-import fonts
-import utils
-
 
 # Parametros de la red
 batch_size = 100
 original_dim = 28 * 28
 latent_dim = 2
-intermediate_dim = 16
+intermediate_dim = 256
 epochs = 50
 epsilon_std = 1.0
 
@@ -49,7 +46,7 @@ def sampling(args: tuple):
 # input to our encoder
 x = Input(shape=(original_dim,), name="input")
 # intermediate layer
-h = Dense(intermediate_dim, activation='sigmoid', name="encoding")(x)
+h = Dense(intermediate_dim, activation='relu', name="encoding")(x)
 # defining the mean of the latent space
 z_mean = Dense(latent_dim, name="mean")(h)
 # defining the log variance of the latent space
@@ -66,7 +63,7 @@ encoder = Model(x, [z_mean, z_log_var, z], name="encoder")
 # Input to the decoder
 input_decoder = Input(shape=(latent_dim,), name="decoder_input")
 # taking the latent space to intermediate dimension
-decoder_h = Dense(intermediate_dim, activation='sigmoid', name="decoder_h")(input_decoder)
+decoder_h = Dense(intermediate_dim, activation='relu', name="decoder_h")(input_decoder)
 # getting the mean from the original dimension
 x_decoded = Dense(original_dim, activation='sigmoid', name="flat_decoded")(decoder_h)
 # defining the decoder as a keras model
