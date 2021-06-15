@@ -119,8 +119,40 @@ def bitConversion(font):
       bitmap.append(np.reshape(letter, (35, )))
    return bitmap
 
+def bitConversionAsMatrix(font):
+   bitmap = np.zeros((len(font), 7*5))
+   i = 0
+   for x in font:
+      letter = []
+      for hexa in x:
+         line = [int(digit) for digit in format(hexa, '#07b')[2:]] #this forces the hexa to 7 digits binary and gets rid of 0b
+         letter.append([1 if bit == 1 else 0 for bit in line])
+
+      bitmap[i] = np.reshape(letter, (35, ))
+      i += 1
+   return bitmap
+
+def printLetter(letter):
+   i =0
+   for l in letter:
+      if l >= 0.5:
+         print('*', end='')
+      else:
+         print(' ', end='')
+      
+      i+=1
+      if i % 5 == 0:
+         print()
+
+   print()
 
 font1bitmap = bitConversion(Font1)
 font2bitmap = bitConversion(Font2)
 font3bitmap = bitConversion(Font3)
+
+font2bitmapMa = bitConversionAsMatrix(Font2)
+
+# print(font2bitmap[1])
+# print(font2bitmap[1].shape)
+# printLetter(font2bitmap[1])
 
