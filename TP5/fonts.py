@@ -126,7 +126,7 @@ def bitConversionAsMatrix(font):
       letter = []
       for hexa in x:
          line = [int(digit) for digit in format(hexa, '#07b')[2:]] #this forces the hexa to 7 digits binary and gets rid of 0b
-         letter.append([1 if bit == 1 else -1 for bit in line])
+         letter.append([1 if bit == 1 else 0 for bit in line])
 
       bitmap[i] = np.reshape(letter, (35, ))
       i += 1
@@ -135,7 +135,7 @@ def bitConversionAsMatrix(font):
 def printLetter(letter):
    i =0
    for l in letter:
-      if l >= 0:
+      if l >= 0.5:
          print('*', end='')
       else:
          print(' ', end='')

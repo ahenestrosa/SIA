@@ -8,7 +8,7 @@ def mapToBlack(digit):
         for j in range(len(digit[i])):
             elem = digit[i][j]
             r = 1
-            if elem >= 0:
+            if elem >= 0.5:
                 r = 0
             bitmap[i][j] = r
 

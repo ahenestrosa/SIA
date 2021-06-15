@@ -27,7 +27,7 @@ batch_size = 100
 original_dim = 7 * 5
 latent_dim = 2
 intermediate_dim = 16
-epochs = 50
+epochs = 5000
 epsilon_std = 1.0
 
 
@@ -67,7 +67,7 @@ input_decoder = Input(shape=(latent_dim,), name="decoder_input")
 # taking the latent space to intermediate dimension
 decoder_h = Dense(intermediate_dim, activation='relu', name="decoder_h")(input_decoder)
 # getting the mean from the original dimension
-x_decoded = Dense(original_dim, activation='tanh', name="flat_decoded")(decoder_h)
+x_decoded = Dense(original_dim, activation='sigmoid', name="flat_decoded")(decoder_h)
 # defining the decoder as a keras model
 decoder = Model(input_decoder, x_decoded, name="decoder")
 # decoder.summary()
@@ -111,22 +111,6 @@ vae.fit(x_train, x_train,
 
 
 
-# (x_train, y_train), (x_test, y_test) = mnist.load_data()
-
-# x_train = x_train.astype('float32') / 255.
-# x_test = x_test.astype('float32') / 255.
-# print(x_train[0].shape)
-# x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-# x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
-
-# print(x_train.shape)
-
-# vae.fit(x_train, x_train,
-#         shuffle=True,
-#         epochs=epochs,
-#         batch_size=batch_size)
-
-
 
 ### Resultados ###
 # x_test_encoded = encoder.predict(x_test, batch_size=batch_size)[0]
@@ -135,7 +119,7 @@ vae.fit(x_train, x_train,
 # plt.colorbar()
 # plt.show()
 
-n = 5  # figure with 15x15 digits
+n = 12 # figure with 15x15 digits
 digit_width = 5
 digit_height = 7
 figure = np.ones((digit_height * n, digit_width * n))
@@ -148,10 +132,10 @@ for i, yi in enumerate(grid_x):
     for j, xi in enumerate(grid_y):
         z_sample = np.array([[xi, yi]])
         x_decoded = decoder.predict(z_sample)
-        print(fonts.printLetter(x_decoded[0]))
-        digit = utils.mapToBlack(x_decoded[0].reshape(digit_height, digit_width))
+        # print(fonts.printLetter(x_decoded[0]))
+        digit = x_decoded[0].reshape(digit_height, digit_width)
         figure[i * digit_height: (i + 1) * digit_height,
-               j * digit_width: (j + 1) * digit_width] = digit
+               j * digit_width: (j + 1) * digit_width] = 1-digit
 
 # figure[0][0] = 0
 
@@ -160,11 +144,11 @@ plt.imshow(figure , cmap='Greys_r')
 
 xline = np.linspace(-0.5, digit_width*n - 0.5)
 for i in range(1, n):
-    plt.plot(xline, np.array([0.5+digit_height*i for t in range(len(xline))]), color='red', linewidth=2)
+    plt.plot(xline, np.array([-0.5+digit_height*i for t in range(len(xline))]), color='red', linewidth=3)
 
 yline = np.linspace(-0.5, digit_height*n - 0.5)
 for i in range(1, n):
-    plt.plot(np.array([0.5+digit_width*i for t in range(len(yline))]) ,yline, color='red', linewidth=2)
+    plt.plot(np.array([-0.5+digit_width*i for t in range(len(yline))]) ,yline, color='red', linewidth=3)
 
 
 plt.show()
