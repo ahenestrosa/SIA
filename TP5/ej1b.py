@@ -2,6 +2,12 @@ import numpy as np
 import fonts as ft
 import random as rd
 from PerceptronMultilayer import PerceptronMultilayer
+import utils 
+
+def classify(num):
+    if num > 0:
+        return 1
+    return -1
 
 def addNoise(symbol, pm):
     modified = []
@@ -23,6 +29,8 @@ def printSymbol(symbol):
 
 
 
+
+
 def multipleSamplePercentaje(fontBitmap):
     sampleP = [0.25, 0.5 , 0.75]
     fontModified = []
@@ -40,6 +48,36 @@ def multipleSamplePercentaje(fontBitmap):
 
 
 
-multipleSamplePercentaje(ft.font1bitmap)
+# multipleSamplePercentaje(ft.font1bitmap)
 
 font = (rd.sample(ft.font1bitmap, int(len(ft.font1bitmap)*0.25)))
+fontModified = []
+for i in range(len(font)):
+    fontModified.append(addNoise(font[i].reshape(7,5), 0.10))
+    # print("\n~~~ Noise ~~~ \n")
+    # printSymbol(fontModified[i].reshape(7,5))
+testInput = fontModified[rd.randint(0,len(fontModified))]
+
+
+multiLayerPerceptron = PerceptronMultilayer(35,35,[2], 'tanh', 0.01,costFunction='entropic', momentum=0.9, adaptative=(0.0001, 0.00001))
+multiLayerPerceptron.train(10, 500, fontModified, fontModified, verbose=True)
+
+
+for i in range(len(fontModified)):
+    print('############################################################')
+    r, a, v = multiLayerPerceptron.calculateOutput(font[i])
+    print("Original: " )
+    utils.printMatrix(utils.arrayTo2DMatrix(font[i],5))
+    print("Noisy:")
+    utils.printMatrix(utils.arrayTo2DMatrix(fontModified[i],5))
+    print("Autoencoder Output: ")
+    utils.printMatrix(utils.arrayTo2DMatrix(r,5))
+
+
+
+# r, V, h = multiLayerPerceptron.calculateOutput(testInput)    
+# print("Original: ")
+# printSymbol(testInput.reshape(7,5))
+# print("Noisy: ")
+# printSymbol(addNoise(testInput.reshape(7,5),0.25).reshape(7,5))
+# print("Classified: " + str(classify(r[0,0])))
