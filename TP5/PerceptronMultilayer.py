@@ -1,6 +1,7 @@
 import numpy as np
 import math
 
+
 def test(x):
     return x+1
 
@@ -290,6 +291,17 @@ class PerceptronMultilayer:
             newValues += self.biasByLayer[nLay].T
             output = self.function(newValues)
         return output
+
+    def forwardPropagateFromToLayer(self, input, startLayer, endLayer):
+        output = [np.transpose(np.matrix(input))]
+        output = output[0]
+        for nLay in range(startLayer , endLayer):
+            newValues = np.matmul(self.weightsByLayer[nLay], output)
+            newValues += self.biasByLayer[nLay].T
+            output = self.function(newValues)
+        return output
+
+
 
 
 
