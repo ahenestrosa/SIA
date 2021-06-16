@@ -26,49 +26,49 @@ multiLayerPerceptron = PerceptronMultilayer(35,35,middlelayer, 'tanh', 0.01,cost
 multiLayerPerceptron.train(1, 500, font2sample, font2sample, verbose=True)
 
 
-for letter in font2sample:
-    print('############################################################')
-    r, a, v = multiLayerPerceptron.calculateOutput(letter)
-    print("Expected: " )
-    printMatrix(arrayTo2DMatrix(letter,5))
-    print("Actual:")
-    printMatrix(arrayTo2DMatrix(r,5))
+# for letter in font2sample:
+#     print('############################################################')
+#     r, a, v = multiLayerPerceptron.calculateOutput(letter)
+#     print("Expected: " )
+#     printMatrix(arrayTo2DMatrix(letter,5))
+#     print("Actual:")
+#     printMatrix(arrayTo2DMatrix(r,5))
 
-    print(a[activationSearch])
-    # print("Classified: " +  str(classify(r[0,0])))
-    # print()
-
-
+#     print(a[activationSearch])
+#     # print("Classified: " +  str(classify(r[0,0])))
+#     # print()
 
 
 
-### Representacion de la capa latente
 
+
+### Representacion de la capa latente ###
+plt.figure(figsize=(6, 6))
+
+
+# Todo el dataset
+x_test_encoded = np.zeros((len(ft.font2bitmap), 2))
+i = 0
+for sample in ft.font2bitmap:
+    output = multiLayerPerceptron.forwardPropagateFromToLayer(sample, 0, activationSearch)
+    x_test_encoded[i] = output.ravel()
+    i += 1
+plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1])
+
+# Datos de training
 x_test_encoded = np.zeros((len(font2sample), 2))
 i = 0
 for sample in font2sample:
     output = multiLayerPerceptron.forwardPropagateFromToLayer(sample, 0, activationSearch)
     x_test_encoded[i] = output.ravel()
     i += 1
+plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1], color = "red")
 
-plt.figure(figsize=(6, 6))
-plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1])
-# for i, txt in enumerate(labels):
-#     plt.annotate(txt, (x_test_encoded[i][0] + 0.05, x_test_encoded[i][1] + 0.05))
+
 plt.show()
 
 
-### Generacion moviendonos enel espacio latente
-
-# print("Generation of Letter")
-
-# for i in range(3):
-#     oLay = [rd.random() * 2 - 1 for i in range(2)]
-#     nLetter = multiLayerPerceptron.forwardPropagateFromLayer(oLay, activationSearch)
-#     print(len(nLetter))
-#     printMatrix(outputFromLayerReshape(nLetter, 5))
-
-
+### Generacion moviendonos enel espacio latente ###
 
 n = 10
 digit_width = 5
