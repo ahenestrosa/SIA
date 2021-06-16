@@ -12,7 +12,7 @@ from scipy.stats import norm
 
 
 #sets the sample taken to train the multilayer
-samplePer = 0.125
+samplePer = 5/32
 
 middlelayer = [16,2,16]
 
@@ -35,8 +35,6 @@ multiLayerPerceptron.train(1, 500, font2sample, font2sample, verbose=True)
 #     printMatrix(arrayTo2DMatrix(r,5))
 
 #     print(a[activationSearch])
-#     # print("Classified: " +  str(classify(r[0,0])))
-#     # print()
 
 
 
