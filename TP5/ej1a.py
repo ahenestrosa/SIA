@@ -12,16 +12,16 @@ from scipy.stats import norm
 
 
 #sets the sample taken to train the multilayer
-samplePer = 5/32
+samplePer = 10/32
 
-middlelayer = [16,2,16]
+middlelayer = [16,8,2,8,16]
 
 activationSearch = (len(middlelayer) + 1) // 2
 
 # font2sample = (rd.sample(ft.font2bitmap, int(len(ft.font2bitmap)*samplePer))) #formats the input and takes a random sample from the fonts
-font2sample = ft.font2bitmap[1:5]
+font2sample = ft.font2bitmap[1:10]
 
-multiLayerPerceptron = PerceptronMultilayer(35,35,middlelayer, 'tanh', 0.01,costFunction='entropic', momentum=None, adaptative=(0.0001, 0.00001))
+multiLayerPerceptron = PerceptronMultilayer(35,35,middlelayer, 'tanh', 0.0005,costFunction='entropic', momentum=0.9, adaptative=(0.0001, 0.00001))
 
 multiLayerPerceptron.train(1, 500, font2sample, font2sample, verbose=True)
 
@@ -44,7 +44,7 @@ multiLayerPerceptron.train(1, 500, font2sample, font2sample, verbose=True)
 plt.figure(figsize=(6, 6))
 
 
-# Todo el dataset
+#Todo el dataset
 x_test_encoded = np.zeros((len(ft.font2bitmap), 2))
 i = 0
 for sample in ft.font2bitmap:
