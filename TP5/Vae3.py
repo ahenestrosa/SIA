@@ -29,12 +29,11 @@ files = ['/home/augusto/Desktop/yalefaces/subject01.gif',
 '/home/augusto/Desktop/yalefaces/subject01.wink']
 
 # Parametros de la imagen
-base_width = 64
+base_width = 50
 base_height = None
 img = Image.open(files[0])
 wpercent = (base_width/float(img.size[0]))
 base_height = int((float(img.size[1])*float(wpercent)))
-
 x_train = np.zeros((len(files), base_width * base_height))
 
 
@@ -50,7 +49,7 @@ for f in files:
 batch_size = 100
 original_dim = base_height * base_width
 latent_dim = 2
-intermediate_dim = 1024
+intermediate_dim =1024
 epochs = 500
 epsilon_std = 1.0
 

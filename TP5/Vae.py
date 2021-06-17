@@ -2,13 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 import tensorflow as tf
-
 from tensorflow import keras
-### hack tf-keras to appear as top level keras
 import sys
 sys.modules['keras'] = keras
-### end of hack
-
 from keras.layers import Input, Dense, Lambda, Reshape
 from keras.models import Model
 from keras import backend as K
@@ -27,10 +23,8 @@ batch_size = 100
 original_dim = 7 * 5
 latent_dim = 2
 intermediate_dim = 16
-epochs = 3000
+epochs = 10000
 epsilon_std = 1.0
-
-
 
 
 ### Encoder ####
@@ -58,7 +52,6 @@ z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
 # defining the encoder as a keras model
 encoder = Model(x, [z_mean, z_log_var, z], name="encoder")
 # print out summary of what we just did
-# encoder.summary()
 
 ### Decoder ###
 
@@ -70,7 +63,6 @@ decoder_h = Dense(intermediate_dim, activation='relu', name="decoder_h")(input_d
 x_decoded = Dense(original_dim, activation='sigmoid', name="flat_decoded")(decoder_h)
 # defining the decoder as a keras model
 decoder = Model(input_decoder, x_decoded, name="decoder")
-# decoder.summary()
 
 
 ### Red completa ###
@@ -93,12 +85,10 @@ def vae_loss(x: tf.Tensor, x_decoded_mean: tf.Tensor):
 
 # Define la funcion de costo
 vae.compile( loss=vae_loss,experimental_run_tf_function=False)
-# vae.summary()
-
 
 ### Entrenamiento y datos ###
 
-x_train = fonts.font2bitmapMa[1:10] # just 10 letters
+x_train = fonts.font2bitmapMa[1:30] # just 10 letters
 
 vae.fit(x_train, x_train,
         shuffle=True,
@@ -108,19 +98,19 @@ vae.fit(x_train, x_train,
 
 ### Resultados ###
 x_test_encoded = encoder.predict(x_train, batch_size=batch_size)[0]
-labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K','L', 'M',
+'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '0x5c', ']', '^', '_']
 plt.figure(figsize=(6, 6))
 plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1])
-for i, txt in enumerate(labels):
+for i in range(len(x_train)):
+    txt = labels[i]
     plt.annotate(txt, (x_test_encoded[i][0] + 0.05, x_test_encoded[i][1] + 0.05))
 plt.show()
 
-n = 12 # figure with 15x15 digits
+n = 16 # figure with 15x15 digits
 digit_width = 5
 digit_height = 7
 figure = np.ones((digit_height * n, digit_width * n))
-# linearly spaced coordinates on the unit square were transformed through the inverse CDF (ppf) of the Gaussian
-# to produce values of the latent variables z, since the prior of the latent space is Gaussian
 grid_x = norm.ppf(np.linspace(0.05, 0.95, n))
 grid_y = norm.ppf(np.linspace(0.05, 0.95, n))
 

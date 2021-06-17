@@ -3,13 +3,10 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 import tensorflow as tf
 import gzip
-
+from PIL import Image
 from tensorflow import keras
-### hack tf-keras to appear as top level keras
 import sys
 sys.modules['keras'] = keras
-### end of hack
-
 from keras.layers import Input, Dense, Lambda, Reshape
 from keras.models import Model
 from keras import backend as K
@@ -25,7 +22,7 @@ batch_size = 100
 original_dim = 28 * 28
 latent_dim = 2
 intermediate_dim = 256
-epochs = 50
+epochs = 1
 epsilon_std = 1.0
 
 
@@ -116,7 +113,6 @@ with gzip.open('./data/emnist-letters-test-images-idx3-ubyte.gz', 'rb') as imgpa
 
 
 
-
 x_train = x_train.astype('float32') / 255.
 x_test = x_test.astype('float32') / 255.
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
@@ -150,8 +146,8 @@ for i, yi in enumerate(grid_x):
     for j, xi in enumerate(grid_y):
         z_sample = np.array([[xi, yi]])
         x_decoded = decoder.predict(z_sample)
-        digit = x_decoded.reshape(digit_size, digit_size)
-        figure[i * digit_size: (i + 1) * digit_size, j * digit_size: (j + 1) * digit_size] = digit
+        digit = x_train[i*15 + j].reshape(digit_size, digit_size)
+        figure[i * digit_size: (i + 1) * digit_size, j * digit_size: (j + 1) * digit_size] =1- digit
 
 plt.figure(figsize=(10, 10))
 plt.imshow(figure, cmap='Greys_r')
